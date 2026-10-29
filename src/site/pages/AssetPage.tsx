@@ -7,6 +7,7 @@ import { canvasToPng, download, iconSvg, nodeToPng, sceneToGlb, slugify, svgToPn
 import { ControlPanel } from '../editor/ControlPanel';
 import { href, replaceQuery } from '../router';
 import { useAsset } from '../useAsset';
+import { dropInfo } from '@/lib/registry';
 
 export function AssetPage({ id, query }: { id: string; query: URLSearchParams }) {
   const { mod, error } = useAsset(id);
@@ -126,9 +127,9 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
     <div className="editor">
       <div className="editor-main">
         <div className="crumbs muted">
-          <a href={href(`/drop/${date}`)}>{date}</a> / {KIND_LABELS[kind]} / {slug}
+          <a href={href(`/kit/${date}`)}>{dropInfo(date)?.theme ?? date}</a> / {KIND_LABELS[kind]}
         </div>
-        <h1>
+        <h1 className="display-md">
           {mod.meta.name} {mod.meta.category && <span className="chip">{mod.meta.category}</span>}
         </h1>
         {mod.meta.description && <p className="muted">{mod.meta.description}</p>}
@@ -204,8 +205,8 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
         </button>
         <h3>Export</h3>
         <div className="exports">
-          {exports.map((e) => (
-            <button key={e.label} className="primary" onClick={() => e.run()}>
+          {exports.map((e, i) => (
+            <button key={e.label} className={i === 0 ? 'primary' : ''} onClick={() => e.run()}>
               {e.label}
             </button>
           ))}

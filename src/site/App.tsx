@@ -1,8 +1,11 @@
-import { useRoute } from './router';
+import { KIND_DIRS, KIND_LABELS, type Kind } from '@/lib/types';
+import { href, useRoute } from './router';
 import { Home } from './pages/Home';
 import { DropPage } from './pages/DropPage';
 import { AssetPage } from './pages/AssetPage';
 import { RenderPage } from './pages/RenderPage';
+
+const NAV_KINDS: Kind[] = ['icon', 'icon3d', 'banner', 'video'];
 
 export function App() {
   const { path, query } = useRoute();
@@ -11,18 +14,40 @@ export function App() {
   if (path.startsWith('/render/')) return <RenderPage id={path.slice('/render/'.length)} query={query} />;
 
   let page;
-  if (path.startsWith('/drop/')) page = <DropPage date={path.slice('/drop/'.length)} />;
+  if (path.startsWith('/kit/')) page = <DropPage date={path.slice('/kit/'.length)} />;
+  else if (path.startsWith('/drop/')) page = <DropPage date={path.slice('/drop/'.length)} />;
   else if (path.startsWith('/asset/')) page = <AssetPage key={path} id={path.slice('/asset/'.length)} query={query} />;
-  else page = <Home />;
+  else page = <Home query={query} />;
+
+  const activeKind = path === '/' ? query.get('kind') : null;
 
   return (
     <div className="shell">
-      <header className="topbar">
-        <a href="#/" className="brand">
-          Generative Assets
-        </a>
+      <header className="nav">
+        <div className="container nav-inner">
+          <a href="#/" className="wordmark">
+            Generative Assets
+          </a>
+          <nav className="nav-links">
+            {NAV_KINDS.map((k) => (
+              <a key={k} href={href('/', { kind: KIND_DIRS[k] })} className={activeKind === KIND_DIRS[k] ? 'on' : ''}>
+                {KIND_LABELS[k]}
+              </a>
+            ))}
+            <a href={href('/', { view: 'kits' })}>Kits</a>
+          </nav>
+          <a className="pill sm" href={href('/', { kind: 'all' })}>
+            Browse all
+          </a>
+        </div>
       </header>
-      <main>{page}</main>
+      <main className="container">{page}</main>
+      <footer className="footer">
+        <div className="container footer-inner">
+          <span>Generative Assets</span>
+          <span className="eyebrow-sm">Free · editable · new kit daily</span>
+        </div>
+      </footer>
     </div>
   );
 }
