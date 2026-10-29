@@ -46,6 +46,8 @@ export function RenderPage({ id, query }: { id: string; query: URLSearchParams }
           params={params}
           opts={{
             angle: (query.get('angle') as Angle) ?? 'iso',
+            // Stills are deterministic: motion is frozen at t (default 0).
+            time: Number(query.get('t') ?? 0),
             onSceneReady: ({ scene }) => {
               window.__exportGLB = async () => {
                 const buf = new Uint8Array(await sceneToGlb(scene));

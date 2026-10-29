@@ -109,6 +109,12 @@ async function browserStills(a: LoadedAsset, dir: string): Promise<Tile[]> {
       for (const angle of v === 'default' ? ['front', 'iso', 'side'] : ['iso']) {
         shots.push({ variant: v, q: { variant: v, size: '512', angle }, vp: { width: 512, height: 512 }, label: `${v} · ${angle}` });
       }
+      // Micro-interaction loop: sample the idle animation across the 4 s loop.
+      if (v === 'default') {
+        for (const t of ['0.6', '1.2', '2.2', '3.2']) {
+          shots.push({ variant: v, q: { variant: v, size: '512', angle: 'iso', t }, vp: { width: 512, height: 512 }, label: `${v} · loop t=${t}s` });
+        }
+      }
     }
   }
   const tiles: Tile[] = [];

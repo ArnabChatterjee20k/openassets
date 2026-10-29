@@ -13,6 +13,10 @@ export interface ViewOptions {
   angle?: Angle;
   /** Frame to show for non-interactive video. */
   frame?: number;
+  /** 3D: fixed motion time in seconds (deterministic stills). */
+  time?: number;
+  /** 3D: idle micro-animations on/off (default on). */
+  animate?: boolean;
   /** Scale banner/video down to fit parent width (true) or render at native size (false). */
   fit?: boolean;
   onSceneReady?: (h: SceneHandle) => void;
@@ -55,7 +59,16 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
   if (kind === 'icon3d') {
     return (
       <div ref={opts.nodeRef} style={{ width: '100%', height: '100%' }}>
-        <Scene3D Component={Comp} params={params} angle={opts.angle} controls={opts.interactive} onReady={opts.onSceneReady} />
+        <Scene3D
+          Component={Comp}
+          params={params}
+          angle={opts.angle}
+          controls={opts.interactive}
+          interactive={opts.interactive}
+          animate={opts.animate ?? true}
+          time={opts.time}
+          onReady={opts.onSceneReady}
+        />
       </div>
     );
   }

@@ -134,6 +134,9 @@ importers:
       '@remotion/renderer':
         specifier: 4.0.539
         version: 4.0.539(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@remotion/three':
+        specifier: 4.0.539
+        version: 4.0.539(@react-three/fiber@9.8.2(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(three@0.186.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(remotion@4.0.539(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(three@0.186.1)
       '@resvg/resvg-js':
         specifier: ^2.6.2
         version: 2.6.2
@@ -714,6 +717,15 @@ packages:
         optional: true
       '@remotion/whisper-webgpu':
         optional: true
+
+  '@remotion/three@4.0.539':
+    resolution: {integrity: sha512-EpAgy4DMPHGljp+59JMSarjX96vXUuiTOiCGrYHJJaf6U2LGeiBMMtwXDMb94i0pAM6pL4qgKuZ/RGs90hIywA==}
+    peerDependencies:
+      '@react-three/fiber': '>=8.0.0'
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+      remotion: 4.0.539
+      three: '>=0.137.0'
 
   '@remotion/timeline-utils@4.0.539':
     resolution: {integrity: sha512-KLoLPXrKluTsGFKH8Cl3iRXuVQBoBFStF18PRm0kEcPgARtuAz7JtcU88QKGr+zYvtvKfty9gPT7MIrbAo6rpw==}
@@ -2646,6 +2658,14 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+
+  '@remotion/three@4.0.539(@react-three/fiber@9.8.2(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(three@0.186.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(remotion@4.0.539(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(three@0.186.1)':
+    dependencies:
+      '@react-three/fiber': 9.8.2(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(three@0.186.1)
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
+      remotion: 4.0.539(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      three: 0.186.1
 
   '@remotion/timeline-utils@4.0.539(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:

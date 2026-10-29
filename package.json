@@ -59,6 +59,7 @@
     "@remotion/bundler": "4.0.539",
     "@remotion/player": "4.0.539",
     "@remotion/renderer": "4.0.539",
+    "@remotion/three": "4.0.539",
     "@resvg/resvg-js": "^2.6.2",
     "html-to-image": "^1.11.13",
     "react": "^19.3.1",
