@@ -38,7 +38,7 @@ export function RenderPage({ id, query }: { id: string; query: URLSearchParams }
   const params = resolveParams(mod, variant);
 
   if (mod.meta.kind === 'icon' || mod.meta.kind === 'icon3d') {
-    const px = Number(query.get('size') ?? (mod.meta.kind === 'icon' ? 512 : 1024));
+    const px = Number(query.get('size')) || (mod.meta.kind === 'icon' ? 512 : 1024);
     return (
       <div id="target" style={{ width: px, height: px }}>
         <AssetView
