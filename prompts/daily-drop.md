@@ -23,7 +23,7 @@ Write `drops/{{DATE}}/brief.md` (≤ 40 lines). It covers the theme's visual ide
 
 ## Step 2: build, one asset at a time, each through the review loop
 
-1. **{{ICONS}} icons** (`icons/<slug>/index.tsx`): one cohesive set, 5–6 variants each.
+1. **{{ICONS}} icons** (`icons/<slug>/index.tsx`): standalone Phosphor glyphs that suit the theme, rendered with `IconArt`. The default is a solid single-color glyph, and every icon shares the same schema defaults and variants.
 2. **{{ICONS3D}} 3D icon(s)** (`icons3d/<slug>/index.tsx`) with a `material` select and 4–5 variants.
 3. **{{BANNERS}} banner(s)** (`banners/<slug>/index.tsx`), each with a hero visual, working at every size in `BANNER_SIZES`, with 4–5 variants.
 4. **{{VIDEOS}} video template(s)** (`videos/<slug>/index.tsx`), **one for each of these occasions: {{VIDEO_CATEGORIES}}**. Set `meta.category`, use 60 fps, a beat grid, and 6–12 s. Each is a genuinely useful template for that occasion, with today's theme shaping the look rather than the purpose. Vary the aspect ratio (1920×1080, 1080×1920, 1080×1080). Include at least one `image()` param plus editable text and colors, and 3–4 variants.

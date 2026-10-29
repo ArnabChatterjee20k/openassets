@@ -29,7 +29,7 @@ try {
 // ---- 2. Static safety rules for generated code -----------------------------
 // Generated code runs in visitors' browsers, so keep it self-contained.
 log('→ static rules');
-const ALLOWED_IMPORTS = [/^react$/, /^three$/, /^@react-three\/(fiber|drei)$/, /^remotion$/, /^zod$/, /^@\/lib\/(params|fonts|types|palettes)$/, /^@\/kit$/];
+const ALLOWED_IMPORTS = [/^react$/, /^three$/, /^@react-three\/(fiber|drei)$/, /^remotion$/, /^zod$/, /^@\/lib\/(params|fonts|types|palettes)$/, /^@\/kit$/, /^@phosphor-icons\/react\/ssr$/];
 const BANNED: [RegExp, string][] = [
   [/\bfetch\s*\(/, 'fetch() is not allowed'],
   [/XMLHttpRequest|WebSocket|EventSource/, 'network APIs are not allowed'],

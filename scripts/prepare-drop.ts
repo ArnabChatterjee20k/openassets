@@ -14,7 +14,7 @@ if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) fail(`bad DATE ${date}`);
 if (existsSync(path.join(ROOT, 'drops', date))) fail(`drops/${date} already exists`);
 
 const counts = {
-  icons: Number(process.env.ICONS ?? 4),
+  icons: Number(process.env.ICONS ?? 8),
   icons3d: Number(process.env.ICONS3D ?? 1),
   banners: Number(process.env.BANNERS ?? 1),
   videos: Number(process.env.VIDEOS ?? 2),

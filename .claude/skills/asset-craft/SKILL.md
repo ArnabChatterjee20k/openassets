@@ -87,7 +87,19 @@ All dimensions derive from `width`/`height`. Switch the layout by aspect ratio: 
 
 ### Icons
 
-One set shares a grammar: the same silhouette language, stroke width, joins, and accent reserved for the "subject" (bolt, rain, moon). Variants are outline / filled / duotone / bold / mono / sharp, using the same treatment across the set. Check 24 px legibility in the sheet.
+Don't hand-draw glyph paths. Polished icon libraries (Font Awesome, Phosphor, Lucide) get their quality from years of grid and optical work. Build on **Phosphor** (`@phosphor-icons/react/ssr`, ~1,500 glyphs × thin/light/regular/bold/fill/duotone) through `IconArt` + `iconSchema` from `@/kit`:
+
+```tsx
+import { LightningIcon, WarningIcon } from '@phosphor-icons/react/ssr';
+export const schema = iconSchema({ primary: '#0D1B1E' });
+export default (p) => <IconArt glyph={LightningIcon} badgeGlyph={WarningIcon} p={p} id="lightning" />;
+```
+
+- **The default is a clean solid glyph in one color** (`weight: 'fill'`, no container). The user picks the color in the editor. Containers, duotone, badges and shadows are optional variants, not the default.
+- A set is 6–8 **standalone** glyphs that fit the theme (e.g. weather: lightning, drop, moon, wind, sun…). Don't force every icon into one composite motif (no "everything on a cloud").
+- Every icon in a set uses the same `iconSchema` defaults and the same `variants` block (e.g. regular / bold / thin / duotone / tile / brutal), so the set stays consistent.
+- Pick glyphs by browsing names (`node -e "import('@phosphor-icons/react/ssr').then(m=>console.log(Object.keys(m).filter(k=>/Rain|Sun/.test(k))))"`). Typecheck catches wrong names.
+- Hand-drawn SVG is only for a glyph Phosphor genuinely lacks, on Phosphor's 256 grid with matching stroke (16 at regular).
 
 ### 3D icons
 
@@ -103,4 +115,5 @@ One set shares a grammar: the same silhouette language, stroke width, joins, and
 - Confetti with plain gravity falls off-screen in 1 s. Use linear drag and terminal velocity so pieces arc high, hang, and drift down.
 - Chips and labels anchored by their left edge overflowing the right side of banners.
 - A "stacked" layout forced onto landscape sizes.
-- Crescent moons whose thick side faces into the cloud covering them.
+- Crescent moons whose thick side faces into the cloud covering them (another reason to use Phosphor glyphs).
+- Defaulting icons to elaborate composites: users want a solid icon they can recolor.

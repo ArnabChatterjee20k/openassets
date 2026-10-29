@@ -52,7 +52,7 @@ try {
   const icons = assets.filter((a) => a.kind === 'icon');
   if (icons.length > 1) {
     const tiles = icons.flatMap((a) =>
-      ['default', 'filled' in a.mod.variants ? 'filled' : 'default'].flatMap((v, k) =>
+      ['default', 'tile' in a.mod.variants ? 'tile' : (Object.keys(a.mod.variants)[0] ?? 'default')].flatMap((v, k) =>
         k === 1 && v === 'default' ? [] : [256, 24].map((px) => ({ file: path.join(REVIEW, a.id, `${v}-${px}.png`), label: `${a.slug} · ${v} · ${px}px` })),
       ),
     );
