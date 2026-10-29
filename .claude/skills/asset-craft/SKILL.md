@@ -131,13 +131,28 @@ Make every motion return to the rest pose at loop boundaries (integer `cycles` g
 
 ### Animated scenes (isometric SVG)
 
-Scenes are the kit's world as a living illustration, like the isometric animated SVGs people post: a haunted castle under the moon, a tiny HQ on a floating island. They're used as landing-page heroes, empty states and launch visuals. Build them with `@/kit` iso and SMIL:
+Scenes are the product's idea as a living illustration: landing-page heroes, empty states and launch visuals.
+
+**Choose the concept from the product, not a template.** First write one sentence: *what does this product do, as a physical metaphor?* Then pick the archetype that makes that sentence visible. A building is only right when the product really is a place (a café, a hotel, a store, an office). Otherwise a house on an island says nothing.
+
+| Archetype | When it fits | Example |
+|---|---|---|
+| **Process machine** | The product transforms inputs into outputs (pipelines, AI, feeds, dev tools, payments) | A reading feed: articles flutter in from source towers, pass a sieve, get stamped into today's page, which lands on a shelf of dated volumes |
+| **Object still life** | A calm, personal or daily-ritual product (reading, notes, journaling, music, food) | A desk at dawn: lamp, steaming cup, today's paper unfolding, a stack of past issues |
+| **Place / diorama** | The product is or serves a physical place | A restaurant opening, a hotel, an office, a shop, a campus |
+| **Network / system** | The product connects many parties (APIs, marketplaces, social) | Floating platforms joined by bridges, with packets travelling between them |
+| **Vehicle / journey** | Delivery, travel, logistics, onboarding, progress | A tiny cargo ship or train carrying parcels between islands |
+| **Interface as stage** | The UI itself is the hero (dashboards, mobile apps) | A giant isometric phone or screen with little characters using its widgets |
+| **Character / mascot** | A playful brand, games, kids, communities | The mascot doing the product's job in its own little world |
+
+The brief must name the archetype and say why it fits ("openfeed → process machine, because it gathers, filters and binds"). If the last kit's scene used the same archetype, prefer a different one unless the fit is clearly better.
+
 - Use `IsoBox`, `IsoGable` / `IsoRoof`, `IsoCylinder` (with a `cone` cap for trees and turrets), `IsoWindow` on box faces, and `IsoGrid` floors. `iso()` / `pts()` handle custom polygons. Draw back to front (smaller x + y first).
-- A strong composition is a floating platform or diorama centred on the canvas, filling ~60% of it, with sky, atmosphere (stars, moon, fog, clouds) and a dark outline ink.
+- Composition: the subject (machine, still life, place…) is centred and fills ~60% of the canvas, with a background and atmosphere that suit it (sky and weather outdoors, wall and lamp light indoors), plus a dark outline ink. Floating platforms are one option, not the default.
 - Animate only with SMIL (`<animate>`, `<animateTransform>`, `<animateMotion>`) so the exported `.svg` plays anywhere and the pipeline can seek it. No CSS keyframes. Every `dur` must divide `scene.loop`; use negative `begin` offsets to desync repeated elements.
 - Layer 4–6 small loops (window `Flicker`, spinning parts, pulses, drifting clouds, rain, a gentle bob) plus one punctuating moment per loop (a lightning double-flash, a door opening, a bat flying past).
 - Review: `pnpm stills` samples t = 0, ¼, ½, the moment, and ¾ of the loop. The t = 0 frame is the poster, so it must be a good still.
-- **Density is the difference between "toy" and "illustration".** A bare slab with a few boxes looks cheap. Every area needs something: paths, fences, lamps with ground light pools, benches, bushes, flowers, puddles, signage, rooftop gear (dishes, antennas, chimneys with smoke).
+- **Density is the difference between "toy" and "illustration".** Bare surfaces look cheap. Every area needs supporting detail that belongs to the concept: gears, pipes, gauges and conveyors for a machine; cup, pen, plant and lamp for a still life; paths, lamps and signage for a place.
 - **Architecture needs trim:** roof overhangs with tile rows, ridge caps and fascia; framed windows with mullions and sills; plinths, door awnings. Put text (signs) in a wall's plane with `matrix(cos30, 0.5, 0, 1, x, y)` for left faces, on a backing plate in the band between the window tops and the eave.
 - **Light makes it:** soft cast shadows (blurred polygons offset away from the light), window light spilling onto the ground, a moon or sun halo, glow filters on lamps and neon.
 - **Spin things in the right plane:** turbine blades and fans live in an isometric face plane (`matrix(-cos30, 0.5, 0, 1, …)` for planes facing right). Fake a horizontal rotation with `scale(1 0.5)` around a rotating group.
