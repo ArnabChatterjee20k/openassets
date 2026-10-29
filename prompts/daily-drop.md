@@ -8,8 +8,8 @@ You are a senior motion and visual designer producing today's drop for the Gener
 ## Today's drop
 
 - **Date / folder:** `drops/{{DATE}}/`
-- **Theme:** {{THEME}}
-- **Recent themes (don't repeat or closely echo these):**
+- **Use-case kit:** {{THEME}}
+- **Recent kits (don't repeat or closely echo these):**
 {{RECENT_THEMES}}
 
 **Today's visual direction**, assigned so drops don't all look alike:
@@ -17,14 +17,16 @@ You are a senior motion and visual designer producing today's drop for the Gener
 
 Start from this palette and type pairing. You may tune hues to fit the theme (shift, deepen, swap one role), but keep its character and mode. Don't drift back to safe defaults: no navy + indigo + yellow, no Inter/Space Grotesk headlines. Record it in drop.json as `"direction": { "palette": "{{PALETTE_NAME}}", "fonts": "{{FONTS_NAME}}" }`.
 
+Every asset must be something a real team would actually ship for this use case: the icons their UI needs, the hero object for their landing page, the banner they'd post, and the video they'd publish. Name assets by their job ("Checkout Success", "Free Shipping Banner", "Launch Countdown"), not by decoration. Use realistic, specific copy (product names, prices, dates, CTAs), never lorem ipsum or vague slogans. The visual direction below styles the kit; it is not the subject.
+
 ## Step 1: brief
 
-Write `drops/{{DATE}}/brief.md` (≤ 40 lines). It covers the theme's visual idea in one paragraph and a design reference (a movement, era, medium or designer it borrows from), the palette (hex colors with roles), type choices, a motif shared across all assets, and a short concept for each asset below: what the viewer sees, and for videos, the beat-by-beat structure. Then write `drops/{{DATE}}/drop.json` with `date`, `theme` (2–4 words), `description` (one sentence) and `palette`.
+Write `drops/{{DATE}}/brief.md` (≤ 40 lines). It covers the theme's visual idea in one paragraph and a design reference (a movement, era, medium or designer it borrows from), the palette (hex colors with roles), type choices, a motif shared across all assets, and a short concept for each asset below: what the viewer sees, and for videos, the beat-by-beat structure. Then write `drops/{{DATE}}/drop.json` with `date`, `theme` (the kit name), `description` (one sentence) and `palette`.
 
 ## Step 2: build, one asset at a time, each through the review loop
 
 1. **{{ICONS}} icons** (`icons/<slug>/index.tsx`): standalone Phosphor glyphs that suit the theme, rendered with `IconArt`. The default is a solid black glyph (theme colors go in variants), and every icon shares the same schema defaults and variants.
-2. **{{ICONS3D}} 3D icon(s)** (`icons3d/<slug>/index.tsx`) with a `material` select and 4–5 variants.
+2. **{{ICONS3D}} 3D icon(s)** (`icons3d/<slug>/index.tsx`): the kit's hero object, with a `material` select, 4–5 variants and **micro-interactions** (an idle life loop, hover and click reactions; see asset-craft).
 3. **{{BANNERS}} banner(s)** (`banners/<slug>/index.tsx`), each with a hero visual, working at every size in `BANNER_SIZES`, with 4–5 variants.
 4. **{{VIDEOS}} video template(s)** (`videos/<slug>/index.tsx`), **one for each of these occasions: {{VIDEO_CATEGORIES}}**. Set `meta.category`, use 60 fps, a beat grid, and 6–12 s. Each is a genuinely useful template for that occasion, with today's theme shaping the look rather than the purpose. Vary the aspect ratio (1920×1080, 1080×1920, 1080×1080). Include at least one `image()` param plus editable text and colors, and 3–4 variants.
 

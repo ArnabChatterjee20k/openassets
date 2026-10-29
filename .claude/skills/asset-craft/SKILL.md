@@ -7,6 +7,13 @@ description: Quality bar, craft techniques and the mandatory visual review loop 
 
 The bar: someone scrolling past should stop, and a designer should want to use the asset as-is. "Technically renders" is not done. Reference implementations live in `drops/2026-10-29/`; read them before writing anything.
 
+## Real use cases
+
+A drop is a kit for a real job (a SaaS launch, a flash sale, a podcast). Every asset answers "who uses this, where, for what?":
+- Icons are the ones that product's UI needs. 3D objects are the hero for its landing page or app store. Banners are the posts or headers it would publish. Videos are the launch, promo, greeting or announcement it would send.
+- Use specific, plausible copy: names, prices, dates, CTAs. Templates stay editable, but their defaults should read like a real campaign.
+- Theme and palette style the kit; they are not its subject (no "weather" kits unless the business is a weather app).
+
 ## The review loop (mandatory)
 
 You cannot judge an asset from its code. For **every** asset:
@@ -107,6 +114,16 @@ export default (p) => <IconArt glyph={LightningIcon} badgeGlyph={WarningIcon} p=
 - Hard shapes: use `ExtrudeGeometry` with generous bevels (`bevelSegments ≥ 4`), `RoundedBox`, or `LatheGeometry`.
 - Use materials via a `material` select. Clay is `meshPhysicalMaterial` with roughness ~0.7 and light sheen. Glossy adds clearcoat. Metal is `metalness 1` at roughness ~0.3 (lower turns into a chrome checkerboard). Glass uses transmission.
 - Keep accents saturated (heavy emissive washes them out). The renderer supplies lights, environment, contact shadow and camera angles.
+
+#### Micro-interactions (required)
+
+3D icons should feel alive, like small robot heads that float, blink and react. Use `@/kit` motion3d:
+- Wrap the object in `<IconMotion seed={n}>`. This gives a float bob, gentle sway, tilt toward the cursor on hover, and squash-and-stretch on click.
+- Add 1–3 object-specific idle details inside `useLoop((m) => ...)` by mutating refs (never set React state per frame). Examples: a `blink()` on eyes or lights, a `flicker()` on a glow, a lid that peeks open, coins that `cycle()` upward, a needle that `wave()`s.
+- Hover (`m.hover` 0..1) should intensify something (glow, speed, opening). A click (`pressBounce(m.pressAge)`) gives a reaction (flash, pop, spin).
+- Every period must divide `LOOP_SECONDS` (4 s): use `wave(t, cycles)` / `cycle(t, cycles)` with integer cycles so the exported loop is seamless.
+- Offer a calm/lively `mood` (or similar) param, like a robot's status.
+- Review: `pnpm stills` samples the loop at t = 0.6 / 1.2 / 2.2 / 3.2 s. Those frames must visibly differ.
 
 ## Pitfalls already hit (don't repeat)
 

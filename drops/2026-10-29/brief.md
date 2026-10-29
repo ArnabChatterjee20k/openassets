@@ -1,6 +1,8 @@
-# Midnight Weather — brief
+# Weather App Launch — brief
 
-**Idea.** The few seconds before and during a night storm: deep indigo dark, then everything lit at once by electric yellow. Calm, then *hit*.
+**Use case.** Stormcast, a hyperlocal weather app, is launching v1. The team needs: UI icons for the app's forecast screens, a living 3D hero for the landing page and App Store, a store/social banner, the launch film, an intro for their YouTube channel, and a birthday greeting their CRM sends to users.
+
+**Idea.** The few seconds before and during a night storm: green-black sky, then everything lit at once by chartreuse electricity. Calm, then *hit*.
 
 **Reference.** Y2K weather-channel graphics meets Wolfgang Tillmans' green-tinted night photos.
 
@@ -11,9 +13,9 @@
 **Shared motif.** Lightning as the accent: a single chartreuse element per asset that carries the energy (bolt, flash, CTA, radar blips). Everything else stays cool.
 
 **Assets.**
-- Icons: weather set (cloud-bolt, cloud-rain, moon-cloud, wind) — one cloud silhouette, 1.75 stroke, round joins; accent only on the weather element.
-- 3D: seamless clay storm cloud (metaballs) + beveled bolt + raindrops; clay/glossy/metal/glass.
-- Banner "Forecast Radar": headline left, live-looking radar right with blips, glowing bolt, glass data chips; stacks on square.
-- Video "Product Launch" (launch, 16:9, 8 s): bar 1 — 3·2·1 on beats with rings, streaks converge; downbeat bar 2 — flash + shockwave + streak burst, title sweeps in; then tagline words, CTA pops on beat; bar 3 — glint + underline; dust throughout; fade.
-- Video "Storm Title" (intro, 16:9, 6 s): rain in the dark → beat 3 lightning draws itself, double flicker lights the clouds, camera shake, title revealed in the flash; second distant strike + glint at bar 3.
-- Video "Birthday Wish" (greeting, 9:16, 8 s): greeting rises, cannons fire on beat 3 as the name sweeps in; confetti arcs to the top and drifts down; message words, signature; second smaller burst at bar 3.
+- Icons (in-app forecast UI): 8 Phosphor glyphs — lightning, drop, moon & stars, wind, umbrella, thermometer, snowflake, sun. Solid black by default; tile/brutal/duotone variants for marketing.
+- 3D hero (landing page / App Store): seamless clay storm cloud + bolt + raindrops; breathes, bolt flickers like a blink, rain loops; tilts to the cursor, bounces + flashes on click; calm/stormy mood.
+- Banner "Forecast Radar" (App Store feature / social): headline left, live-looking radar right with blips, glowing bolt, glass data chips; stacks on square.
+- Video "Product Launch" (launch film, 16:9, 8 s): bar 1 — 3·2·1 on beats with rings, streaks converge; downbeat bar 2 — flash + shockwave + streak burst, title sweeps in; then tagline words, CTA pops on beat; bar 3 — glint + underline; dust throughout; fade.
+- Video "Storm Title" (YouTube channel intro, 16:9, 6 s): rain in the dark → beat 3 lightning draws itself, double flicker lights the clouds, camera shake, title revealed in the flash; second distant strike + glint at bar 3.
+- Video "Birthday Wish" (CRM greeting sent to users, 9:16 story, 8 s): greeting rises, cannons fire on beat 3 as the name sweeps in; confetti arcs to the top and drifts down; message words, signature; second smaller burst at bar 3.

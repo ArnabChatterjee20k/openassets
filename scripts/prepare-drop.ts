@@ -23,12 +23,16 @@ const counts = {
 const history = listDrops().map(readDrop);
 const used = new Set(history.map((d) => d.theme.toLowerCase()));
 
-// Theme: explicit override → first unused idea in ideas.md → let Claude invent one.
+// Use-case kit: explicit override → first unused kit in ideas.md → let Claude propose one.
+// ideas.md lines look like "- Kit name: who it's for, and what they need".
 const ideas = readFileSync(path.join(ROOT, 'ideas.md'), 'utf8')
   .split('\n')
   .map((l) => l.match(/^\s*-\s+(?!\[x\])(.+)$/)?.[1]?.trim())
-  .filter((t): t is string => !!t && !used.has(t.toLowerCase()));
-const theme = process.env.THEME || ideas[0] || '';
+  .filter((t): t is string => !!t)
+  .map((t) => ({ name: t.split(':')[0].trim(), brief: t.slice(t.indexOf(':') + 1).trim() }))
+  .filter((k) => !used.has(k.name.toLowerCase()));
+const kit = process.env.THEME ? { name: process.env.THEME, brief: '' } : ideas[0];
+const theme = kit ? (kit.brief && kit.brief !== kit.name ? `"${kit.name}" (${kit.brief})` : `"${kit.name}"`) : '';
 
 // Video occasions: the least-used categories so far, so the library stays varied.
 const usage = new Map<VideoCategory, number>(VIDEO_CATEGORIES.map((c) => [c, 0]));
@@ -66,7 +70,7 @@ const recent = history.slice(-14).map((d) => `- ${d.date}: ${d.theme}`).join('\n
 const template = readFileSync(path.join(ROOT, 'prompts', 'daily-drop.md'), 'utf8');
 const prompt = template
   .replaceAll('{{DATE}}', date)
-  .replaceAll('{{THEME}}', theme ? `"${theme}"` : 'your choice — invent a fresh, specific visual theme not in the recent list')
+  .replaceAll('{{THEME}}', theme || 'your choice: propose a real-world use case (a business or person with a concrete need) not in the recent list')
   .replaceAll('{{RECENT_THEMES}}', recent)
   .replaceAll('{{DIRECTION}}', direction)
   .replaceAll('{{PALETTE_NAME}}', palette.name)
