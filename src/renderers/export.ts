@@ -39,7 +39,8 @@ export function canvasToPng(canvas: HTMLCanvasElement): Promise<Blob> {
 
 export async function sceneToGlb(scene: Scene): Promise<ArrayBuffer> {
   const exporter = new GLTFExporter();
-  const result = await exporter.parseAsync(scene, { binary: true, onlyVisible: true });
+  const target = scene.getObjectByName('asset') ?? scene;
+  const result = await exporter.parseAsync(target, { binary: true, onlyVisible: true });
   return result as ArrayBuffer;
 }
 

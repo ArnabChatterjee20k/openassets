@@ -1,6 +1,6 @@
 import { useEffect, useRef, type ComponentType } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Environment, Lightformer, OrbitControls } from '@react-three/drei';
+import { ContactShadows, Environment, Lightformer, OrbitControls } from '@react-three/drei';
 import type { Scene, WebGLRenderer } from 'three';
 import { ANGLES, type Angle } from './angles';
 
@@ -71,9 +71,11 @@ export function Scene3D({
       style={{ width: '100%', height: '100%' }}
     >
       <Studio />
-      <group rotation={ANGLES[angle] as unknown as [number, number, number]}>
+      {/* Named so exports can take just the asset, not the shadow plane. */}
+      <group name="asset" rotation={ANGLES[angle] as unknown as [number, number, number]}>
         <Component {...params} />
       </group>
+      <ContactShadows position={[0, -1.35, 0]} opacity={0.32} scale={6} blur={2.6} far={3} resolution={512} />
       {controls && <OrbitControls enablePan={false} minDistance={2.5} maxDistance={8} />}
       <Bridge onReady={(h) => readyRef.current?.(h)} />
     </Canvas>
