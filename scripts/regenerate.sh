@@ -17,6 +17,8 @@ OLD="drops/$ID"
 [ -d "$OLD" ] || { echo "✗ $OLD not found"; exit 1; }
 
 mkdir -p .daily
+# Remember which slugs exist, so a new one can replace the old asset afterwards.
+before=$(ls "drops/$DATE/$KIND")
 backup=".daily/backup-$(echo "$ID" | tr / -)"
 rm -rf "$backup" && cp -R "$OLD" "$backup"
 
@@ -27,7 +29,7 @@ Regenerate one asset of the kit in \`drops/$DATE/\`: replace \`$OLD/\` with a be
 2. Note from the reviewer: ${NOTE:-make it substantially better.}
 3. Write the new asset in \`drops/$DATE/$KIND/<new-slug>/index.tsx\` (a new slug is fine if the concept changes; keep the same kind). Keep the kit's palette and type direction.
 4. Do the full asset-craft review loop: \`pnpm stills <id>\`, open the sheet, critique, fix. At least two passes.
-5. If you used a new slug, delete the old folder's file by overwriting \`$OLD/index.tsx\` with the single line \`// removed\`. The script cleans it up.
+5. Leave \`$OLD/\` untouched. If you used a new slug, the script removes the old folder after you finish.
 6. Update the matching line in \`drops/$DATE/brief.md\`. Run \`pnpm validate --drop $DATE\` until it prints ✓.
 Finish with a short summary of the new concept and what each review pass fixed.
 EOF
@@ -39,8 +41,12 @@ claude -p "$(cat .daily/regen-prompt.md)" \
   --max-turns "${MAX_TURNS:-150}" \
   --output-format text | tee .daily/regen.log
 
-# The old folder was marked for removal if the asset moved to a new slug.
-if grep -qx '// removed' "$OLD/index.tsx" 2>/dev/null; then rm -rf "$OLD" "public/previews/$ID"; fi
+# A new slug replaces the old asset.
+added=$(comm -13 <(echo "$before") <(ls "drops/$DATE/$KIND"))
+if [ -n "$added" ]; then
+  echo "→ new asset: $KIND/$added — removing $OLD"
+  rm -rf "$OLD"
+fi
 
 if pnpm validate --drop "$DATE"; then
   echo "✓ regenerated $ID (backup in $backup)"
