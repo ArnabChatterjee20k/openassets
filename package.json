@@ -12,6 +12,7 @@
     "render": "tsx scripts/render.ts",
     "render:video": "tsx scripts/render-video.ts",
     "stills": "tsx scripts/stills.ts",
+    "readme-header": "tsx scripts/readme-header.ts",
     "prepare-drop": "tsx scripts/prepare-drop.ts",
     "generate": "./scripts/generate.sh",
     "test:local": "./scripts/test-local.sh"
