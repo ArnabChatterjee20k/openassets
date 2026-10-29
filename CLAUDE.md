@@ -20,7 +20,7 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
 - `image()` values are user-uploaded data URLs. Default to `''` and render nothing when empty.
 - Use fonts only via `FONTS[key]` from `@/lib/fonts`.
 - Per kind:
-  - **icon:** render `IconArt` from `@/kit` with a Phosphor glyph (`@phosphor-icons/react/ssr`) and `iconSchema(...)`. The result is a single root `<svg viewBox="0 0 256 256">` with no width or height. The default is a solid one-color glyph.
+  - **icon:** render `IconArt` from `@/kit` with a Phosphor glyph (`@phosphor-icons/react/ssr`) and `iconSchema(...)`. The result is a single root `<svg viewBox="0 0 256 256">` with no width or height. The default is a solid black glyph.
   - **icon3d:** return react-three-fiber objects (`<group>`, `<mesh>`…). No `<Canvas>`, lights, camera or controls; `src/renderers/Scene3D.tsx` provides those.
   - **banner:** props also include `width` and `height`. Render a full-bleed element of exactly that size and scale everything from it.
   - **video:** a Remotion component, with `meta.category` set to one of `VIDEO_CATEGORIES` in `src/lib/types.ts`.

@@ -95,7 +95,7 @@ export const schema = iconSchema({ primary: '#0D1B1E' });
 export default (p) => <IconArt glyph={LightningIcon} badgeGlyph={WarningIcon} p={p} id="lightning" />;
 ```
 
-- **The default is a clean solid glyph in one color** (`weight: 'fill'`, no container). The user picks the color in the editor. Containers, duotone, badges and shadows are optional variants, not the default.
+- **The default is a clean solid black glyph** (`primary: '#000000'`, `weight: 'fill'`, no container), like Font Awesome. The user picks the color in the editor, and previews show icons on a light tile. Theme colors belong in variants. Containers, duotone, badges and shadows are optional variants, not the default.
 - A set is 6–8 **standalone** glyphs that fit the theme (e.g. weather: lightning, drop, moon, wind, sun…). Don't force every icon into one composite motif (no "everything on a cloud").
 - Every icon in a set uses the same `iconSchema` defaults and the same `variants` block (e.g. regular / bold / thin / duotone / tile / brutal), so the set stays consistent.
 - Pick glyphs by browsing names (`node -e "import('@phosphor-icons/react/ssr').then(m=>console.log(Object.keys(m).filter(k=>/Rain|Sun/.test(k))))"`). Typecheck catches wrong names.

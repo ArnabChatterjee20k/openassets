@@ -10,9 +10,9 @@ export const meta: AssetMeta = {
   tags: ['weather', 'sunny', 'day', 'light mode'],
 };
 
-// Default: a clean solid glyph in one color (pick any color in the editor).
+// Default: a clean solid black glyph (pick any color in the editor).
 // Same schema + variants across the set.
-export const schema = iconSchema({ primary: '#0D1B1E', accent: '#3FA7A0', surface: '#EAF4EF' });
+export const schema = iconSchema({ primary: '#000000', accent: '#3FA7A0', surface: '#EAF4EF' });
 
 export const variants: Record<string, Partial<z.input<typeof schema>>> = {
   regular: { weight: 'regular' },

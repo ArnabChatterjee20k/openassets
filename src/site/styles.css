@@ -452,3 +452,10 @@ button.ghost {
 h1 .chip {
   font-size: 0.8rem;
 }
+
+/* Icons are previewed like an icon library: on a light tile regardless of the
+   site theme, so the default black glyph is always visible. */
+.card-icon .card-preview,
+.stage-icon {
+  background: repeating-conic-gradient(#f1f1ee 0 25%, #ffffff 0 50%) 0 0 / 16px 16px;
+}
