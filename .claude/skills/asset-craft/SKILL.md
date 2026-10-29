@@ -137,6 +137,11 @@ Scenes are the kit's world as a living illustration, like the isometric animated
 - Animate only with SMIL (`<animate>`, `<animateTransform>`, `<animateMotion>`) so the exported `.svg` plays anywhere and the pipeline can seek it. No CSS keyframes. Every `dur` must divide `scene.loop`; use negative `begin` offsets to desync repeated elements.
 - Layer 4–6 small loops (window `Flicker`, spinning parts, pulses, drifting clouds, rain, a gentle bob) plus one punctuating moment per loop (a lightning double-flash, a door opening, a bat flying past).
 - Review: `pnpm stills` samples t = 0, ¼, ½, the moment, and ¾ of the loop. The t = 0 frame is the poster, so it must be a good still.
+- **Density is the difference between "toy" and "illustration".** A bare slab with a few boxes looks cheap. Every area needs something: paths, fences, lamps with ground light pools, benches, bushes, flowers, puddles, signage, rooftop gear (dishes, antennas, chimneys with smoke).
+- **Architecture needs trim:** roof overhangs with tile rows, ridge caps and fascia; framed windows with mullions and sills; plinths, door awnings. Put text (signs) in a wall's plane with `matrix(cos30, 0.5, 0, 1, x, y)` for left faces, on a backing plate in the band between the window tops and the eave.
+- **Light makes it:** soft cast shadows (blurred polygons offset away from the light), window light spilling onto the ground, a moon or sun halo, glow filters on lamps and neon.
+- **Spin things in the right plane:** turbine blades and fans live in an isometric face plane (`matrix(-cos30, 0.5, 0, 1, …)` for planes facing right). Fake a horizontal rotation with `scale(1 0.5)` around a rotating group.
+- Give the sky its own life: a character or vehicle crossing the moon (`animateMotion`), twinkling stars, drifting clouds.
 
 ## Pitfalls already hit (don't repeat)
 
