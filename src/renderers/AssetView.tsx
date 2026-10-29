@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type Ref } from 'react';
 import { Player, Thumbnail } from '@remotion/player';
 import { BANNER_SIZES, type AssetModule } from '@/lib/types';
-import { Scene3D, type Angle, type SceneHandle } from './Scene3D';
+import { Scene3D, type Angle, type MotionMode, type SceneHandle } from './Scene3D';
 
 export interface ViewOptions {
   /** Key of BANNER_SIZES for banners. */
@@ -15,8 +15,8 @@ export interface ViewOptions {
   frame?: number;
   /** 3D: fixed motion time in seconds (deterministic stills). */
   time?: number;
-  /** 3D: idle micro-animations on/off (default on). */
-  animate?: boolean;
+  /** 3D: 'default' rests and animates on interaction; 'interaction' loops. */
+  motion?: MotionMode;
   /** Scale banner/video down to fit parent width (true) or render at native size (false). */
   fit?: boolean;
   onSceneReady?: (h: SceneHandle) => void;
@@ -65,7 +65,7 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
           angle={opts.angle}
           controls={opts.interactive}
           interactive={opts.interactive}
-          animate={opts.animate ?? true}
+          mode={opts.motion ?? 'default'}
           time={opts.time}
           onReady={opts.onSceneReady}
         />

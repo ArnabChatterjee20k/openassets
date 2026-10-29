@@ -8,17 +8,18 @@ import { useAsset } from './useAsset';
 export function AssetCard({ asset }: { asset: AssetRef }) {
   const { mod, error } = useAsset(asset.id);
   const [noPreview, setNoPreview] = useState(false);
+  // Cards rest on a still; motion (video GIF / 3D interaction loop) plays on hover.
+  const [hover, setHover] = useState(false);
 
   let body;
   if (error) body = <div className="card-error">Failed to load</div>;
   else if (!mod) body = <div className="skeleton" />;
   else if ((asset.kind === 'icon3d' || asset.kind === 'video') && !noPreview)
-    // Prefer CI-rendered GIF previews: avoids many WebGL contexts, and both videos
-    // and 3D icons (their micro-interaction loop) animate in the grid.
+    // CI-rendered previews: avoids many WebGL contexts in the grid.
     body = (
       <img
         className="preview-img"
-        src={previewUrl(asset.id, 'default', 'gif')}
+        src={previewUrl(asset.id, 'default', hover ? 'gif' : 'png')}
         alt=""
         loading="lazy"
         onError={() => setNoPreview(true)}
@@ -27,7 +28,7 @@ export function AssetCard({ asset }: { asset: AssetRef }) {
   else body = <AssetView mod={mod} params={resolveParams(mod)} />;
 
   return (
-    <a className={`card card-${asset.kind}`} href={href(`/asset/${asset.id}`)}>
+    <a className={`card card-${asset.kind}`} href={href(`/asset/${asset.id}`)} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <div className="card-preview">{body}</div>
       <div className="card-meta">
         <strong>

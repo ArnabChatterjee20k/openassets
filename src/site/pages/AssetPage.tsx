@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { describeFields } from '@/lib/params';
 import { BANNER_SIZES, KIND_LABELS, resolveParams, variantNames, type AssetModule } from '@/lib/types';
 import { AssetView } from '@/renderers/AssetView';
-import type { Angle, SceneHandle } from '@/renderers/Scene3D';
+import type { Angle, MotionMode, SceneHandle } from '@/renderers/Scene3D';
 import { canvasToPng, download, iconSvg, nodeToPng, sceneToGlb, slugify, svgToPng } from '@/renderers/export';
 import { ControlPanel } from '../editor/ControlPanel';
 import { href, replaceQuery } from '../router';
@@ -34,7 +34,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
   });
   const [bannerSize, setBannerSize] = useState('og');
   const [angle, setAngle] = useState<Angle>('iso');
-  const [animate, setAnimate] = useState(true);
+  const [motion, setMotion] = useState<MotionMode>('default');
   const [status, setStatus] = useState('');
   const nodeRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SceneHandle | null>(null);
@@ -137,7 +137,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
           <AssetView
             mod={mod}
             params={values}
-            opts={{ interactive: true, bannerSize, angle, animate, nodeRef, onSceneReady: (h) => (sceneRef.current = h) }}
+            opts={{ interactive: true, bannerSize, angle, motion, nodeRef, onSceneReady: (h) => (sceneRef.current = h) }}
           />
         </div>
 
@@ -162,10 +162,17 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
           )}
           {kind === 'icon3d' && (
             <div className="segmented">
-              <button className={animate ? 'on' : ''} onClick={() => setAnimate(!animate)} title="Idle micro-interactions">
-                motion {animate ? 'on' : 'off'}
-              </button>
-              <span className="muted hint">hover to tilt · click to bounce · drag to orbit</span>
+              {(['default', 'interaction'] as MotionMode[]).map((m) => (
+                <button
+                  key={m}
+                  className={m === motion ? 'on' : ''}
+                  onClick={() => setMotion(m)}
+                  title={m === 'default' ? 'Rest pose; animates on hover/click' : 'Play the interaction loop continuously'}
+                >
+                  {m}
+                </button>
+              ))}
+              <span className="muted hint">{motion === 'default' ? 'hover or click the icon to play' : 'looping'} · drag to orbit</span>
             </div>
           )}
         </div>

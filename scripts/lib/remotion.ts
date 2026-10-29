@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { bundle } from '@remotion/bundler';
-import { renderMedia, selectComposition } from '@remotion/renderer';
+import { renderMedia, renderStill, selectComposition } from '@remotion/renderer';
 import { compositionId, loopCompositionId } from '../../src/remotion/Root';
 import { ROOT, type LoadedAsset } from './common';
 
@@ -59,5 +59,20 @@ export async function renderVideo(opts: {
     ...(opts.transparent ? { imageFormat: 'png' as const, pixelFormat: 'yuva420p' as const } : {}),
     // WebGL (3D loops) needs an explicit GL backend headlessly: software on CI, ANGLE locally.
     chromiumOptions: { gl: process.env.CI ? 'swangle' : 'angle' },
+  });
+}
+
+/** A single poster frame of a video (used for still gallery cards). */
+export async function renderPoster(opts: { serveUrl: string; id: string; props: Record<string, unknown>; out: string; at?: number; scale?: number }) {
+  const composition = await selectComposition({ serveUrl: opts.serveUrl, id: compositionId(opts.id), inputProps: opts.props });
+  mkdirSync(path.dirname(opts.out), { recursive: true });
+  await renderStill({
+    composition,
+    serveUrl: opts.serveUrl,
+    frame: Math.round((opts.at ?? 0.7) * (composition.durationInFrames - 1)),
+    output: opts.out,
+    inputProps: opts.props,
+    scale: opts.scale ?? 0.4,
+    overwrite: true,
   });
 }

@@ -465,3 +465,9 @@ h1 .chip {
   align-self: center;
   margin-left: 8px;
 }
+
+/* 3D cards rest on the same light stage as their interaction-loop GIF, so the
+   hover swap from still to loop is seamless. */
+.card-icon3d .card-preview {
+  background: #f2f3f1;
+}

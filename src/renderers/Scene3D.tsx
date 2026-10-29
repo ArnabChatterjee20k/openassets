@@ -2,7 +2,7 @@ import { useEffect, useRef, type ComponentType } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Environment, Lightformer, OrbitControls } from '@react-three/drei';
 import type { Scene, WebGLRenderer } from 'three';
-import { MotionProvider, defaultMotion, type MotionState } from '@/kit/motion3d';
+import { LOOP_SECONDS, MotionProvider, defaultMotion, type MotionState } from '@/kit/motion3d';
 import { ANGLES, type Angle } from './angles';
 
 export type { Angle };
@@ -61,16 +61,35 @@ export function Stage({ Component, params, angle = 'iso' }: { Component: Compone
   );
 }
 
-/** Advances the motion clock (real time, or a fixed `time`) and eases hover. */
-function Driver({ motion, time, hoverTarget }: { motion: { current: MotionState }; time?: number; hoverTarget: { current: number } }) {
+export type MotionMode = 'default' | 'interaction';
+
+/**
+ * Advances the motion clock. In 'default' mode the icon rests at its pose for
+ * t = 0 and only plays while hovered or for one loop after a click; when the
+ * interaction ends it finishes the current loop (at 3x speed) and settles
+ * exactly back on the rest pose. 'interaction' mode plays continuously.
+ * A fixed `time` freezes motion for deterministic stills.
+ */
+function Driver({ motion, time, mode, hoverTarget }: { motion: { current: MotionState }; time?: number; mode: MotionMode; hoverTarget: { current: number } }) {
+  const wall = useRef(0);
   const pressAt = useRef(-Infinity);
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     const m = motion.current;
-    const now = time ?? state.clock.elapsedTime;
-    if (m.pressAge === 0) pressAt.current = now; // a click just happened
-    m.t = now;
-    m.pressAge = now - pressAt.current;
+    wall.current += delta;
+    if (m.pressAge === 0) pressAt.current = wall.current; // a click just happened
+    m.pressAge = wall.current - pressAt.current;
     m.hover += (hoverTarget.current - m.hover) * Math.min(1, delta * 8);
+    if (time !== undefined) {
+      m.t = time;
+      return;
+    }
+    const playing = mode === 'interaction' || hoverTarget.current > 0 || m.pressAge < LOOP_SECONDS;
+    const phase = m.t % LOOP_SECONDS;
+    if (playing) m.t += delta;
+    else if (phase > 1e-4) {
+      const next = m.t + delta * 3;
+      m.t = Math.floor(next / LOOP_SECONDS) > Math.floor(m.t / LOOP_SECONDS) ? Math.floor(next / LOOP_SECONDS) * LOOP_SECONDS : next;
+    }
   });
   return null;
 }
@@ -81,7 +100,7 @@ export function Scene3D({
   angle = 'iso',
   controls = false,
   interactive = false,
-  animate = true,
+  mode = 'default',
   time,
   onReady,
 }: {
@@ -92,8 +111,8 @@ export function Scene3D({
   controls?: boolean;
   /** Hover tilt + click bounce. */
   interactive?: boolean;
-  /** Idle micro-animations on/off. */
-  animate?: boolean;
+  /** 'default': rest pose, animate on hover/click. 'interaction': loop continuously. */
+  mode?: MotionMode;
   /** Fixed time in seconds (deterministic stills); omit for real time. */
   time?: number;
   onReady?: (h: SceneHandle) => void;
@@ -104,7 +123,6 @@ export function Scene3D({
     readyRef.current = onReady;
   }, [onReady]);
   const motion = useRef<MotionState>(defaultMotion());
-  motion.current.enabled = animate;
   if (time !== undefined) motion.current.t = time;
   const hoverTarget = useRef(0);
 
@@ -136,7 +154,7 @@ export function Scene3D({
         style={{ width: '100%', height: '100%' }}
       >
         <MotionProvider value={motion}>
-          <Driver motion={motion} time={time} hoverTarget={hoverTarget} />
+          <Driver motion={motion} time={time} mode={mode} hoverTarget={hoverTarget} />
           <Stage Component={Component} params={params} angle={angle} />
         </MotionProvider>
         {controls && <OrbitControls enablePan={false} enableZoom={false} minDistance={2.5} maxDistance={8} />}

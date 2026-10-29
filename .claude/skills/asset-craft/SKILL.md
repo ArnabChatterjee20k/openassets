@@ -117,7 +117,11 @@ export default (p) => <IconArt glyph={LightningIcon} badgeGlyph={WarningIcon} p=
 
 #### Micro-interactions (required)
 
-3D icons should feel alive, like small robot heads that float, blink and react. Use `@/kit` motion3d:
+3D icons have two states, like small robot heads that sit still until you poke them:
+- **Default:** the rest pose at t = 0. This is what cards, PNG exports and the editor show. It must look finished on its own (balanced, nothing caught mid-motion).
+- **Interaction:** the loop. It plays while hovered or for one loop after a click, then settles back on the rest pose. Exports render it as the MP4/WebM/GIF loop.
+
+Make every motion return to the rest pose at loop boundaries (integer `cycles` guarantee this). Use `@/kit` motion3d:
 - Wrap the object in `<IconMotion seed={n}>`. This gives a float bob, gentle sway, tilt toward the cursor on hover, and squash-and-stretch on click.
 - Add 1–3 object-specific idle details inside `useLoop((m) => ...)` by mutating refs (never set React state per frame). Examples: a `blink()` on eyes or lights, a `flicker()` on a glow, a lid that peeks open, coins that `cycle()` upward, a needle that `wave()`s.
 - Hover (`m.hover` 0..1) should intensify something (glow, speed, opening). A click (`pressBounce(m.pressAge)`) gives a reaction (flash, pop, spin).

@@ -16,7 +16,7 @@ import type { Browser } from 'playwright';
 import { BANNER_SIZES, resolveParams, variantNames, type Kind } from '../src/lib/types';
 import { ANGLES } from '../src/renderers/angles';
 import { ROOT, argValue, fail, hasFlag, latestDrop, launchBrowser, loadAssets, log, renderUrl, startSite, type LoadedAsset } from './lib/common';
-import { bundleVideos, renderVideo } from './lib/remotion';
+import { bundleVideos, renderPoster, renderVideo } from './lib/remotion';
 
 const date = argValue('drop') ?? latestDrop() ?? fail('no drops found');
 const kinds = ((argValue('kinds')?.split(',') as Kind[]) ?? ['icon', 'icon3d', 'banner', 'video']).filter(
@@ -126,6 +126,7 @@ if (videos.length || loops.length) {
     for (const v of variantNames(a.mod)) {
       const props = resolveParams(a.mod, v);
       await renderVideo({ serveUrl, id: a.id, props, out: path.join(OUT, a.id, v, `${a.slug}.mp4`) });
+      await renderPoster({ serveUrl, id: a.id, props, out: path.join(PREVIEWS, a.id, `${v}.png`) });
       await renderVideo({
         serveUrl,
         id: a.id,
