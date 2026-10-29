@@ -2,12 +2,12 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { bundle } from '@remotion/bundler';
 import { renderMedia, selectComposition } from '@remotion/renderer';
-import { compositionId } from '../../src/remotion/Root';
+import { compositionId, loopCompositionId } from '../../src/remotion/Root';
 import { ROOT, type LoadedAsset } from './common';
 
 const ENTRY_DIR = path.join(ROOT, '.remotion');
 
-/** Generate an entry that registers the given video assets, then bundle it. */
+/** Generate an entry that registers the given video and 3D-icon assets, then bundle it. */
 export async function bundleVideos(videos: LoadedAsset[]): Promise<string> {
   mkdirSync(ENTRY_DIR, { recursive: true });
   const imports = videos.map((v, i) => `import * as a${i} from '../${v.file.replace(/\.tsx$/, '')}';`).join('\n');
@@ -37,11 +37,16 @@ export async function renderVideo(opts: {
   id: string;
   props: Record<string, unknown>;
   out: string;
-  codec?: 'h264' | 'gif';
+  codec?: 'h264' | 'gif' | 'vp8';
   scale?: number;
   everyNthFrame?: number;
+  /** Render a 3D icon's loop composition instead of a video. */
+  loop?: boolean;
+  /** WebM with alpha channel (use with codec 'vp8'). */
+  transparent?: boolean;
 }) {
-  const composition = await selectComposition({ serveUrl: opts.serveUrl, id: compositionId(opts.id), inputProps: opts.props });
+  const id = opts.loop ? loopCompositionId(opts.id) : compositionId(opts.id);
+  const composition = await selectComposition({ serveUrl: opts.serveUrl, id, inputProps: opts.props });
   mkdirSync(path.dirname(opts.out), { recursive: true });
   await renderMedia({
     composition,
@@ -51,6 +56,8 @@ export async function renderVideo(opts: {
     inputProps: opts.props,
     scale: opts.scale ?? 1,
     everyNthFrame: opts.everyNthFrame ?? 1,
-    chromiumOptions: process.env.CI ? { gl: 'swangle' } : undefined,
+    ...(opts.transparent ? { imageFormat: 'png' as const, pixelFormat: 'yuva420p' as const } : {}),
+    // WebGL (3D loops) needs an explicit GL backend headlessly: software on CI, ANGLE locally.
+    chromiumOptions: { gl: process.env.CI ? 'swangle' : 'angle' },
   });
 }

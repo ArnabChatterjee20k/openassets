@@ -109,9 +109,19 @@ async function render3D(browser: Browser, url: string, a: LoadedAsset) {
 
 // ---- Videos: Remotion -------------------------------------------------------
 const videos = assets.filter((a) => a.kind === 'video');
-if (videos.length) {
+const loops = assets.filter((a) => a.kind === 'icon3d' && !hasFlag('no-video'));
+if (videos.length || loops.length) {
   log('  bundling Remotion…');
-  const serveUrl = await bundleVideos(videos);
+  const serveUrl = await bundleVideos([...videos, ...loops]);
+  // 3D icons: the default variant's micro-interaction loop (seamless, 4 s).
+  for (const a of loops) {
+    const props = resolveParams(a.mod);
+    const dir = path.join(OUT, a.id, 'default');
+    await renderVideo({ serveUrl, id: a.id, loop: true, props: { ...props, __background: '#F2F3F1' }, out: path.join(dir, `${a.slug}-loop.mp4`) });
+    await renderVideo({ serveUrl, id: a.id, loop: true, props, out: path.join(dir, `${a.slug}-loop.webm`), codec: 'vp8', transparent: true });
+    await renderVideo({ serveUrl, id: a.id, loop: true, props: { ...props, __background: '#F2F3F1' }, out: path.join(PREVIEWS, a.id, 'default.gif'), codec: 'gif', scale: 280 / 1080, everyNthFrame: 3 });
+    log(`  ✓ ${a.id} loop`);
+  }
   for (const a of videos) {
     for (const v of variantNames(a.mod)) {
       const props = resolveParams(a.mod, v);
