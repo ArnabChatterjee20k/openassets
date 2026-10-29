@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-30",
+  "theme": "openfeed Launch",
+  "description": "Launch kit for openfeed, a calm personalised daily reading archive: reader UI icons, a 3D page-stack hero, launch banner, a how-it-works tech video, an announcement video and an isometric reading-room scene.",
+  "palette": [
+    "#EEF1E6",
+    "#DCE3CC",
+    "#1E2A1A",
+    "#6A8D3A",
+    "#C9A227",
+    "#E85D3F"
+  ],
+  "direction": {
+    "palette": "Matcha",
+    "fonts": "70s sunshine"
+  }
+}
