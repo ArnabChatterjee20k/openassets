@@ -3,7 +3,8 @@
 # Used by .github/workflows/daily.yml and by `scripts/test-local.sh --generate`.
 #
 # Env: DATE, THEME, ICONS, ICONS3D, BANNERS, VIDEOS (see scripts/prepare-drop.ts),
-#      MAX_TURNS (default 300), SKIP_RENDER=1, RENDER_FLAGS (e.g. --no-video),
+#      MAX_TURNS (default 300), RENDER=1 to also batch-render full-res files locally
+#      (the site renders everything on demand, so CI skips this), RENDER_FLAGS,
 #      CLAUDE_MODEL (default claude-opus-5-5).
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -35,7 +36,7 @@ fi
 echo "→ independent validation"
 pnpm validate --drop "$DATE"
 
-if [ "${SKIP_RENDER:-}" != 1 ]; then
+if [ "${RENDER:-}" = 1 ]; then
   echo "→ rendering"
   pnpm render --drop "$DATE" ${RENDER_FLAGS:-}
 fi

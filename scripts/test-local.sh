@@ -2,8 +2,8 @@
 # Local test harness.
 #
 #   ./scripts/test-local.sh              quick: validate everything, check the validator
-#                                        rejects bad code, render latest drop (no video), build site
-#   ./scripts/test-local.sh --full       also render videos
+#                                        rejects bad code, build site
+#   ./scripts/test-local.sh --full       also batch-render the latest drop to out/ (full-res)
 #   ./scripts/test-local.sh --generate   also run the real generator (claude -p) for a small
 #                                        test drop (DATE defaults to today; THEME optional)
 #   ./scripts/test-local.sh --serve      finish by serving the built site at http://localhost:4173
@@ -61,11 +61,12 @@ if [ "$GENERATE" = 1 ]; then
   step "Generate a small test drop with claude -p"
   command -v claude >/dev/null || { echo "✗ claude CLI not found"; exit 1; }
   ICONS=${ICONS:-2} ICONS3D=${ICONS3D:-1} BANNERS=${BANNERS:-1} VIDEOS=${VIDEOS:-1} \
-    RENDER_FLAGS=$([ "$FULL" = 1 ] || echo --no-video) ./scripts/generate.sh
+    RENDER=$([ "$FULL" = 1 ] && echo 1) ./scripts/generate.sh
   ok "generated drops/$(cat .daily/date) (uncommitted — review with git status / pnpm dev)"
-else
-  step "Render latest drop$([ "$FULL" = 1 ] || echo ' (no video; use --full for video)')"
-  pnpm render $([ "$FULL" = 1 ] || echo --no-video)
+elif [ "$FULL" = 1 ]; then
+  # The site renders on demand; a batch render is only a local full-res check.
+  step "Batch-render latest drop (full-res, local only)"
+  pnpm render
 fi
 
 step "Build site"

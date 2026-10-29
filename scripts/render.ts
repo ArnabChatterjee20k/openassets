@@ -24,7 +24,8 @@ const kinds = ((argValue('kinds')?.split(',') as Kind[]) ?? ['icon', 'icon3d', '
 );
 
 const OUT = path.join(ROOT, 'out'); // asset ids already start with the date
-const PREVIEWS = path.join(ROOT, 'public', 'previews');
+// Local batch renders only; the site renders previews live, so nothing goes in public/.
+const PREVIEWS = path.join(ROOT, 'out', 'previews');
 const ICON_PNG_SIZES = [32, 64, 128, 256, 512];
 
 const write = (file: string, data: string | Buffer) => {

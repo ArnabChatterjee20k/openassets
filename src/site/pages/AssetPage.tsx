@@ -7,9 +7,7 @@ import { canvasToPng, download, iconSvg, nodeToPng, sceneToGlb, slugify, svgToPn
 import { ControlPanel } from '../editor/ControlPanel';
 import { href, replaceQuery } from '../router';
 import { useAsset } from '../useAsset';
-import { render3dLoop } from '@/renderers/offscreen3d';
-import { renderSceneLoop, sceneFrame } from '@/renderers/sceneExport';
-import { renderVideoOnWeb } from '@/renderers/webVideo';
+
 import { dropInfo } from '@/lib/registry';
 
 export function AssetPage({ id, query }: { id: string; query: URLSearchParams }) {
@@ -122,15 +120,15 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
           download(new Blob([await sceneToGlb(sceneRef.current.scene)], { type: 'model/gltf-binary' }), `${name}.glb`);
         },
       },
-      { label: 'Loop video', run: () => renderJob('loop', (p) => render3dLoop(mod.default, values, p), `${name}-loop`) },
+      { label: 'Loop video', run: () => renderJob('loop', async (p) => (await import('@/renderers/offscreen3d')).render3dLoop(mod.default, values, p), `${name}-loop`) },
     );
   } else if (mod.meta.kind === 'scene') {
     const sc = mod.scene!;
     const sceneSvg = () => iconSvg(mod, values).replace(/<svg width="\d+" height="\d+"/, `<svg width="${sc.width}" height="${sc.height}"`);
     exports.push(
       { label: 'Animated SVG', run: () => download(new Blob([sceneSvg()], { type: 'image/svg+xml' }), `${name}.svg`) },
-      { label: 'PNG', run: async () => download(await sceneFrame(mod, values, 0, 2), `${name}.png`) },
-      { label: 'MP4 loop', run: () => renderJob('loop', (p) => renderSceneLoop(mod, values, p), `${name}-loop`) },
+      { label: 'PNG', run: async () => download(await (await import('@/renderers/sceneExport')).sceneFrame(mod, values, 0, 2), `${name}.png`) },
+      { label: 'MP4 loop', run: () => renderJob('loop', async (p) => (await import('@/renderers/sceneExport')).renderSceneLoop(mod, values, p), `${name}-loop`) },
     );
     void sc;
   } else if (mod.meta.kind === 'banner') {
@@ -142,7 +140,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
     });
   } else {
     exports.push(
-      { label: 'MP4', run: () => renderJob('video', (p) => renderVideoOnWeb(mod, values, p), name) },
+      { label: 'MP4', run: () => renderJob('video', async (p) => (await import('@/renderers/webVideo')).renderVideoOnWeb(mod, values, p), name) },
       {
         label: 'props.json',
         run: () => download(new Blob([JSON.stringify(values, null, 2)], { type: 'application/json' }), `${name}.props.json`),

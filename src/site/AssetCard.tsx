@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import { Player, Thumbnail } from '@remotion/player';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { dropInfo } from '@/lib/registry';
 import { KIND_LABELS, resolveParams, type AssetModule, type AssetRef } from '@/lib/types';
 import { AssetView } from '@/renderers/AssetView';
-import { Scene3D } from '@/renderers/Scene3D';
 import { SceneView } from '@/renderers/SceneView';
-import { snapshot3d } from '@/renderers/offscreen3d';
+import { LazyPlayer as Player, LazyScene3D as Scene3D, LazyThumbnail as Thumbnail, loadOffscreen3d } from '@/renderers/lazy';
 import { href } from './router';
 import { useAsset } from './useAsset';
 
@@ -35,14 +33,21 @@ function LivePreview({ id, mod, hover }: { id: string; mod: AssetModule; hover: 
   useEffect(() => {
     if (kind !== 'icon3d') return;
     let live = true;
-    snapshot3d(id, mod.default, resolveParams(mod)).then((url) => live && setStill(url));
+    loadOffscreen3d()
+      .then(({ snapshot3d }) => snapshot3d(id, mod.default, resolveParams(mod)))
+      .then((url) => live && setStill(url));
     return () => {
       live = false;
     };
   }, [id, mod, kind]);
 
   if (kind === 'icon3d') {
-    if (hover) return <Scene3D Component={mod.default} params={params} mode="interaction" interactive />;
+    if (hover)
+      return (
+        <Suspense fallback={still ? <img className="preview-img" src={still} alt="" /> : <div className="skeleton" />}>
+          <Scene3D Component={mod.default} params={params} mode="interaction" interactive />
+        </Suspense>
+      );
     return still ? <img className="preview-img" src={still} alt="" /> : <div className="skeleton" />;
   }
 
@@ -64,11 +69,13 @@ function LivePreview({ id, mod, hover }: { id: string; mod: AssetModule; hover: 
     };
     return (
       <div className="fill">
+        <Suspense fallback={<div className="skeleton" />}>
         {hover ? (
           <Player {...common} autoPlay loop initiallyMuted acknowledgeRemotionLicense />
         ) : (
           <Thumbnail {...common} frameToDisplay={Math.round(v.durationInFrames * 0.7)} />
         )}
+        </Suspense>
       </div>
     );
   }

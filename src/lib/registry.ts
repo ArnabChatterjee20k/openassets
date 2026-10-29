@@ -25,8 +25,6 @@ export function loadAsset(id: string): Promise<AssetModule> {
   return cache.get(id)!;
 }
 
-export const previewUrl = (id: string, variant: string, ext: 'png' | 'gif') =>
-  `${import.meta.env.BASE_URL}previews/${id}/${variant}.${ext}`;
 
 /** Every asset across all drops, newest drop first. */
 export const allAssets: AssetRef[] = [...refs].sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));

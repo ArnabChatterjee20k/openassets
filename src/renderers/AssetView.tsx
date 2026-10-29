@@ -1,9 +1,9 @@
 // Renders any asset kind for on-screen preview. Used by gallery cards, the
 // editor and the headless render page.
-import { useEffect, useRef, useState, type CSSProperties, type Ref } from 'react';
-import { Player, Thumbnail } from '@remotion/player';
+import { Suspense, useEffect, useRef, useState, type CSSProperties, type Ref } from 'react';
 import { BANNER_SIZES, type AssetModule } from '@/lib/types';
-import { Scene3D, type Angle, type MotionMode, type SceneHandle } from './Scene3D';
+import type { Angle, MotionMode, SceneHandle } from './Scene3D';
+import { LazyPlayer as Player, LazyScene3D as Scene3D, LazyThumbnail as Thumbnail } from './lazy';
 import { SceneView } from './SceneView';
 
 export interface ViewOptions {
@@ -62,6 +62,7 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
   if (kind === 'icon3d') {
     return (
       <div ref={opts.nodeRef} style={{ width: '100%', height: '100%' }}>
+        <Suspense fallback={<div className="skeleton" />}>
         <Scene3D
           Component={Comp}
           params={params}
@@ -72,6 +73,7 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
           time={opts.time}
           onReady={opts.onSceneReady}
         />
+        </Suspense>
       </div>
     );
   }
@@ -113,11 +115,13 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
   };
   return (
     <div ref={opts.nodeRef} style={fit && vertical ? { height: opts.interactive ? '70vh' : '100%' } : undefined}>
-      {opts.interactive ? (
-        <Player {...common} controls loop autoPlay acknowledgeRemotionLicense />
-      ) : (
-        <Thumbnail {...common} frameToDisplay={opts.frame ?? Math.floor(v.durationInFrames / 2)} />
-      )}
+      <Suspense fallback={<div className="skeleton" />}>
+        {opts.interactive ? (
+          <Player {...common} controls loop autoPlay acknowledgeRemotionLicense />
+        ) : (
+          <Thumbnail {...common} frameToDisplay={opts.frame ?? Math.floor(v.durationInFrames / 2)} />
+        )}
+      </Suspense>
     </div>
   );
 }
