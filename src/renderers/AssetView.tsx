@@ -72,6 +72,11 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
   }
 
   const v = mod.video!;
+  // Vertical (story) videos fit to height instead of width.
+  const vertical = v.height > v.width;
+  const fitStyle: CSSProperties = vertical
+    ? { height: '100%', aspectRatio: `${v.width} / ${v.height}`, margin: '0 auto' }
+    : { width: '100%' };
   const common = {
     component: Comp,
     inputProps: params,
@@ -79,10 +84,10 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
     compositionHeight: v.height,
     durationInFrames: v.durationInFrames,
     fps: v.fps,
-    style: fit ? { width: '100%' } : { width: v.width, height: v.height },
+    style: fit ? fitStyle : { width: v.width, height: v.height },
   };
   return (
-    <div ref={opts.nodeRef}>
+    <div ref={opts.nodeRef} style={fit && vertical ? { height: opts.interactive ? '70vh' : '100%' } : undefined}>
       {opts.interactive ? (
         <Player {...common} controls loop autoPlay acknowledgeRemotionLicense />
       ) : (

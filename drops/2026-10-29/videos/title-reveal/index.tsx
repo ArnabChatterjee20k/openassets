@@ -7,6 +7,7 @@ import type { AssetMeta, VideoConfig } from '@/lib/types';
 export const meta: AssetMeta = {
   kind: 'video',
   name: 'Title Reveal',
+  category: 'intro',
   description: 'Lightning-flash intro: title slams in, subtitle fades up. Drop in your own logo or photo.',
   tags: ['intro', 'title', 'youtube'],
 };

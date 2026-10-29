@@ -19,9 +19,28 @@ export const KIND_LABELS: Record<Kind, string> = {
   video: 'Video Templates',
 };
 
+/** Occasions/use-cases for video templates. The daily drop rotates through these. */
+export const VIDEO_CATEGORIES = [
+  'launch',
+  'tech',
+  'greeting',
+  'announcement',
+  'countdown',
+  'promo',
+  'quote',
+  'event',
+  'thank-you',
+  'milestone',
+  'intro',
+  'lower-third',
+] as const;
+export type VideoCategory = (typeof VIDEO_CATEGORIES)[number];
+
 export interface AssetMeta {
   kind: Kind;
   name: string;
+  /** Required for videos: what occasion the template is for. */
+  category?: VideoCategory;
   description?: string;
   tags?: string[];
 }

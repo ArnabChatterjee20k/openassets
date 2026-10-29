@@ -11,7 +11,7 @@ import fg from 'fast-glob';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { z } from 'zod';
-import { BANNER_SIZES, KIND_DIRS, resolveParams, variantNames } from '../src/lib/types';
+import { BANNER_SIZES, KIND_DIRS, VIDEO_CATEGORIES, resolveParams, variantNames } from '../src/lib/types';
 import { ROOT, argValue, hasFlag, launchBrowser, listDrops, loadAssets, log, renderUrl, startSite } from './lib/common';
 
 const drop = argValue('drop');
@@ -90,6 +90,7 @@ for (const a of assets) {
     if (!r.success) err(where, `variant "${v}" is invalid: ${r.error.issues.map((i) => `${i.path}: ${i.message}`).join('; ')}`);
   }
   if (a.kind === 'video') {
+    if (!VIDEO_CATEGORIES.includes(mod.meta?.category as never)) err(where, `meta.category must be one of: ${VIDEO_CATEGORIES.join(', ')}`);
     const v = mod.video;
     if (!v || v.width < 100 || v.height < 100 || v.fps < 1 || v.durationInFrames < 1) err(where, 'video config {width,height,fps,durationInFrames} required');
     else if (v.durationInFrames / v.fps > 20) err(where, 'videos must be 20 seconds or shorter');

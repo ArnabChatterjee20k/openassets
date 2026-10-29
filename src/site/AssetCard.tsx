@@ -21,7 +21,10 @@ export function AssetCard({ asset }: { asset: AssetRef }) {
     <a className={`card card-${asset.kind}`} href={href(`/asset/${asset.id}`)}>
       <div className="card-preview">{body}</div>
       <div className="card-meta">
-        <strong>{mod?.meta.name ?? asset.slug}</strong>
+        <strong>
+          {mod?.meta.name ?? asset.slug}
+          {mod?.meta.category && <span className="chip">{mod.meta.category}</span>}
+        </strong>
         {mod && <span className="muted">{Object.keys(mod.variants).length + 1} variants</span>}
       </div>
     </a>

@@ -127,7 +127,9 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
         <div className="crumbs muted">
           <a href={href(`/drop/${date}`)}>{date}</a> / {KIND_LABELS[kind]} / {slug}
         </div>
-        <h1>{mod.meta.name}</h1>
+        <h1>
+          {mod.meta.name} {mod.meta.category && <span className="chip">{mod.meta.category}</span>}
+        </h1>
         {mod.meta.description && <p className="muted">{mod.meta.description}</p>}
 
         <div className={`stage stage-${kind}`}>

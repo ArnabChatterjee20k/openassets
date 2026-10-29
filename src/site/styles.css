@@ -422,3 +422,20 @@ button.ghost {
 .card-error {
   color: #d33;
 }
+
+.chip {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  vertical-align: middle;
+  background: var(--surface-2);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+h1 .chip {
+  font-size: 0.8rem;
+}
