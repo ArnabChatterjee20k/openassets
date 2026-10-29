@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { color, font, image, num, text, textarea } from '@/lib/params';
 import { FONTS } from '@/lib/fonts';
 import type { AssetMeta, VideoConfig } from '@/lib/types';
-import { Backdrop, Dust, FilmOverlay, Glint, SweepReveal, WordsIn, clamp, ease, gradientText, hexA, keys, mix, prog, rand, tempo } from '@/kit';
+import { Backdrop, Dust, FilmOverlay, Glint, SweepReveal, WordsIn, clamp, ease, gradientText, hexA, keys, mix, prog, rand, tempo, displayFace } from '@/kit';
 
 export const meta: AssetMeta = {
   kind: 'video',
@@ -23,19 +23,19 @@ export const schema = z.object({
   message: textarea().default('Wishing you a year full of electric moments.'),
   from: text('Signed').default('— from all of us'),
   photo: image('Photo (optional)').default(''),
-  font: font('Name font').default('serif'),
-  background: color().default('#0A0A1F'),
-  accent: color().default('#FFD34E'),
-  confettiA: color('Confetti 1').default('#8B9CFF'),
-  confettiB: color('Confetti 2').default('#FF6FAE'),
-  textColor: color('Text').default('#FFF8EE'),
+  font: font('Name font').default('instrument'),
+  background: color().default('#0D1B1E'),
+  accent: color().default('#D4FF3A'),
+  confettiA: color('Confetti 1').default('#3FA7A0'),
+  confettiB: color('Confetti 2').default('#FF5A36'),
+  textColor: color('Text').default('#EAF4EF'),
   confetti: num(0, 220, 10, 'Confetti amount').default(160),
 });
 
 export const variants: Record<string, Partial<z.input<typeof schema>>> = {
-  pastel: { background: '#FFF1E6', textColor: '#2B2340', accent: '#FF5C8A', confettiA: '#6EC6FF', confettiB: '#FFC93C' },
-  neon: { font: 'grotesk', background: '#05030F', accent: '#7CFFB2', confettiA: '#B26CFF', confettiB: '#3BE0FF', greeting: 'HAPPY BIRTHDAY' },
-  calm: { confetti: 0, background: '#14110E', accent: '#E8C99B', confettiA: '#C9A27A', confettiB: '#F4E3C3', message: 'Here’s to another trip around the sun.' },
+  candy: { font: 'fredoka', background: '#FDF3F8', textColor: '#3A1F4A', accent: '#FF7EB6', confettiA: '#8A7BFF', confettiB: '#4FD1C5' },
+  acid: { font: 'unbounded', background: '#0B0B0B', textColor: '#F0FFE0', accent: '#C6FF00', confettiA: '#FF00E5', confettiB: '#00F0FF', greeting: 'HAPPY BIRTHDAY' },
+  gold: { font: 'bodoni', confetti: 40, background: '#0D0D0F', textColor: '#F3EDE2', accent: '#C9A45C', confettiA: '#E8D9B5', confettiB: '#6E6A62', message: 'Here’s to another trip around the sun.' },
 };
 
 type P = z.infer<typeof schema>;
@@ -114,8 +114,7 @@ export default function BirthdayWish(p: P) {
     width: W,
     top: nameY,
     textAlign: 'center' as const,
-    fontFamily: FONTS[p.font],
-    fontWeight: 700,
+    ...displayFace(p.font),
     fontSize: NAME,
     lineHeight: 1,
     letterSpacing: '-0.03em',
@@ -166,9 +165,9 @@ export default function BirthdayWish(p: P) {
             width: W,
             top: nameY - 110,
             textAlign: 'center',
-            fontFamily: FONTS.inter,
+            fontFamily: FONTS.spacemono,
             fontWeight: 700,
-            fontSize: 54,
+            fontSize: 50,
             letterSpacing: '0.24em',
             textTransform: 'uppercase',
             color: p.accent,
@@ -193,7 +192,7 @@ export default function BirthdayWish(p: P) {
           frame={frame}
           start={BOOM + T.beats(2)}
           stagger={5}
-          style={{ position: 'absolute', left: 110, width: W - 220, top: nameY + NAME + 70, justifyContent: 'center', textAlign: 'center', fontFamily: FONTS.inter, fontSize: 52, lineHeight: 1.35 }}
+          style={{ position: 'absolute', left: 110, width: W - 220, top: nameY + NAME + 70, justifyContent: 'center', textAlign: 'center', fontFamily: FONTS.sora, fontSize: 50, lineHeight: 1.35 }}
         />
         <div
           style={{

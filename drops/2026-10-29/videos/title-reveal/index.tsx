@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { color, font, image, text } from '@/lib/params';
 import { FONTS } from '@/lib/fonts';
 import type { AssetMeta, VideoConfig } from '@/lib/types';
-import { Backdrop, FilmOverlay, Glint, SweepReveal, WordsIn, ease, gradientText, hexA, keys, mix, prog, rand, tempo } from '@/kit';
+import { Backdrop, FilmOverlay, Glint, SweepReveal, WordsIn, ease, gradientText, hexA, keys, mix, prog, rand, tempo, displayFace } from '@/kit';
 
 export const meta: AssetMeta = {
   kind: 'video',
@@ -20,18 +20,18 @@ export const video: VideoConfig = { width: 1920, height: 1080, fps: FPS, duratio
 export const schema = z.object({
   title: text().default('MIDNIGHT WEATHER'),
   subtitle: text().default('Episode 01 — The Storm'),
-  font: font().default('grotesk'),
-  background: color().default('#05070F'),
-  bolt: color('Lightning').default('#CFD8FF'),
-  accent: color().default('#FFD34E'),
-  textColor: color('Text').default('#F5F7FF'),
+  font: font().default('unbounded'),
+  background: color().default('#0A1517'),
+  bolt: color('Lightning').default('#E6FFB3'),
+  accent: color().default('#D4FF3A'),
+  textColor: color('Text').default('#EAF4EF'),
   logo: image('Logo (optional)').default(''),
 });
 
 export const variants: Record<string, Partial<z.input<typeof schema>>> = {
-  violet: { bolt: '#D9B8FF', accent: '#B07CFF', background: '#08040F' },
-  editorial: { font: 'serif', title: 'Midnight Weather', accent: '#E8D3A6', bolt: '#FFF3DA' },
-  terminal: { font: 'mono', title: 'midnight_weather', accent: '#7CFFB2', bolt: '#B6FFD6', background: '#020806' },
+  ultraviolet: { bolt: '#E7B8FF', accent: '#FF2E88', background: '#12001F', textColor: '#FBEFFF', font: 'syne' },
+  couture: { font: 'bodoni', title: 'Midnight Weather', accent: '#C9A45C', bolt: '#F3EDE2', background: '#0D0D0F', textColor: '#F3EDE2' },
+  terminal: { font: 'vt323', title: 'midnight_weather', accent: '#C6FF00', bolt: '#F0FFE0', background: '#0B0B0B', textColor: '#F0FFE0' },
 };
 
 type P = z.infer<typeof schema>;
@@ -131,8 +131,7 @@ export default function StormTitle(p: P) {
     width: W,
     top: titleY - TITLE / 2,
     textAlign: 'center' as const,
-    fontFamily: FONTS[p.font],
-    fontWeight: 700,
+    ...displayFace(p.font),
     fontSize: TITLE,
     lineHeight: 1,
     letterSpacing: p.font === 'serif' ? '-0.02em' : '0.02em',
@@ -179,7 +178,7 @@ export default function StormTitle(p: P) {
         {frame >= STRIKE && (
           <>
             <SweepReveal frame={frame} start={STRIKE + 2} dur={28} blur={22} style={titleBlock}>
-              <span style={gradientText(`linear-gradient(175deg, #ffffff 20%, ${p.textColor} 50%, ${hexA(p.bolt, 1)} 110%)`, TITLE)}>{p.title}</span>
+              <span style={gradientText(`linear-gradient(175deg, ${p.textColor} 30%, ${hexA(p.bolt, 1)} 70%, ${p.accent} 120%)`, TITLE)}>{p.title}</span>
             </SweepReveal>
             <Glint frame={frame} start={STRIKE2 + 4} dur={40} style={titleBlock}>
               {p.title}
@@ -192,7 +191,7 @@ export default function StormTitle(p: P) {
           text={p.subtitle}
           frame={frame}
           start={STRIKE + 40}
-          style={{ position: 'absolute', width: W, top: titleY + TITLE * 0.62 + 34, justifyContent: 'center', fontFamily: FONTS.inter, fontSize: 46, color: hexA(p.textColor, 0.85) }}
+          style={{ position: 'absolute', width: W, top: titleY + TITLE * 0.62 + 34, justifyContent: 'center', fontFamily: FONTS.spacemono, fontSize: 40, letterSpacing: '0.12em', textTransform: 'uppercase', color: hexA(p.textColor, 0.85) }}
         />
       </AbsoluteFill>
 

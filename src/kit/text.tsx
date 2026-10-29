@@ -1,6 +1,7 @@
 // Title treatments: masked sweep reveal with blur-to-sharp, gradient fill,
 // and a specular glint. These are what make a title feel "designed".
 import type { CSSProperties, ReactNode } from 'react';
+import { FONT_INFO, type FontInfo, type FontKey } from '@/lib/fonts';
 import { clamp, ease, mix, prog } from './anim';
 
 /** background-clip gradient text. Pads the bottom so descenders aren't clipped. */
@@ -109,4 +110,17 @@ export function WordsIn({
       })}
     </div>
   );
+}
+
+/**
+ * Font styles for a hero face: the font's heaviest bundled weight (avoids faux
+ * bold on single-weight faces) and, for faces whose italic is their strength,
+ * italic. Spread into a style object.
+ */
+export function displayFace(key: FontKey, opts: { italic?: boolean; weight?: number } = {}): CSSProperties {
+  const info: FontInfo = FONT_INFO[key];
+  const weight = opts.weight && info.weights.includes(opts.weight) ? opts.weight : Math.max(...info.weights);
+  const italicFaces: FontKey[] = ['instrument', 'bodoni', 'dmserif'];
+  const italic = opts.italic ?? (info.italic === true && italicFaces.includes(key));
+  return { fontFamily: info.stack, fontWeight: weight, fontStyle: italic ? 'italic' : 'normal' };
 }

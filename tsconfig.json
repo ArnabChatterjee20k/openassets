@@ -10,6 +10,7 @@
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
+    "noUncheckedSideEffectImports": false,
     "types": ["vite/client", "node"],
     "paths": { "@/*": ["./src/*"] }
   },

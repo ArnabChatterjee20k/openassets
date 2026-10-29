@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { color, font, image, text, toggle } from '@/lib/params';
 import { FONTS } from '@/lib/fonts';
 import type { AssetMeta, VideoConfig } from '@/lib/types';
-import { Backdrop, Dust, FilmOverlay, Glint, Streaks, SweepReveal, WordsIn, clamp, ease, gradientText, hexA, keys, mix, prog, tempo } from '@/kit';
+import { Backdrop, Dust, FilmOverlay, Glint, Streaks, SweepReveal, WordsIn, clamp, ease, gradientText, hexA, keys, mix, prog, tempo, displayFace } from '@/kit';
 
 export const meta: AssetMeta = {
   kind: 'video',
@@ -23,20 +23,20 @@ export const schema = z.object({
   product: text('Product name').default('Stormcast'),
   tagline: text().default('Forecasts that strike first.'),
   cta: text('Call to action').default('Live now  →  stormcast.app'),
-  font: font().default('grotesk'),
-  background: color().default('#07091A'),
-  accent: color().default('#FFD34E'),
-  accent2: color('Second light').default('#5B5FFF'),
-  textColor: color('Text').default('#F5F7FF'),
+  font: font().default('unbounded'),
+  background: color().default('#0D1B1E'),
+  accent: color().default('#D4FF3A'),
+  accent2: color('Second light').default('#3FA7A0'),
+  textColor: color('Text').default('#EAF4EF'),
   productImage: image('Product shot (optional)').default(''),
   countdown: toggle('3-2-1 countdown').default(true),
 });
 
 export const variants: Record<string, Partial<z.input<typeof schema>>> = {
   'no-countdown': { countdown: false },
-  ember: { background: '#140806', accent: '#FF7A45', accent2: '#FF2E63', textColor: '#FFF4EE' },
-  aurora: { background: '#03120F', accent: '#7CFFB2', accent2: '#3BC8FF', font: 'inter' },
-  editorial: { background: '#0E0D0B', accent: '#F2E6CF', accent2: '#B08D57', font: 'serif', eyebrow: 'Now available' },
+  lava: { background: '#1A0A06', accent: '#FF4D00', accent2: '#FFB000', textColor: '#FFEDE0', font: 'anton' },
+  riso: { background: '#F4EFE6', accent: '#FF48B0', accent2: '#0078BF', textColor: '#1F2A6B', font: 'syne' },
+  couture: { background: '#0D0D0F', accent: '#C9A45C', accent2: '#6E6A62', textColor: '#F3EDE2', font: 'bodoni', eyebrow: 'Now available' },
 };
 
 type P = z.infer<typeof schema>;
@@ -59,12 +59,11 @@ function Digit({ n, frame, at, p, cx, cy }: { n: number; frame: number; at: numb
           inset: 0,
           display: 'grid',
           placeItems: 'center',
-          fontFamily: FONTS[p.font],
-          fontWeight: 700,
+          ...displayFace(p.font),
           fontSize: 380,
           lineHeight: 1,
           letterSpacing: '-0.04em',
-          ...gradientText(`linear-gradient(170deg, #ffffff 10%, ${p.accent} 90%)`, 380),
+          ...gradientText(`linear-gradient(170deg, ${p.textColor} 10%, ${p.accent} 90%)`, 380),
           scale: String(mix(1.35, 1, inT) * mix(1, 0.86, outT)),
           opacity: inT * (1 - outT),
           filter: `blur(${mix(18, 0, inT) + outT * 14}px)`,
@@ -93,15 +92,14 @@ export default function ProductLaunch(p: P) {
   const outro = prog(frame, end - 36, 36, ease.inOut);
   const titleY = p.productImage ? cy + 70 : cy - 20;
   const TITLE = p.product.length > 12 ? 150 : 196;
-  const gradient = `linear-gradient(160deg, #ffffff 0%, ${hexA(p.textColor, 1)} 45%, ${p.accent} 120%)`;
+  const gradient = `linear-gradient(160deg, ${p.textColor} 0%, ${p.textColor} 50%, ${p.accent} 130%)`;
   const titleBlock = {
     position: 'absolute' as const,
     left: 0,
     width: W,
     top: titleY - TITLE / 2,
     textAlign: 'center' as const,
-    fontFamily: FONTS[p.font],
-    fontWeight: 700,
+    ...displayFace(p.font),
     fontSize: TITLE,
     lineHeight: 1,
     letterSpacing: '-0.04em',
@@ -162,7 +160,7 @@ export default function ProductLaunch(p: P) {
             width: W,
             top: titleY - TITLE / 2 - 70,
             textAlign: 'center',
-            fontFamily: FONTS.mono,
+            fontFamily: FONTS.spacemono,
             fontSize: 32,
             letterSpacing: '0.32em',
             textTransform: 'uppercase',
@@ -190,7 +188,7 @@ export default function ProductLaunch(p: P) {
           text={p.tagline}
           frame={frame}
           start={IMPACT + 28}
-          style={{ position: 'absolute', width: W, top: titleY + TITLE * 0.62, justifyContent: 'center', fontFamily: FONTS.inter, fontSize: 48, opacity: 0.86 }}
+          style={{ position: 'absolute', width: W, top: titleY + TITLE * 0.62, justifyContent: 'center', fontFamily: FONTS.sora, fontSize: 48, opacity: 0.86 }}
         />
 
         {/* Bar-3 accent: a light line draws under the tagline on the downbeat */}
@@ -219,7 +217,7 @@ export default function ProductLaunch(p: P) {
         >
           <div
             style={{
-              fontFamily: FONTS.mono,
+              fontFamily: FONTS.spacemono,
               fontSize: 34,
               padding: '20px 38px',
               borderRadius: 999,

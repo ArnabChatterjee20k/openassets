@@ -14,18 +14,18 @@ export const meta: AssetMeta = {
 
 export const schema = z.object({
   material: select(['clay', 'glossy', 'metal', 'glass']).default('clay'),
-  cloudColor: color('Cloud').default('#9AA6FF'),
-  boltColor: color('Bolt').default('#FFC21A'),
-  dropColor: color('Raindrops').default('#5B8CFF'),
+  cloudColor: color('Cloud').default('#8FD3CB'),
+  boltColor: color('Bolt').default('#D4FF3A'),
+  dropColor: color('Raindrops').default('#3FA7A0'),
   puffiness: num(0.8, 1.2, 0.05).default(1),
   drops: num(0, 3, 1, 'Raindrops').default(2),
 });
 
 export const variants: Record<string, Partial<z.input<typeof schema>>> = {
-  glossy: { material: 'glossy', cloudColor: '#7F8CFF' },
-  metal: { material: 'metal', cloudColor: '#D5DAE3', boltColor: '#F2A81C', dropColor: '#9FB8D8' },
-  glass: { material: 'glass', cloudColor: '#C9D2FF', drops: 0 },
-  night: { cloudColor: '#4B4FD6', boltColor: '#FFE27A', dropColor: '#8B9CFF' },
+  glossy: { material: 'glossy', cloudColor: '#3FA7A0', boltColor: '#FF5A36' },
+  metal: { material: 'metal', cloudColor: '#D5DAE3', boltColor: '#C9A45C', dropColor: '#9FB8D8' },
+  glass: { material: 'glass', cloudColor: '#CDEFE9', drops: 0 },
+  riso: { cloudColor: '#FF7EB6', boltColor: '#FFE800', dropColor: '#0078BF' },
 };
 
 type P = z.infer<typeof schema>;

@@ -11,8 +11,8 @@ export const meta: AssetMeta = {
 
 export const schema = z.object({
   style: select(['outline', 'filled', 'duotone']).default('outline'),
-  primary: color('Cloud').default('#3B3FD8'),
-  accent: color('Bolt').default('#FFD34E'),
+  primary: color('Cloud').default('#16302F'),
+  accent: color('Bolt').default('#FF5A36'),
   stroke: num(1, 3, 0.25, 'Stroke width').default(1.75),
   rounded: toggle('Rounded joins').default(true),
 });
@@ -21,7 +21,8 @@ export const variants: Record<string, Partial<z.input<typeof schema>>> = {
   filled: { style: 'filled' },
   duotone: { style: 'duotone' },
   bold: { stroke: 2.75 },
-  mono: { primary: '#0B1026', accent: '#0B1026' },
+  mono: { primary: '#0D1B1E', accent: '#0D1B1E' },
+  riso: { primary: '#0078BF', accent: '#FF48B0' },
   sharp: { rounded: false, stroke: 2 },
 };
 

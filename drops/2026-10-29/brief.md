@@ -2,11 +2,13 @@
 
 **Idea.** The few seconds before and during a night storm: deep indigo dark, then everything lit at once by electric yellow. Calm, then *hit*.
 
-**Palette.** `#07091A` night (base) · `#3B3FD8` / `#5B5FFF` indigo (secondary light, radar, clouds) · `#8B9CFF` haze (soft fills) · `#FFD34E` lightning (accent — reserved for the hit) · `#F5F7FF` moonlight (text).
+**Reference.** Y2K weather-channel graphics meets Wolfgang Tillmans' green-tinted night photos.
 
-**Type.** Space Grotesk bold, tight tracking for headlines; JetBrains Mono uppercase, wide tracking for eyebrows/data; Playfair for editorial variants.
+**Palette "Storm Teal".** `#0D1B1E` storm sky (bg) · `#16302F` cloud bank (surface) · `#EAF4EF` mist (ink) · `#D4FF3A` chartreuse electricity (accent — reserved for the hit) · `#3FA7A0` sea-glass teal (accent2) · `#FF5A36` coral spark (pop, tiny doses). Variants borrow Risograph, Lava, Ink & Gold, Candy and Acid.
 
-**Shared motif.** Lightning as the accent: a single yellow element per asset that carries the energy (bolt, flash, CTA, radar blips). Everything else stays cool.
+**Type "Y2K tech".** Unbounded (wide, loud) for heroes; Sora for copy; Space Mono uppercase, wide-tracked for labels and data. Instrument Serif italic for the birthday name and editorial variants.
+
+**Shared motif.** Lightning as the accent: a single chartreuse element per asset that carries the energy (bolt, flash, CTA, radar blips). Everything else stays cool.
 
 **Assets.**
 - Icons: weather set (cloud-bolt, cloud-rain, moon-cloud, wind) — one cloud silhouette, 1.75 stroke, round joins; accent only on the weather element.

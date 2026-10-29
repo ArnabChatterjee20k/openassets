@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { color, font, image, text, textarea } from '@/lib/params';
 import { FONTS } from '@/lib/fonts';
 import type { AssetMeta, BannerSize } from '@/lib/types';
-import { Backdrop, gradientText, hexA, rand } from '@/kit';
+import { Backdrop, displayFace, gradientText, hexA, rand } from '@/kit';
 
 export const meta: AssetMeta = {
   kind: 'banner',
@@ -18,18 +18,18 @@ export const schema = z.object({
   cta: text('Button (empty to hide)').default('Get the app'),
   chip1: text('Chip 1').default('92% chance of lightning'),
   chip2: text('Chip 2').default('Gusts 48 km/h · NE'),
-  font: font('Headline font').default('grotesk'),
-  background: color().default('#060818'),
-  accent: color().default('#FFD34E'),
-  accent2: color('Radar').default('#5B5FFF'),
-  textColor: color('Text').default('#F5F7FF'),
+  font: font('Headline font').default('unbounded'),
+  background: color().default('#0D1B1E'),
+  accent: color().default('#D4FF3A'),
+  accent2: color('Radar').default('#3FA7A0'),
+  textColor: color('Text').default('#EAF4EF'),
   logo: image('Logo (optional)').default(''),
 });
 
 export const variants: Record<string, Partial<z.input<typeof schema>>> = {
-  daylight: { background: '#EEF1FF', textColor: '#0B1026', accent: '#3B3FD8', accent2: '#8B9CFF' },
-  ember: { background: '#120706', accent: '#FF8A3D', accent2: '#FF3D6E', textColor: '#FFF2EA', headline: 'Heatwave incoming.' },
-  editorial: { font: 'serif', headline: 'The calm before.', accent: '#E8D3A6', accent2: '#7A7FA8', cta: '' },
+  riso: { font: 'syne', background: '#F4EFE6', textColor: '#1F2A6B', accent: '#FF48B0', accent2: '#0078BF' },
+  lava: { font: 'anton', background: '#1A0A06', accent: '#FF4D00', accent2: '#FFB000', textColor: '#FFEDE0', headline: 'HEATWAVE INCOMING.' },
+  couture: { font: 'instrument', headline: 'The calm before.', background: '#0D0D0F', textColor: '#F3EDE2', accent: '#C9A45C', accent2: '#6E6A62', cta: '' },
   minimal: { chip1: '', chip2: '', cta: '', eyebrow: 'Forecast' },
 };
 
@@ -113,7 +113,7 @@ function Chip({ x, right, y, size, label, p }: { x?: number; right?: number; y: 
         gap: size * 0.6,
         padding: `${size * 0.7}px ${size * 1.1}px`,
         borderRadius: size * 0.8,
-        fontFamily: FONTS.mono,
+        fontFamily: FONTS.spacemono,
         fontSize: size,
         whiteSpace: 'nowrap',
         color: p.textColor,
@@ -150,7 +150,7 @@ export default function ForecastRadar(p: P) {
   const dark = isDark(p.background);
 
   return (
-    <div style={{ width: W, height: H, position: 'relative', overflow: 'hidden', color: p.textColor, fontFamily: FONTS.inter }}>
+    <div style={{ width: W, height: H, position: 'relative', overflow: 'hidden', color: p.textColor, fontFamily: FONTS.sora }}>
       <Backdrop
         base={p.background}
         grid={{ opacity: dark ? 0.07 : 0.12, size: Math.round(H / 22), color: dark ? '255,255,255' : '11,16,38' }}
@@ -187,7 +187,7 @@ export default function ForecastRadar(p: P) {
               border: `1px solid ${hexA(p.accent, 0.45)}`,
               background: hexA(p.accent, 0.08),
               color: p.accent,
-              fontFamily: FONTS.mono,
+              fontFamily: FONTS.spacemono,
               fontSize: small * 0.85,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -199,11 +199,10 @@ export default function ForecastRadar(p: P) {
         </div>
         <div
           style={{
-            fontFamily: FONTS[p.font],
-            fontWeight: 700,
+            ...displayFace(p.font),
             fontSize: head,
             lineHeight: 1.02,
-            letterSpacing: p.font === 'serif' ? '-0.01em' : '-0.035em',
+            letterSpacing: p.font === 'instrument' || p.font === 'anton' ? '-0.01em' : '-0.035em',
             marginTop: small * 0.9,
             ...gradientText(`linear-gradient(170deg, ${p.textColor} 40%, ${hexA(p.accent2, 1)} 140%)`, head),
           }}
