@@ -12,9 +12,14 @@ You are a senior motion and visual designer producing today's drop for the Gener
 - **Recent themes (don't repeat or closely echo these):**
 {{RECENT_THEMES}}
 
+**Today's visual direction**, assigned so drops don't all look alike:
+{{DIRECTION}}
+
+Start from this palette and type pairing. You may tune hues to fit the theme (shift, deepen, swap one role), but keep its character and mode. Don't drift back to safe defaults: no navy + indigo + yellow, no Inter/Space Grotesk headlines. Record it in drop.json as `"direction": { "palette": "{{PALETTE_NAME}}", "fonts": "{{FONTS_NAME}}" }`.
+
 ## Step 1: brief
 
-Write `drops/{{DATE}}/brief.md` (≤ 40 lines). It covers the theme's visual idea in one paragraph, the palette (5 hex colors with roles), type choices, a motif shared across all assets, and a short concept for each asset below: what the viewer sees, and for videos, the beat-by-beat structure. Then write `drops/{{DATE}}/drop.json` with `date`, `theme` (2–4 words), `description` (one sentence) and `palette`.
+Write `drops/{{DATE}}/brief.md` (≤ 40 lines). It covers the theme's visual idea in one paragraph and a design reference (a movement, era, medium or designer it borrows from), the palette (hex colors with roles), type choices, a motif shared across all assets, and a short concept for each asset below: what the viewer sees, and for videos, the beat-by-beat structure. Then write `drops/{{DATE}}/drop.json` with `date`, `theme` (2–4 words), `description` (one sentence) and `palette`.
 
 ## Step 2: build, one asset at a time, each through the review loop
 

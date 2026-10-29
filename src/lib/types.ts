@@ -86,6 +86,8 @@ export interface DropInfo {
   theme: string;
   description: string;
   palette: string[];
+  /** Names from PALETTES / FONT_PAIRINGS the drop started from (used to rotate directions). */
+  direction?: { palette: string; fonts: string };
 }
 
 export interface AssetRef {

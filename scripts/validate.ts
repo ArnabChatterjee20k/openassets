@@ -29,7 +29,7 @@ try {
 // ---- 2. Static safety rules for generated code -----------------------------
 // Generated code runs in visitors' browsers, so keep it self-contained.
 log('→ static rules');
-const ALLOWED_IMPORTS = [/^react$/, /^three$/, /^@react-three\/(fiber|drei)$/, /^remotion$/, /^zod$/, /^@\/lib\/(params|fonts|types)$/, /^@\/kit$/];
+const ALLOWED_IMPORTS = [/^react$/, /^three$/, /^@react-three\/(fiber|drei)$/, /^remotion$/, /^zod$/, /^@\/lib\/(params|fonts|types|palettes)$/, /^@\/kit$/];
 const BANNED: [RegExp, string][] = [
   [/\bfetch\s*\(/, 'fetch() is not allowed'],
   [/XMLHttpRequest|WebSocket|EventSource/, 'network APIs are not allowed'],
@@ -44,6 +44,7 @@ const DropSchema = z.object({
   theme: z.string().min(2),
   description: z.string().min(10),
   palette: z.array(z.string().regex(/^#[0-9a-fA-F]{6}$/)).min(3).max(8),
+  direction: z.object({ palette: z.string(), fonts: z.string() }).optional(),
 });
 
 for (const date of drop ? [drop] : listDrops()) {

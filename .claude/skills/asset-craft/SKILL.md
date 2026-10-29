@@ -30,6 +30,26 @@ If something is geometrically fiddly (crescents, arcs, arrow heads), render the 
 - **Variants:** is each variant meaningfully different and still good?
 - **Cheapness tells:** default springs everywhere, linear fades, pure #000/#fff, centred-everything with nothing else on the frame, intersecting primitive seams in 3D.
 
+## Color
+
+Generic color is the fastest way to look AI-made. The dark navy + indigo + one yellow accent combination is banned as a default.
+
+- Start from the day's assigned palette (`src/lib/palettes.ts`; each has roles bg / surface / ink / accent / accent2 / pop and a mood). Variants should borrow *other* palettes from that file rather than lightly tinting the default.
+- Proportions are **60 / 30 / 10**: bg dominates, surface supports, accent is the signature. `pop` appears in tiny doses (one dot, one word, a spark). Large flat areas of accent work in poster styles (Bauhaus, Swiss, neo-brutalist), so commit fully when you use them.
+- Light and paper palettes are as valid as dark ones, often fresher. Don't default to dark.
+- On light palettes, the accent is for shapes and large display type. Small text always uses `ink` (contrast ≥ 4.5:1).
+- Make color *do* something: duotone images (`mix-blend-mode`), riso-style overprint (multiply two shapes), offset hard shadows in the ink color, gradient maps, and tinted grain.
+- Avoid pure `#000` and `#fff`, except as a deliberate brutalist statement.
+
+## Type
+
+The fonts are in `src/lib/fonts.ts`: 36 bundled faces, each with a role and a `vibe`, plus `FONT_PAIRINGS`.
+
+- Use the assigned pairing: **display** for hero words, **text** for copy, **label** for eyebrows, data and chips. Variants may switch to another pairing.
+- `inter` is for tiny UI copy only. `grotesk` (Space Grotesk) and `serif` (Playfair) are the overused defaults; avoid them as heroes.
+- Treat type as image. Set one or two hero words huge (cropped off the edge is fine), mix an italic serif word into a sans headline, outline type (`WebkitTextStroke`), stack lines with tight leading (0.85–0.95 for condensed faces), and use wide-tracked tiny labels against massive display type.
+- Respect each face: condensed faces (Anton, Bebas, Big Shoulders) are caps and tight. Monoton and Nabla only work large. Pixel faces need integer-ish sizes. Instrument Serif and Bodoni shine in italic.
+
 ## Depth: the layer stack
 
 Never ship a flat background. Build from back to front (all in `@/kit`):
