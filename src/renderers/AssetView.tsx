@@ -44,9 +44,9 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
   const fit = opts.fit ?? true;
 
   if (kind === 'icon') {
-    const style: CSSProperties = { width: '100%', height: '100%', display: 'grid', placeItems: 'center' };
+    // Sizing lives in CSS (.icon-view) so each context can size the icon.
     return (
-      <div ref={opts.nodeRef} className="icon-view" style={style}>
+      <div ref={opts.nodeRef} className="icon-view">
         <Comp {...params} />
       </div>
     );

@@ -184,10 +184,23 @@ pre {
   width: 100%;
 }
 
+.card-preview {
+  position: relative;
+}
+
 .preview-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.icon-view {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
 }
 
 .icon-view svg {

@@ -12,9 +12,17 @@ export function AssetCard({ asset }: { asset: AssetRef }) {
   let body;
   if (error) body = <div className="card-error">Failed to load</div>;
   else if (!mod) body = <div className="skeleton" />;
-  else if (asset.kind === 'icon3d' && !noPreview)
-    // Prefer the CI-rendered PNG so a gallery doesn't spin up many WebGL contexts.
-    body = <img className="preview-img" src={previewUrl(asset.id, 'default', 'png')} alt="" onError={() => setNoPreview(true)} />;
+  else if ((asset.kind === 'icon3d' || asset.kind === 'video') && !noPreview)
+    // Prefer CI-rendered previews: avoids many WebGL contexts, and videos animate as GIFs.
+    body = (
+      <img
+        className="preview-img"
+        src={previewUrl(asset.id, 'default', asset.kind === 'video' ? 'gif' : 'png')}
+        alt=""
+        loading="lazy"
+        onError={() => setNoPreview(true)}
+      />
+    );
   else body = <AssetView mod={mod} params={resolveParams(mod)} />;
 
   return (
