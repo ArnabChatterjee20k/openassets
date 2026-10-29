@@ -31,10 +31,11 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
 
 - `pnpm dev`: the site at http://localhost:5173 (gallery + editor).
 - `pnpm validate [--drop DATE] [--no-browser]`: typecheck, safety rules, contract checks and a headless smoke render of every variant.
-- `pnpm render [--drop DATE] [--kinds icon,banner] [--no-video]`: full-resolution renders go to `out/` and site previews to `public/previews/`.
+- `pnpm render [--drop DATE] [--kinds icon,banner] [--no-video]`: optional local batch render to `out/`. The site never uses pre-rendered files; previews and downloads render in the browser.
 - `pnpm render:video <date>/videos/<slug> --props file.json`: renders a customised video.
 - `pnpm stills <date>/<kind>/<slug> [--frames ...]` or `pnpm stills --drop DATE`: contact sheets in `review/` for visual critique.
 - `./scripts/test-local.sh [--full|--generate|--serve]`: the local test harness.
-- `./scripts/generate.sh`: the daily pipeline (prepare → claude → validate → render).
+- `./scripts/generate.sh`: the daily pipeline (prepare → claude → validate). `RENDER=1` also batch-renders.
+- `./scripts/regenerate.sh <date>/<kind>/<slug> "note"`: redo one asset through claude -p and the review loop.
 
 Before creating or editing assets, load the **asset-craft** skill (`.claude/skills/asset-craft/`): it has the quality bar and the mandatory `pnpm stills` review loop. Remotion skills live alongside it. Shared craft components (easing, backdrop, grain, streaks, title reveals, dust) are in `@/kit`. `drops/2026-10-29/` is the reference drop.

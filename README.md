@@ -1,18 +1,21 @@
 # Generative Assets
 
-Every day a GitHub Action asks Claude (`claude -p`) to produce a **use-case kit**, a set of assets a real team would ship for a specific job (a SaaS launch, a flash sale, a podcast). Each kit contains icons, an interactive 3D hero icon, banners and video templates. Claude designs them, critiques its own renders, validates them and publishes them to the site. **Every asset is editable in the browser**: colors, copy, fonts, uploaded images and variants.
+Every day a GitHub Action asks Claude (`claude -p`) to produce a **use-case kit**, a set of assets a real team would ship for a specific job (a SaaS launch, a flash sale, a podcast). Each kit contains icons, an interactive 3D hero icon, banners, video templates and an animated isometric scene. Claude designs them, critiques its own renders, validates them and publishes the source to the site. **Every asset is editable in the browser**: colors, copy, fonts, uploaded images and variants.
 
-Claude doesn't output pixels. It writes **parametric source code** (React/SVG, react-three-fiber, Remotion), and the pipeline renders that code, so each asset ships with its editable source.
+Claude doesn't output pixels. It writes **parametric source code** (React/SVG, react-three-fiber, Remotion, SMIL), and **nothing is pre-rendered**: the site renders every preview live and lazily, and every download is rendered in the visitor's browser from their own edits.
 
 ## How a drop is made
 
 ```
-ideas.md ─► prepare-drop ─► claude -p ──────────────────────────► validate ─► render ─► commit + release ─► Pages
- (use-case  (kit + palette   1. load skills (asset-craft, Remotion)  (tsc, safety,  (SVG/PNG, banner sizes,
-  kits)      + type pairing)  2. write brief.md                       contract,      3D PNG/GLB + loop MP4/WebM,
-                              3. build each asset ─► pnpm stills ─┐    smoke render)  video MP4 + posters/GIFs)
+ideas.md ─► prepare-drop ─► claude -p ──────────────────────────► validate ─► commit source ─► Pages
+ (use-case  (kit + palette   1. load skills (asset-craft, Remotion)  (tsc, safety,
+  kits)      + type pairing)  2. write brief.md                       contract,
+                              3. build each asset ─► pnpm stills ─┐    smoke render)
                                  ▲   critique the contact sheet  │
                                  └──────── fix, ≥ 2 passes ◄─────┘
+
+Site: card near viewport → live render (still) → hover plays motion
+      Download → rendered in the browser (WebCodecs / Remotion web renderer)
 ```
 
 - **Use-case kits:** `ideas.md` is a backlog of real jobs ("E-commerce Flash Sale: online store. Cart/bag/tag icons, 3D gift box, sale banners, countdown promo"). Assets are named for their job and use realistic copy.
@@ -26,9 +29,10 @@ ideas.md ─► prepare-drop ─► claude -p ───────────�
 | Kind | Built from | Exports |
 |---|---|---|
 | Icons | Phosphor glyphs (MIT) via `IconArt`. Solid black by default; weights, duotone, containers, badges and shadows as variants | SVG + PNG 32–512 |
-| 3D icons | react-three-fiber (metaballs, extrusions, physical materials) with **micro-interactions**: a rest pose by default, and on hover/click it floats, tilts toward the cursor, squashes and stretches, plus object-specific blinks and flickers | PNG × 3 angles, GLB, 4 s seamless loop as MP4 + transparent WebM + GIF |
+| 3D icons | react-three-fiber (metaballs, extrusions, physical materials) with **micro-interactions**: a rest pose by default, and on hover/click it floats, tilts toward the cursor, squashes and stretches, plus object-specific blinks and flickers | PNG, GLB, 4 s seamless loop video, all rendered in the browser |
 | Banners | React/CSS with a hero visual and adaptive layouts | PNG at OG, X, LinkedIn, YouTube, square |
-| Videos | Remotion at 60 fps on a beat grid; occasions rotate (launch, tech, greeting, announcement, …) | MP4 per variant, poster, GIF; customised renders via `pnpm render:video` |
+| Videos | Remotion at 60 fps on a beat grid; occasions rotate (launch, tech, greeting, announcement, …) | MP4 rendered in the browser from your edits (Remotion web renderer); `pnpm render:video` as a fallback |
+| Scenes | Isometric SVG illustrations of the product's idea, animated with SMIL | Self-playing animated SVG, PNG, MP4 loop (baked frames encoded in the browser) |
 
 ## Local development
 
@@ -37,8 +41,8 @@ pnpm install
 pnpm exec playwright install chromium
 pnpm dev                                   # http://localhost:5173
 
-./scripts/test-local.sh                    # validate, validator self-test, render (no video), build
-./scripts/test-local.sh --full             # + videos and 3D loops
+./scripts/test-local.sh                    # validate, validator self-test, build
+./scripts/test-local.sh --full             # + local full-res batch render to out/
 ./scripts/test-local.sh --generate         # + a real small drop via your local `claude`
 ./scripts/test-local.sh --generate --serve
 ```
@@ -46,7 +50,8 @@ pnpm dev                                   # http://localhost:5173
 ```bash
 pnpm validate [--drop DATE] [--no-browser]
 pnpm stills <date>/<kind>/<slug> [--frames 0,60,120] | --drop DATE    # contact sheets in review/
-pnpm render [--drop DATE] [--kinds icon,banner] [--no-video]
+pnpm render [--drop DATE] [--kinds icon,banner] [--no-video]          # optional local batch render to out/
+./scripts/regenerate.sh 2026-10-30/scenes/reading-room "note"         # redo one asset through claude -p
 pnpm render:video 2026-10-29/videos/birthday-wish --props birthday-wish.props.json
 DATE=2026-11-01 THEME="Podcast Launch" PALETTE="Risograph" FONTS="Art school" ./scripts/generate.sh
 ```
@@ -63,5 +68,7 @@ The job runs at 06:00 UTC on Opus with up to 300 turns. To steer it, edit `ideas
 ## Safety
 
 Generated code runs in visitors' browsers, so `pnpm validate` rejects network calls, `eval`, dynamic imports, storage APIs, `dangerouslySetInnerHTML`, external URLs and imports outside an allowlist. In CI, Claude can write only inside `drops/<today>/`, run `pnpm validate`/`pnpm stills`, use skills and read Remotion docs. `generate.sh` fails the run if anything else changed.
+
+Generated kits are a few KB of source per day, so the repo stays small; Git LFS only holds a few binaries (fonts and audio).
 
 Glyphs come from [Phosphor Icons](https://phosphoricons.com) (MIT). Remotion is free for individuals and small teams; larger companies need a [company license](https://www.remotion.dev/license).
