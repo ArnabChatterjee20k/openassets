@@ -3,8 +3,8 @@
 # Used by .github/workflows/daily.yml and by `scripts/test-local.sh --generate`.
 #
 # Env: DATE, THEME, ICONS, ICONS3D, BANNERS, VIDEOS (see scripts/prepare-drop.ts),
-#      MAX_TURNS (default 80), SKIP_RENDER=1, RENDER_FLAGS (e.g. --no-video),
-#      CLAUDE_MODEL (optional --model for claude).
+#      MAX_TURNS (default 300), SKIP_RENDER=1, RENDER_FLAGS (e.g. --no-video),
+#      CLAUDE_MODEL (default claude-opus-5-5).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -14,10 +14,12 @@ DATE=$(cat .daily/date)
 before=$(git status --porcelain --untracked-files=all | sort)
 
 echo "→ claude -p generating drops/$DATE …"
+# Edit(...) rules cover every file-writing tool. Claude may render stills and read
+# the contact sheets (review/ is gitignored), use skills and read Remotion docs.
 claude -p "$(cat .daily/prompt.md)" \
-  ${CLAUDE_MODEL:+--model "$CLAUDE_MODEL"} \
-  --allowedTools "Read,Glob,Grep,Write(drops/$DATE/**),Edit(drops/$DATE/**),Bash(pnpm validate:*)" \
-  --max-turns "${MAX_TURNS:-80}" \
+  --model "${CLAUDE_MODEL:-claude-opus-5-5}" \
+  --allowedTools "Read,Glob,Grep,Skill,Edit(drops/$DATE/**),Bash(pnpm validate:*),Bash(pnpm stills:*),WebFetch(domain:www.remotion.dev)" \
+  --max-turns "${MAX_TURNS:-300}" \
   --output-format text | tee .daily/claude.log
 
 # Guard: Claude may only touch drops/$DATE.

@@ -13,9 +13,9 @@ if (existsSync(path.join(ROOT, 'drops', date))) fail(`drops/${date} already exis
 
 const counts = {
   icons: Number(process.env.ICONS ?? 4),
-  icons3d: Number(process.env.ICONS3D ?? 2),
-  banners: Number(process.env.BANNERS ?? 2),
-  videos: Number(process.env.VIDEOS ?? 3),
+  icons3d: Number(process.env.ICONS3D ?? 1),
+  banners: Number(process.env.BANNERS ?? 1),
+  videos: Number(process.env.VIDEOS ?? 2),
 };
 
 const history = listDrops().map(readDrop);

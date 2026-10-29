@@ -24,7 +24,7 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
   - **icon3d:** return react-three-fiber objects (`<group>`, `<mesh>`…). No `<Canvas>`, lights, camera or controls; `src/renderers/Scene3D.tsx` provides those.
   - **banner:** props also include `width` and `height`. Render a full-bleed element of exactly that size and scale everything from it.
   - **video:** a Remotion component, with `meta.category` set to one of `VIDEO_CATEGORIES` in `src/lib/types.ts`.
-- Allowed imports are `react`, `three`, `@react-three/fiber`, `@react-three/drei`, `remotion`, `zod`, `@/lib/params`, `@/lib/fonts`, `@/lib/types`, and relative files inside the asset folder. These are banned: network access, `eval`, dynamic `import()`, storage APIs, `dangerouslySetInnerHTML` and external URLs. Generated code runs in visitors' browsers.
+- Allowed imports are `react`, `three`, `@react-three/fiber`, `@react-three/drei`, `remotion`, `zod`, `@/lib/params`, `@/lib/fonts`, `@/lib/types`, `@/kit`, and relative files inside the asset folder. These are banned: network access, `eval`, dynamic `import()`, storage APIs, `dangerouslySetInnerHTML` and external URLs. Generated code runs in visitors' browsers.
 
 ## Commands
 
@@ -32,7 +32,8 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
 - `pnpm validate [--drop DATE] [--no-browser]`: typecheck, safety rules, contract checks and a headless smoke render of every variant.
 - `pnpm render [--drop DATE] [--kinds icon,banner] [--no-video]`: full-resolution renders go to `out/` and site previews to `public/previews/`.
 - `pnpm render:video <date>/videos/<slug> --props file.json`: renders a customised video.
+- `pnpm stills <date>/<kind>/<slug> [--frames ...]` or `pnpm stills --drop DATE`: contact sheets in `review/` for visual critique.
 - `./scripts/test-local.sh [--full|--generate|--serve]`: the local test harness.
 - `./scripts/generate.sh`: the daily pipeline (prepare → claude → validate → render).
 
-See `prompts/style-guide.md` for the quality bar, and `drops/2026-10-29/` for reference examples.
+Before creating or editing assets, load the **asset-craft** skill (`.claude/skills/asset-craft/`): it has the quality bar and the mandatory `pnpm stills` review loop. Remotion skills live alongside it. Shared craft components (easing, backdrop, grain, streaks, title reveals, dust) are in `@/kit`. `drops/2026-10-29/` is the reference drop.

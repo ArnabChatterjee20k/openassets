@@ -54,9 +54,9 @@ for (const date of drop ? [drop] : listDrops()) {
     err(`drops/${date}/drop.json`, String(e));
   }
   for (const file of fg.sync(`drops/${date}/**/*`, { cwd: ROOT })) {
-    if (file.endsWith('drop.json')) continue;
+    if (file.endsWith('drop.json') || file === `drops/${date}/brief.md`) continue;
     if (!/\/index\.tsx$|\/[a-z0-9-]+\.tsx?$/.test(file)) {
-      err(file, 'only .ts/.tsx files (and drop.json) are allowed inside a drop');
+      err(file, 'only .ts/.tsx files (plus drop.json and brief.md) are allowed inside a drop');
       continue;
     }
     const src = readFileSync(path.join(ROOT, file), 'utf8');
