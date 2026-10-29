@@ -18,7 +18,7 @@ export function makeLoop3D(Component: ComponentType<any>) {
     motion.current.t = frame / fps;
     return (
       <AbsoluteFill style={{ background: __background ?? 'transparent' }}>
-        <ThreeCanvas width={width} height={height} camera={{ position: [0, 0, 5.4], fov: 35 }} gl={{ alpha: true, antialias: true }}>
+        <ThreeCanvas width={width} height={height} camera={{ position: [0, 0, 6], fov: 35 }} gl={{ alpha: true, antialias: true }}>
           <MotionProvider value={motion}>
             <Stage Component={Component} params={params} angle="iso" />
           </MotionProvider>

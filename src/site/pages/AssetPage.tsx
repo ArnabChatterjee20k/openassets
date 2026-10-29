@@ -34,6 +34,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
   });
   const [bannerSize, setBannerSize] = useState('og');
   const [angle, setAngle] = useState<Angle>('iso');
+  const [animate, setAnimate] = useState(true);
   const [status, setStatus] = useState('');
   const nodeRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SceneHandle | null>(null);
@@ -136,7 +137,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
           <AssetView
             mod={mod}
             params={values}
-            opts={{ interactive: true, bannerSize, angle, nodeRef, onSceneReady: (h) => (sceneRef.current = h) }}
+            opts={{ interactive: true, bannerSize, angle, animate, nodeRef, onSceneReady: (h) => (sceneRef.current = h) }}
           />
         </div>
 
@@ -157,6 +158,14 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
                   {a}
                 </button>
               ))}
+            </div>
+          )}
+          {kind === 'icon3d' && (
+            <div className="segmented">
+              <button className={animate ? 'on' : ''} onClick={() => setAnimate(!animate)} title="Idle micro-interactions">
+                motion {animate ? 'on' : 'off'}
+              </button>
+              <span className="muted hint">hover to tilt · click to bounce · drag to orbit</span>
             </div>
           )}
         </div>

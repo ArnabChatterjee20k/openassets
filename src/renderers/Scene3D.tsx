@@ -130,7 +130,7 @@ export function Scene3D({
     >
       <Canvas
         gl={{ preserveDrawingBuffer: true, alpha: true, antialias: true }}
-        camera={{ position: [0, 0, 5.4], fov: 35 }}
+        camera={{ position: [0, 0, 6], fov: 35 }}
         dpr={[1, 2]}
         shadows
         style={{ width: '100%', height: '100%' }}

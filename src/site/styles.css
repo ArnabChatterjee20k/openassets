@@ -459,3 +459,9 @@ h1 .chip {
 .stage-icon {
   background: repeating-conic-gradient(#f1f1ee 0 25%, #ffffff 0 50%) 0 0 / 16px 16px;
 }
+
+.hint {
+  font-size: 0.8rem;
+  align-self: center;
+  margin-left: 8px;
+}
