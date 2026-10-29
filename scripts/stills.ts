@@ -48,6 +48,18 @@ try {
     sheets.push(path.relative(ROOT, sheet));
     log(`  ✓ ${a.id}`);
   }
+  // Icons are a set: one sheet with every icon side by side shows whether they cohere.
+  const icons = assets.filter((a) => a.kind === 'icon');
+  if (icons.length > 1) {
+    const tiles = icons.flatMap((a) =>
+      ['default', 'filled' in a.mod.variants ? 'filled' : 'default'].flatMap((v, k) =>
+        k === 1 && v === 'default' ? [] : [256, 24].map((px) => ({ file: path.join(REVIEW, a.id, `${v}-${px}.png`), label: `${a.slug} · ${v} · ${px}px` })),
+      ),
+    );
+    const sheet = path.join(REVIEW, drop, 'icon-set.png');
+    await contactSheet(tiles, sheet, `Icon set — ${drop}`, 8);
+    sheets.push(path.relative(ROOT, sheet));
+  }
 } finally {
   await browser?.close();
   await site?.server.close();
