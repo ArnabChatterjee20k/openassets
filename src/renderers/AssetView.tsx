@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties, type Ref } from 'react
 import { Player, Thumbnail } from '@remotion/player';
 import { BANNER_SIZES, type AssetModule } from '@/lib/types';
 import { Scene3D, type Angle, type MotionMode, type SceneHandle } from './Scene3D';
+import { SceneView } from './SceneView';
 
 export interface ViewOptions {
   /** Key of BANNER_SIZES for banners. */
@@ -15,6 +16,8 @@ export interface ViewOptions {
   frame?: number;
   /** 3D: fixed motion time in seconds (deterministic stills). */
   time?: number;
+  /** Scenes: hold the animation (live view). */
+  paused?: boolean;
   /** 3D: 'default' rests and animates on interaction; 'interaction' loops. */
   motion?: MotionMode;
   /** Scale banner/video down to fit parent width (true) or render at native size (false). */
@@ -69,6 +72,15 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
           time={opts.time}
           onReady={opts.onSceneReady}
         />
+      </div>
+    );
+  }
+
+  if (kind === 'scene') {
+    const sc = mod.scene!;
+    return (
+      <div style={{ width: '100%', aspectRatio: `${sc.width} / ${sc.height}`, ...(fit ? {} : { width: sc.width, height: sc.height }) }}>
+        <SceneView Component={Comp} params={params} time={opts.time} paused={opts.paused} nodeRef={opts.nodeRef} />
       </div>
     );
   }

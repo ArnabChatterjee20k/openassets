@@ -5,7 +5,7 @@ import { DropPage } from './pages/DropPage';
 import { AssetPage } from './pages/AssetPage';
 import { RenderPage } from './pages/RenderPage';
 
-const NAV_KINDS: Kind[] = ['icon', 'icon3d', 'banner', 'video'];
+const NAV_KINDS: Kind[] = ['scene', 'icon3d', 'video', 'banner', 'icon'];
 
 export function App() {
   const { path, query } = useRoute();

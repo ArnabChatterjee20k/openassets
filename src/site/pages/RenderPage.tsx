@@ -63,6 +63,15 @@ export function RenderPage({ id, query }: { id: string; query: URLSearchParams }
     );
   }
 
+  if (mod.meta.kind === 'scene') {
+    const sc = mod.scene!;
+    return (
+      <div id="target" style={{ width: sc.width, height: sc.height }}>
+        <AssetView mod={mod} params={params} opts={{ fit: false, time: Number(query.get('t') ?? 0) }} />
+      </div>
+    );
+  }
+
   const size = mod.meta.kind === 'banner' ? BANNER_SIZES[query.get('size') ?? 'og'] : { width: mod.video!.width, height: mod.video!.height };
   return (
     <div id="target" style={{ width: size.width, height: size.height }}>

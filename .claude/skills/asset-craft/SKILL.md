@@ -129,6 +129,15 @@ Make every motion return to the rest pose at loop boundaries (integer `cycles` g
 - Offer a calm/lively `mood` (or similar) param, like a robot's status.
 - Review: `pnpm stills` samples the loop at t = 0.6 / 1.2 / 2.2 / 3.2 s. Those frames must visibly differ.
 
+### Animated scenes (isometric SVG)
+
+Scenes are the kit's world as a living illustration, like the isometric animated SVGs people post: a haunted castle under the moon, a tiny HQ on a floating island. They're used as landing-page heroes, empty states and launch visuals. Build them with `@/kit` iso and SMIL:
+- Use `IsoBox`, `IsoGable` / `IsoRoof`, `IsoCylinder` (with a `cone` cap for trees and turrets), `IsoWindow` on box faces, and `IsoGrid` floors. `iso()` / `pts()` handle custom polygons. Draw back to front (smaller x + y first).
+- A strong composition is a floating platform or diorama centred on the canvas, filling ~60% of it, with sky, atmosphere (stars, moon, fog, clouds) and a dark outline ink.
+- Animate only with SMIL (`<animate>`, `<animateTransform>`, `<animateMotion>`) so the exported `.svg` plays anywhere and the pipeline can seek it. No CSS keyframes. Every `dur` must divide `scene.loop`; use negative `begin` offsets to desync repeated elements.
+- Layer 4–6 small loops (window `Flicker`, spinning parts, pulses, drifting clouds, rain, a gentle bob) plus one punctuating moment per loop (a lightning double-flash, a door opening, a bat flying past).
+- Review: `pnpm stills` samples t = 0, ¼, ½, the moment, and ¾ of the loop. The t = 0 frame is the poster, so it must be a good still.
+
 ## Pitfalls already hit (don't repeat)
 
 - Shockwave rings that start smaller than the digit or text they surround and cut through it. Start the radius outside the glyph.

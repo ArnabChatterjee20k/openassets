@@ -101,7 +101,13 @@ async function browserStills(a: LoadedAsset, dir: string): Promise<Tile[]> {
   const { url } = await getSite();
   const shots: { variant: string; q: Record<string, string>; vp: { width: number; height: number }; label: string }[] = [];
   for (const v of variantNames(a.mod)) {
-    if (a.kind === 'banner') {
+    if (a.kind === 'scene') {
+      const sc = a.mod.scene!;
+      const times = v === 'default' ? [0, 0.25, 0.5, 0.555, 0.75].map((k) => +(k * sc.loop).toFixed(2)) : [0];
+      for (const t of times) {
+        shots.push({ variant: v, q: { variant: v, t: String(t) }, vp: { width: sc.width, height: sc.height }, label: `${v} · t=${t}s` });
+      }
+    } else if (a.kind === 'banner') {
       for (const s of v === 'default' ? Object.keys(BANNER_SIZES) : ['og']) {
         shots.push({ variant: v, q: { variant: v, size: s }, vp: BANNER_SIZES[s], label: `${v} · ${s}` });
       }
@@ -119,7 +125,7 @@ async function browserStills(a: LoadedAsset, dir: string): Promise<Tile[]> {
   }
   const tiles: Tile[] = [];
   for (const [i, s] of shots.entries()) {
-    const page = await b.newPage({ viewport: s.vp, deviceScaleFactor: a.kind === 'banner' ? 0.5 : 1 });
+    const page = await b.newPage({ viewport: s.vp, deviceScaleFactor: a.kind === 'banner' || a.kind === 'scene' ? 0.5 : 1 });
     await page.goto(renderUrl(url, a.id, s.q));
     await page.waitForSelector('body[data-ready="1"]', { timeout: 60_000 });
     const file = path.join(dir, `${String(i).padStart(2, '0')}.png`);

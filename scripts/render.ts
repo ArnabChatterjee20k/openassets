@@ -19,7 +19,7 @@ import { ROOT, argValue, fail, hasFlag, latestDrop, launchBrowser, loadAssets, l
 import { bundleVideos, renderPoster, renderVideo } from './lib/remotion';
 
 const date = argValue('drop') ?? latestDrop() ?? fail('no drops found');
-const kinds = ((argValue('kinds')?.split(',') as Kind[]) ?? ['icon', 'icon3d', 'banner', 'video']).filter(
+const kinds = ((argValue('kinds')?.split(',') as Kind[]) ?? ['icon', 'icon3d', 'banner', 'video', 'scene']).filter(
   (k) => !(k === 'video' && hasFlag('no-video')),
 );
 
@@ -51,13 +51,14 @@ for (const a of assets.filter((a) => a.kind === 'icon')) {
 }
 
 // ---- Banners & 3D: headless browser ----------------------------------------
-const browserAssets = assets.filter((a) => a.kind === 'banner' || a.kind === 'icon3d');
+const browserAssets = assets.filter((a) => a.kind === 'banner' || a.kind === 'icon3d' || a.kind === 'scene');
 if (browserAssets.length) {
   const { server, url } = await startSite();
   const browser = await launchBrowser();
   try {
     for (const a of browserAssets) {
       if (a.kind === 'banner') await renderBanner(browser, url, a);
+      else if (a.kind === 'scene') await renderScene(browser, url, a);
       else await render3D(browser, url, a);
       log(`  ✓ ${a.id}`);
     }
@@ -88,6 +89,22 @@ async function renderBanner(browser: Browser, url: string, a: LoadedAsset) {
   }
 }
 
+async function renderScene(browser: Browser, url: string, a: LoadedAsset) {
+  const sc = a.mod.scene!;
+  for (const v of variantNames(a.mod)) {
+    // The animated SVG itself: plays anywhere (SMIL), sized to the scene.
+    const markup = renderToStaticMarkup(createElement(a.mod.default, resolveParams(a.mod, v)));
+    write(path.join(OUT, a.id, v, `${a.slug}.svg`), markup.replace('<svg', `<svg width="${sc.width}" height="${sc.height}"`));
+    // Poster: the resting composition at t = 0.
+    const page = await shoot(browser, renderUrl(url, a.id, { variant: v, t: '0' }), { width: sc.width, height: sc.height });
+    write(path.join(OUT, a.id, v, `${a.slug}.png`), await page.locator('#target').screenshot());
+    await page.close();
+    const small = await shoot(browser, renderUrl(url, a.id, { variant: v, t: '0' }), { width: sc.width, height: sc.height }, 0.5);
+    write(path.join(PREVIEWS, a.id, `${v}.png`), await small.locator('#target').screenshot());
+    await small.close();
+  }
+}
+
 async function render3D(browser: Browser, url: string, a: LoadedAsset) {
   const px = 1024;
   for (const v of variantNames(a.mod)) {
@@ -110,9 +127,17 @@ async function render3D(browser: Browser, url: string, a: LoadedAsset) {
 // ---- Videos: Remotion -------------------------------------------------------
 const videos = assets.filter((a) => a.kind === 'video');
 const loops = assets.filter((a) => a.kind === 'icon3d' && !hasFlag('no-video'));
-if (videos.length || loops.length) {
+const scenes = assets.filter((a) => a.kind === 'scene' && !hasFlag('no-video'));
+if (videos.length || loops.length || scenes.length) {
   log('  bundling Remotion…');
-  const serveUrl = await bundleVideos([...videos, ...loops]);
+  const serveUrl = await bundleVideos([...videos, ...loops, ...scenes]);
+  // Scenes: the default variant's loop as MP4 + hover GIF.
+  for (const a of scenes) {
+    const props = resolveParams(a.mod);
+    await renderVideo({ serveUrl, id: a.id, props, out: path.join(OUT, a.id, 'default', `${a.slug}-loop.mp4`) });
+    await renderVideo({ serveUrl, id: a.id, props, out: path.join(PREVIEWS, a.id, 'default.gif'), codec: 'gif', scale: 400 / a.mod.scene!.width, everyNthFrame: 2 });
+    log(`  ✓ ${a.id} loop`);
+  }
   // 3D icons: the default variant's micro-interaction loop (seamless, 4 s).
   for (const a of loops) {
     const props = resolveParams(a.mod);

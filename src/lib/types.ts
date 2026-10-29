@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
 import type { z } from 'zod';
 
-export type Kind = 'icon' | 'icon3d' | 'banner' | 'video';
+export type Kind = 'icon' | 'icon3d' | 'banner' | 'video' | 'scene';
 
 /** Directory name under drops/<date>/ for each kind. */
 export const KIND_DIRS: Record<Kind, string> = {
@@ -9,6 +9,7 @@ export const KIND_DIRS: Record<Kind, string> = {
   icon3d: 'icons3d',
   banner: 'banners',
   video: 'videos',
+  scene: 'scenes',
 };
 export const DIR_KINDS = Object.fromEntries(Object.entries(KIND_DIRS).map(([k, d]) => [d, k])) as Record<string, Kind>;
 
@@ -17,6 +18,7 @@ export const KIND_LABELS: Record<Kind, string> = {
   icon3d: '3D Icons',
   banner: 'Banners',
   video: 'Video Templates',
+  scene: 'Scenes',
 };
 
 /** Occasions/use-cases for video templates. The daily drop rotates through these. */
@@ -52,6 +54,13 @@ export interface VideoConfig {
   durationInFrames: number;
 }
 
+/** Animated SVG scenes: canvas size and loop length (SMIL durations must divide it). */
+export interface SceneConfig {
+  width: number;
+  height: number;
+  loop: number;
+}
+
 /** Banner components receive the target canvas size alongside their params. */
 export interface BannerSize {
   width: number;
@@ -72,6 +81,7 @@ export const BANNER_SIZES: Record<string, BannerSize> = {
  * - icon3d: default export renders react-three-fiber objects (no <Canvas>)
  * - banner: default export renders a full-bleed element of size props.width x props.height
  * - video:  default export is a Remotion composition component; `video` config required
+ * - scene:  default export renders one root <svg viewBox> animated with SMIL; `scene` config required
  */
 export interface AssetModule<S extends z.AnyZodObject = z.AnyZodObject> {
   meta: AssetMeta;
@@ -79,6 +89,7 @@ export interface AssetModule<S extends z.AnyZodObject = z.AnyZodObject> {
   variants: Record<string, Partial<z.input<S>>>;
   default: ComponentType<any>;
   video?: VideoConfig;
+  scene?: SceneConfig;
 }
 
 export interface DropInfo {

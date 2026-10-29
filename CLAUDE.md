@@ -24,6 +24,7 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
   - **icon3d:** return react-three-fiber objects (`<group>`, `<mesh>`…). No `<Canvas>`, lights, camera or controls; `src/renderers/Scene3D.tsx` provides those.
   - **banner:** props also include `width` and `height`. Render a full-bleed element of exactly that size and scale everything from it.
   - **video:** a Remotion component, with `meta.category` set to one of `VIDEO_CATEGORIES` in `src/lib/types.ts`.
+  - **scene:** one root `<svg viewBox>` isometric illustration animated with SMIL only, built with `@/kit` iso helpers. `export const scene = { width, height, loop }` is required, and every SMIL `dur` must divide `loop`.
 - Allowed imports are `react`, `three`, `@react-three/fiber`, `@react-three/drei`, `remotion`, `zod`, `@/lib/params`, `@/lib/fonts`, `@/lib/types`, `@/lib/palettes`, `@/kit`, `@phosphor-icons/react/ssr`, and relative files inside the asset folder. These are banned: network access, `eval`, dynamic `import()`, storage APIs, `dangerouslySetInnerHTML` and external URLs. Generated code runs in visitors' browsers.
 
 ## Commands

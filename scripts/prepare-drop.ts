@@ -18,6 +18,7 @@ const counts = {
   icons3d: Number(process.env.ICONS3D ?? 1),
   banners: Number(process.env.BANNERS ?? 1),
   videos: Number(process.env.VIDEOS ?? 2),
+  scenes: Number(process.env.SCENES ?? 1),
 };
 
 const history = listDrops().map(readDrop);
@@ -79,6 +80,7 @@ const prompt = template
   .replaceAll('{{ICONS3D}}', String(counts.icons3d))
   .replaceAll('{{BANNERS}}', String(counts.banners))
   .replaceAll('{{VIDEOS}}', String(counts.videos))
+  .replaceAll('{{SCENES}}', String(counts.scenes))
   .replaceAll('{{VIDEO_CATEGORIES}}', categories.join(', '));
 
 mkdirSync(path.join(ROOT, '.daily'), { recursive: true });

@@ -30,6 +30,8 @@ Write `drops/{{DATE}}/brief.md` (≤ 40 lines). It covers the theme's visual ide
 3. **{{BANNERS}} banner(s)** (`banners/<slug>/index.tsx`), each with a hero visual, working at every size in `BANNER_SIZES`, with 4–5 variants.
 4. **{{VIDEOS}} video template(s)** (`videos/<slug>/index.tsx`), **one for each of these occasions: {{VIDEO_CATEGORIES}}**. Set `meta.category`, use 60 fps, a beat grid, and 6–12 s. Each is a genuinely useful template for that occasion, with today's theme shaping the look rather than the purpose. Vary the aspect ratio (1920×1080, 1080×1920, 1080×1080). Include at least one `image()` param plus editable text and colors, and 3–4 variants.
 
+5. **{{SCENES}} animated scene(s)** (`scenes/<slug>/index.tsx`): an isometric SVG illustration of the kit's world (landing-page hero, empty state, launch visual), built with the `@/kit` iso toolkit and animated with SMIL. Include several small loops: lights flicker, things spin, pulse, drift or fall, plus one "moment" (a flash, a pop). Provide 4–5 variants (day/night/dusk/palette swaps).
+
 For **each** asset, follow the asset-craft review loop: render with `pnpm stills <id>`, open the sheet, write the critique, fix, and re-render. Do at least two passes. For icons, finish with `pnpm stills --drop {{DATE}}` and check `review/{{DATE}}/icon-set.png`.
 
 ## Step 3: validate

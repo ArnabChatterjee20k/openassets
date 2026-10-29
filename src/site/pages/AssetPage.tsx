@@ -36,6 +36,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
   const [bannerSize, setBannerSize] = useState('og');
   const [angle, setAngle] = useState<Angle>('iso');
   const [motion, setMotion] = useState<MotionMode>('default');
+  const [paused, setPaused] = useState(false);
   const [status, setStatus] = useState('');
   const nodeRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SceneHandle | null>(null);
@@ -101,6 +102,26 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
         },
       },
     );
+  } else if (mod.meta.kind === 'scene') {
+    const sc = mod.scene!;
+    const sceneSvg = () => iconSvg(mod, values).replace(/<svg width="\d+" height="\d+"/, `<svg width="${sc.width}" height="${sc.height}"`);
+    exports.push(
+      { label: 'Animated SVG', run: () => download(new Blob([sceneSvg()], { type: 'image/svg+xml' }), `${name}.svg`) },
+      {
+        label: 'PNG',
+        run: async () => {
+          // Rasterise at 2x via an offscreen canvas (shows the scene's resting frame).
+          const img = new Image();
+          img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(sceneSvg())}`;
+          await img.decode();
+          const c = document.createElement('canvas');
+          c.width = sc.width * 2;
+          c.height = sc.height * 2;
+          c.getContext('2d')!.drawImage(img, 0, 0, c.width, c.height);
+          download(await canvasToPng(c), `${name}.png`);
+        },
+      },
+    );
   } else if (mod.meta.kind === 'banner') {
     exports.push({
       label: `PNG ${BANNER_SIZES[bannerSize].width}×${BANNER_SIZES[bannerSize].height}`,
@@ -138,7 +159,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
           <AssetView
             mod={mod}
             params={values}
-            opts={{ interactive: true, bannerSize, angle, motion, nodeRef, onSceneReady: (h) => (sceneRef.current = h) }}
+            opts={{ interactive: true, bannerSize, angle, motion, paused, nodeRef, onSceneReady: (h) => (sceneRef.current = h) }}
           />
         </div>
 
@@ -159,6 +180,14 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
                   {a}
                 </button>
               ))}
+            </div>
+          )}
+          {kind === 'scene' && (
+            <div className="segmented">
+              <button className={paused ? '' : 'on'} onClick={() => setPaused(!paused)}>
+                {paused ? 'play' : 'playing'}
+              </button>
+              <span className="muted hint">SMIL animation · exports as a self-playing .svg</span>
             </div>
           )}
           {kind === 'icon3d' && (

@@ -4,6 +4,7 @@ import { useEffect, useState, type ComponentType } from 'react';
 import { Composition, continueRender, delayRender } from 'remotion';
 import { resolveParams, type AssetModule } from '@/lib/types';
 import { LOOP_FPS, LOOP_FRAMES, LOOP_SIZE, makeLoop3D } from './Loop3D';
+import { SCENE_FPS, makeSceneLoop } from './SceneLoop';
 
 /** Holds rendering until web fonts used by the composition have loaded. */
 function withFonts(Comp: ComponentType<any>) {
@@ -26,7 +27,18 @@ export function makeRoot(assets: { id: string; mod: AssetModule }[]) {
     return (
       <>
         {assets.map(({ id, mod }) =>
-          mod.meta.kind === 'icon3d' ? (
+          mod.meta.kind === 'scene' ? (
+            <Composition
+              key={id}
+              id={compositionId(id)}
+              component={makeSceneLoop(mod.default)}
+              defaultProps={resolveParams(mod)}
+              width={mod.scene!.width}
+              height={mod.scene!.height}
+              fps={SCENE_FPS}
+              durationInFrames={Math.round(mod.scene!.loop * SCENE_FPS)}
+            />
+          ) : mod.meta.kind === 'icon3d' ? (
             <Composition
               key={id}
               id={loopCompositionId(id)}

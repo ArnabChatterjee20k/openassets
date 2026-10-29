@@ -14,12 +14,12 @@ export function Palette({ colors }: { colors: string[] }) {
   );
 }
 
-const FILTERS: (Kind | 'all')[] = ['all', 'icon', 'icon3d', 'banner', 'video'];
+const FILTERS: (Kind | 'all')[] = ['all', 'scene', 'icon3d', 'video', 'banner', 'icon'];
 const humanize = (slug: string) => slug.replace(/-/g, ' ');
 
 /** One representative asset per kind, for the hero mosaic. */
 function heroPicks(assets: AssetRef[]) {
-  const order: Kind[] = ['video', 'icon3d', 'banner'];
+  const order: Kind[] = ['scene', 'icon3d', 'video'];
   return order.map((k) => assets.find((a) => a.kind === k)).filter((a): a is AssetRef => !!a);
 }
 

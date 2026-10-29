@@ -14,6 +14,7 @@
 
 **Assets.**
 - Icons (in-app forecast UI): 8 Phosphor glyphs — lightning, drop, moon & stars, wind, umbrella, thermometer, snowflake, sun. Solid black by default; tile/brutal/duotone variants for marketing.
+- Scene "Stormcast HQ" (landing-page hero, animated SVG): floating isometric island at night: weather tower with pulsing radar + spinning anemometer, HQ with flickering windows, storm cloud drifting with rain and a double lightning flash; 6 s loop.
 - 3D hero (landing page / App Store): seamless clay storm cloud + bolt + raindrops; breathes, bolt flickers like a blink, rain loops; tilts to the cursor, bounces + flashes on click; calm/stormy mood.
 - Banner "Forecast Radar" (App Store feature / social): headline left, live-looking radar right with blips, glowing bolt, glass data chips; stacks on square.
 - Video "Product Launch" (launch film, 16:9, 8 s): bar 1 — 3·2·1 on beats with rings, streaks converge; downbeat bar 2 — flash + shockwave + streak burst, title sweeps in; then tagline words, CTA pops on beat; bar 3 — glint + underline; dust throughout; fade.
