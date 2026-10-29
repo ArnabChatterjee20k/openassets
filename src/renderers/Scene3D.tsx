@@ -2,13 +2,9 @@ import { useEffect, useRef, type ComponentType } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Environment, Lightformer, OrbitControls } from '@react-three/drei';
 import type { Scene, WebGLRenderer } from 'three';
+import { ANGLES, type Angle } from './angles';
 
-export const ANGLES = {
-  front: [0, 0, 0],
-  iso: [0.35, -0.6, 0],
-  side: [0.15, 0.9, 0],
-} as const;
-export type Angle = keyof typeof ANGLES;
+export type { Angle };
 
 export interface SceneHandle {
   gl: WebGLRenderer;
@@ -41,6 +37,7 @@ function Studio() {
         <Lightformer form="rect" intensity={3} position={[0, 4, 4]} scale={[8, 3, 1]} />
         <Lightformer form="rect" intensity={1.5} position={[-5, 0, 2]} rotation-y={Math.PI / 2} scale={[6, 4, 1]} />
         <Lightformer form="ring" intensity={2} position={[4, 2, -3]} scale={3} />
+        <Lightformer form="rect" intensity={1} position={[0, -4, 2]} rotation-x={Math.PI / 2} scale={[8, 4, 1]} />
       </Environment>
     </>
   );
@@ -68,7 +65,7 @@ export function Scene3D({
   return (
     <Canvas
       gl={{ preserveDrawingBuffer: true, alpha: true, antialias: true }}
-      camera={{ position: [0, 0, 4.2], fov: 35 }}
+      camera={{ position: [0, 0, 5.4], fov: 35 }}
       dpr={[1, 2]}
       shadows
       style={{ width: '100%', height: '100%' }}

@@ -68,7 +68,7 @@ export default function StormCloud(p: z.infer<typeof schema>) {
           <Mat kind={p.material} c={p.cloudColor} />
         </mesh>
       ))}
-      <mesh geometry={bolt} position={[0, -0.45, 0.2]}>
+      <mesh geometry={bolt} position={[0, -0.4, 0.55]}>
         <meshStandardMaterial color={p.boltColor} emissive={p.boltColor} emissiveIntensity={0.35} roughness={0.4} />
       </mesh>
     </group>
