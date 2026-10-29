@@ -1,0 +1,38 @@
+# Generative Assets
+
+A library of parametric, editable assets (SVG icons, 3D icons, banners, video templates). A new themed drop is generated daily by `claude -p` in GitHub Actions. The site (Vite + React, GitHub Pages) shows a gallery and an editor that is auto-generated from each asset's schema.
+
+## Asset contract
+
+Each asset lives at `drops/<YYYY-MM-DD>/<kind-dir>/<slug>/index.tsx`, where kind-dir is one of `icons`, `icons3d`, `banners` or `videos`. The slug is kebab-case. Each drop also has a `drops/<date>/drop.json` with `{ date, theme, description, palette }`.
+
+Every asset module exports:
+
+```tsx
+export const meta: AssetMeta = { kind: 'icon' | 'icon3d' | 'banner' | 'video', name, description, tags, category? };
+export const schema = z.object({ ... });      // every field has .default()
+export const variants: Record<string, Partial<z.input<typeof schema>>> = { ... }; // ≥ 2
+export default function Asset(props) { ... }
+export const video: VideoConfig = { width, height, fps, durationInFrames }; // videos only
+```
+
+- Build schema fields with the helpers in `@/lib/params`: `color()`, `text()`, `textarea()`, `image()`, `font()`, `num(min, max, step)`, `select([...])`, `toggle()`. These carry the UI hints for the editor.
+- `image()` values are user-uploaded data URLs. Default to `''` and render nothing when empty.
+- Use fonts only via `FONTS[key]` from `@/lib/fonts`.
+- Per kind:
+  - **icon:** return a single root `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">` with no width or height.
+  - **icon3d:** return react-three-fiber objects (`<group>`, `<mesh>`…). No `<Canvas>`, lights, camera or controls; `src/renderers/Scene3D.tsx` provides those.
+  - **banner:** props also include `width` and `height`. Render a full-bleed element of exactly that size and scale everything from it.
+  - **video:** a Remotion component, with `meta.category` set to one of `VIDEO_CATEGORIES` in `src/lib/types.ts`.
+- Allowed imports are `react`, `three`, `@react-three/fiber`, `@react-three/drei`, `remotion`, `zod`, `@/lib/params`, `@/lib/fonts`, `@/lib/types`, and relative files inside the asset folder. These are banned: network access, `eval`, dynamic `import()`, storage APIs, `dangerouslySetInnerHTML` and external URLs. Generated code runs in visitors' browsers.
+
+## Commands
+
+- `pnpm dev`: the site at http://localhost:5173 (gallery + editor).
+- `pnpm validate [--drop DATE] [--no-browser]`: typecheck, safety rules, contract checks and a headless smoke render of every variant.
+- `pnpm render [--drop DATE] [--kinds icon,banner] [--no-video]`: full-resolution renders go to `out/` and site previews to `public/previews/`.
+- `pnpm render:video <date>/videos/<slug> --props file.json`: renders a customised video.
+- `./scripts/test-local.sh [--full|--generate|--serve]`: the local test harness.
+- `./scripts/generate.sh`: the daily pipeline (prepare → claude → validate → render).
+
+See `prompts/style-guide.md` for the quality bar, and `drops/2026-10-29/` for reference examples.

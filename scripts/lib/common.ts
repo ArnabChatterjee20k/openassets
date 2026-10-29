@@ -62,7 +62,7 @@ export const renderUrl = (base: string, id: string, q: Record<string, string>) =
   `${base}#/render/${id}?${new URLSearchParams(q)}`;
 
 export const log = (...a: unknown[]) => console.log(...a);
-export const fail = (msg: string): never => {
+export function fail(msg: string): never {
   console.error(`\n✗ ${msg}`);
   process.exit(1);
-};
+}

@@ -1,0 +1,58 @@
+// Picks today's theme and video occasions, then writes the generation prompt
+// to .daily/prompt.md for `claude -p`.
+//
+// Env overrides: DATE, THEME, ICONS, ICONS3D, BANNERS, VIDEOS (counts per kind).
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { VIDEO_CATEGORIES, type VideoCategory } from '../src/lib/types';
+import { ROOT, assetFiles, fail, listDrops, log, readDrop } from './lib/common';
+
+const date = process.env.DATE || new Date().toISOString().slice(0, 10);
+if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) fail(`bad DATE ${date}`);
+if (existsSync(path.join(ROOT, 'drops', date))) fail(`drops/${date} already exists`);
+
+const counts = {
+  icons: Number(process.env.ICONS ?? 4),
+  icons3d: Number(process.env.ICONS3D ?? 2),
+  banners: Number(process.env.BANNERS ?? 2),
+  videos: Number(process.env.VIDEOS ?? 3),
+};
+
+const history = listDrops().map(readDrop);
+const used = new Set(history.map((d) => d.theme.toLowerCase()));
+
+// Theme: explicit override → first unused idea in ideas.md → let Claude invent one.
+const ideas = readFileSync(path.join(ROOT, 'ideas.md'), 'utf8')
+  .split('\n')
+  .map((l) => l.match(/^\s*-\s+(?!\[x\])(.+)$/)?.[1]?.trim())
+  .filter((t): t is string => !!t && !used.has(t.toLowerCase()));
+const theme = process.env.THEME || ideas[0] || '';
+
+// Video occasions: the least-used categories so far, so the library stays varied.
+const usage = new Map<VideoCategory, number>(VIDEO_CATEGORIES.map((c) => [c, 0]));
+for (const { file } of assetFiles()) {
+  if (!file.includes('/videos/')) continue;
+  const m = readFileSync(path.join(ROOT, file), 'utf8').match(/category:\s*'([a-z-]+)'/);
+  if (m && usage.has(m[1] as VideoCategory)) usage.set(m[1] as VideoCategory, usage.get(m[1] as VideoCategory)! + 1);
+}
+const categories = [...usage.entries()]
+  .sort((a, b) => a[1] - b[1] || VIDEO_CATEGORIES.indexOf(a[0]) - VIDEO_CATEGORIES.indexOf(b[0]))
+  .slice(0, counts.videos)
+  .map(([c]) => c);
+
+const recent = history.slice(-14).map((d) => `- ${d.date}: ${d.theme}`).join('\n') || '- (none yet)';
+const template = readFileSync(path.join(ROOT, 'prompts', 'daily-drop.md'), 'utf8');
+const prompt = template
+  .replaceAll('{{DATE}}', date)
+  .replaceAll('{{THEME}}', theme ? `"${theme}"` : 'your choice — invent a fresh, specific visual theme not in the recent list')
+  .replaceAll('{{RECENT_THEMES}}', recent)
+  .replaceAll('{{ICONS}}', String(counts.icons))
+  .replaceAll('{{ICONS3D}}', String(counts.icons3d))
+  .replaceAll('{{BANNERS}}', String(counts.banners))
+  .replaceAll('{{VIDEOS}}', String(counts.videos))
+  .replaceAll('{{VIDEO_CATEGORIES}}', categories.join(', '));
+
+mkdirSync(path.join(ROOT, '.daily'), { recursive: true });
+writeFileSync(path.join(ROOT, '.daily', 'prompt.md'), prompt);
+writeFileSync(path.join(ROOT, '.daily', 'date'), date);
+log(JSON.stringify({ date, theme: theme || '(Claude picks)', videoCategories: categories, counts }));
