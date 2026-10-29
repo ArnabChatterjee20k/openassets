@@ -1,38 +1,90 @@
-import { useState } from 'react';
-import { dropInfo, previewUrl } from '@/lib/registry';
-import { KIND_LABELS, resolveParams, type AssetRef } from '@/lib/types';
+import { useEffect, useRef, useState } from 'react';
+import { Player, Thumbnail } from '@remotion/player';
+import { dropInfo } from '@/lib/registry';
+import { KIND_LABELS, resolveParams, type AssetModule, type AssetRef } from '@/lib/types';
 import { AssetView } from '@/renderers/AssetView';
+import { Scene3D } from '@/renderers/Scene3D';
+import { SceneView } from '@/renderers/SceneView';
+import { snapshot3d } from '@/renderers/offscreen3d';
 import { href } from './router';
 import { useAsset } from './useAsset';
 
-const MOTION_KINDS = new Set(['icon3d', 'video', 'scene']);
+/** True once the element has come near the viewport (and stays true). */
+function useInView<T extends Element>() {
+  const ref = useRef<T>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || inView) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setInView(true), { rootMargin: '300px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [inView]);
+  return { ref, inView };
+}
+
+/**
+ * Everything is rendered live from source, lazily: nothing until the card is
+ * near the viewport, a still at rest, motion only on hover. No preview files.
+ */
+function LivePreview({ id, mod, hover }: { id: string; mod: AssetModule; hover: boolean }) {
+  const params = resolveParams(mod);
+  const kind = mod.meta.kind;
+  const [still, setStill] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (kind !== 'icon3d') return;
+    let live = true;
+    snapshot3d(id, mod.default, resolveParams(mod)).then((url) => live && setStill(url));
+    return () => {
+      live = false;
+    };
+  }, [id, mod, kind]);
+
+  if (kind === 'icon3d') {
+    if (hover) return <Scene3D Component={mod.default} params={params} mode="interaction" interactive />;
+    return still ? <img className="preview-img" src={still} alt="" /> : <div className="skeleton" />;
+  }
+
+  if (kind === 'scene') {
+    // Rest on the first frame; play the SMIL timeline while hovered.
+    return <SceneView Component={mod.default} params={params} time={hover ? undefined : 0} />;
+  }
+
+  if (kind === 'video') {
+    const v = mod.video!;
+    const common = {
+      component: mod.default,
+      inputProps: params,
+      compositionWidth: v.width,
+      compositionHeight: v.height,
+      durationInFrames: v.durationInFrames,
+      fps: v.fps,
+      style: { width: '100%', height: '100%' },
+    };
+    return (
+      <div className="fill">
+        {hover ? (
+          <Player {...common} autoPlay loop initiallyMuted acknowledgeRemotionLicense />
+        ) : (
+          <Thumbnail {...common} frameToDisplay={Math.round(v.durationInFrames * 0.7)} />
+        )}
+      </div>
+    );
+  }
+
+  return <AssetView mod={mod} params={params} />;
+}
 
 export function AssetCard({ asset, showKit = true }: { asset: AssetRef; showKit?: boolean }) {
-  const { mod, error } = useAsset(asset.id);
-  const [noPreview, setNoPreview] = useState(false);
-  // Cards rest on a still; motion (video, 3D interaction loop, scene) plays on hover.
+  const { ref, inView } = useInView<HTMLAnchorElement>();
+  const { mod, error } = useAsset(asset.id, inView);
   const [hover, setHover] = useState(false);
-  const animated = MOTION_KINDS.has(asset.kind);
-
-  let body;
-  if (error) body = <div className="card-error">Failed to load</div>;
-  else if (!mod) body = <div className="skeleton" />;
-  else if (animated && !noPreview)
-    // CI-rendered previews: avoids many WebGL contexts / live compositions in the grid.
-    body = (
-      <img
-        className="preview-img"
-        src={previewUrl(asset.id, 'default', hover ? 'gif' : 'png')}
-        alt=""
-        loading="lazy"
-        onError={() => setNoPreview(true)}
-      />
-    );
-  else body = <AssetView mod={mod} params={resolveParams(mod)} />;
-
   const kit = dropInfo(asset.date);
+
   return (
     <a
+      ref={ref}
       className={`card card-${asset.kind}`}
       href={href(`/asset/${asset.id}`)}
       onMouseEnter={() => setHover(true)}
@@ -40,11 +92,11 @@ export function AssetCard({ asset, showKit = true }: { asset: AssetRef; showKit?
     >
       <div className="card-preview">
         <span className="card-tag">{KIND_LABELS[asset.kind]}</span>
-        {body}
+        {error ? <div className="card-error">Failed to load</div> : mod ? <LivePreview id={asset.id} mod={mod} hover={hover} /> : <div className="skeleton" />}
       </div>
       <div className="card-meta">
         <div className="card-title">
-          <span>{mod?.meta.name ?? asset.slug}</span>
+          <span>{mod?.meta.name ?? asset.slug.replace(/-/g, ' ')}</span>
           {mod && <span className="muted">{Object.keys(mod.variants).length + 1}</span>}
         </div>
         <span className="eyebrow-sm">

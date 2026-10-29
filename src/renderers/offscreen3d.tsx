@@ -3,10 +3,14 @@
 // exports. Jobs run one at a time so we never hold more than one extra WebGL
 // context, however many 3D cards are on the page.
 import type { ComponentType } from 'react';
-import { createRoot, type ReconcilerRoot } from '@react-three/fiber';
+import * as THREE from 'three';
+import { createRoot, extend, type ReconcilerRoot } from '@react-three/fiber';
 import { LOOP_SECONDS, MotionProvider, defaultMotion, type MotionState } from '@/kit/motion3d';
 import { Stage } from './Scene3D';
 import { encodeFrames } from './encode';
+
+// <Canvas> registers the THREE namespace itself; an imperative root must do it.
+extend(THREE as unknown as Parameters<typeof extend>[0]);
 
 const SIZE = 640;
 let canvas: HTMLCanvasElement | null = null;

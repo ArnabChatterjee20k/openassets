@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { loadAsset } from '@/lib/registry';
 import type { AssetModule } from '@/lib/types';
 
-export function useAsset(id: string) {
+/** Load an asset module; with `enabled = false` it waits (lazy cards). */
+export function useAsset(id: string, enabled = true) {
   const [mod, setMod] = useState<AssetModule | null>(null);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
+    if (!enabled) return;
     let live = true;
     loadAsset(id).then(
       (m) => live && setMod(m),
@@ -14,6 +16,6 @@ export function useAsset(id: string) {
     return () => {
       live = false;
     };
-  }, [id]);
+  }, [id, enabled]);
   return { mod, error };
 }

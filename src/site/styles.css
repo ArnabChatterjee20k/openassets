@@ -705,3 +705,20 @@ button.ghost {
   border: 1px dashed var(--hairline);
   border-radius: var(--r);
 }
+
+/* Live previews fill the card box; Remotion players/thumbnails letterbox inside it. */
+.fill {
+  position: absolute;
+  inset: 0;
+}
+
+.card-scene .card-preview .scene-view svg,
+.card-preview > .scene-view {
+  position: absolute;
+  inset: 0;
+}
+
+.card-icon3d .card-preview > div:not(.skeleton) {
+  position: absolute;
+  inset: 0;
+}
