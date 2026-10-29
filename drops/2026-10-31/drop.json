@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-31",
+  "theme": "OpenAssets Launch",
+  "description": "Launch kit for OpenAssets, the free library of editable, parametric assets rendered on demand in the browser: library UI icons, a 3D kit-box hero, the README header banner, a launch countdown, a promo video and an isometric live-editor scene, printed in fluoro risograph inks.",
+  "palette": [
+    "#F4EFE6",
+    "#EAE2D3",
+    "#1F2A6B",
+    "#FF48B0",
+    "#0078BF",
+    "#FFE800"
+  ],
+  "direction": {
+    "palette": "Risograph",
+    "fonts": "Poster shout"
+  }
+}
