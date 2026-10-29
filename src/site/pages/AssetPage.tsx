@@ -7,6 +7,9 @@ import { canvasToPng, download, iconSvg, nodeToPng, sceneToGlb, slugify, svgToPn
 import { ControlPanel } from '../editor/ControlPanel';
 import { href, replaceQuery } from '../router';
 import { useAsset } from '../useAsset';
+import { render3dLoop } from '@/renderers/offscreen3d';
+import { renderSceneLoop, sceneFrame } from '@/renderers/sceneExport';
+import { renderVideoOnWeb } from '@/renderers/webVideo';
 import { dropInfo } from '@/lib/registry';
 
 export function AssetPage({ id, query }: { id: string; query: URLSearchParams }) {
@@ -71,6 +74,24 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
     setTimeout(() => setStatus(''), 2000);
   };
 
+  // On-demand renders run in the browser from the current edits; show progress.
+  const [busy, setBusy] = useState(false);
+  const renderJob = async (what: string, job: (progress: (p: number) => void) => Promise<{ blob: Blob; ext: string } | Blob>, file: string) => {
+    if (busy) return;
+    setBusy(true);
+    setStatus(`Rendering ${what}…`);
+    try {
+      const out = await job((p) => setStatus(`Rendering ${what}… ${Math.round(p * 100)}%`));
+      const { blob, ext } = out instanceof Blob ? { blob: out, ext: 'mp4' } : out;
+      download(blob, `${file}.${ext}`);
+      flash(`${what} ready`);
+    } catch (e) {
+      setStatus(`Render failed: ${String(e).slice(0, 120)}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const exports: { label: string; run: () => Promise<void> | void }[] = [];
   if (mod.meta.kind === 'icon') {
     exports.push(
@@ -101,27 +122,17 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
           download(new Blob([await sceneToGlb(sceneRef.current.scene)], { type: 'model/gltf-binary' }), `${name}.glb`);
         },
       },
+      { label: 'Loop video', run: () => renderJob('loop', (p) => render3dLoop(mod.default, values, p), `${name}-loop`) },
     );
   } else if (mod.meta.kind === 'scene') {
     const sc = mod.scene!;
     const sceneSvg = () => iconSvg(mod, values).replace(/<svg width="\d+" height="\d+"/, `<svg width="${sc.width}" height="${sc.height}"`);
     exports.push(
       { label: 'Animated SVG', run: () => download(new Blob([sceneSvg()], { type: 'image/svg+xml' }), `${name}.svg`) },
-      {
-        label: 'PNG',
-        run: async () => {
-          // Rasterise at 2x via an offscreen canvas (shows the scene's resting frame).
-          const img = new Image();
-          img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(sceneSvg())}`;
-          await img.decode();
-          const c = document.createElement('canvas');
-          c.width = sc.width * 2;
-          c.height = sc.height * 2;
-          c.getContext('2d')!.drawImage(img, 0, 0, c.width, c.height);
-          download(await canvasToPng(c), `${name}.png`);
-        },
-      },
+      { label: 'PNG', run: async () => download(await sceneFrame(mod, values, 0, 2), `${name}.png`) },
+      { label: 'MP4 loop', run: () => renderJob('loop', (p) => renderSceneLoop(mod, values, p), `${name}-loop`) },
     );
+    void sc;
   } else if (mod.meta.kind === 'banner') {
     exports.push({
       label: `PNG ${BANNER_SIZES[bannerSize].width}×${BANNER_SIZES[bannerSize].height}`,
@@ -130,10 +141,13 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
       },
     });
   } else {
-    exports.push({
-      label: 'props.json',
-      run: () => download(new Blob([JSON.stringify(values, null, 2)], { type: 'application/json' }), `${name}.props.json`),
-    });
+    exports.push(
+      { label: 'MP4', run: () => renderJob('video', (p) => renderVideoOnWeb(mod, values, p), name) },
+      {
+        label: 'props.json',
+        run: () => download(new Blob([JSON.stringify(values, null, 2)], { type: 'application/json' }), `${name}.props.json`),
+      },
+    );
   }
   exports.push({
     label: 'Copy link',
@@ -218,7 +232,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
 
         {kind === 'video' && (
           <div className="note">
-            <strong>Render this video locally:</strong> download <code>props.json</code>, then run
+            <strong>MP4 renders in your browser</strong> from your edits (best in Chrome/Edge). If your browser can't encode video, download <code>props.json</code> and run
             <pre>
               pnpm render:video {date}/{dir}/{slug} --props {name}.props.json
             </pre>
@@ -235,7 +249,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
         <h3>Export</h3>
         <div className="exports">
           {exports.map((e, i) => (
-            <button key={e.label} className={i === 0 ? 'primary' : ''} onClick={() => e.run()}>
+            <button key={e.label} className={i === 0 ? 'primary' : ''} disabled={busy} onClick={() => e.run()}>
               {e.label}
             </button>
           ))}
