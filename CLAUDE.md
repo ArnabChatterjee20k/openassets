@@ -4,7 +4,7 @@ A library of parametric, editable assets (SVG icons, 3D icons, banners, video te
 
 ## Asset contract
 
-Each asset lives at `drops/<YYYY-MM-DD>/<kind-dir>/<slug>/index.tsx`, where kind-dir is one of `icons`, `icons3d`, `banners` or `videos`. The slug is kebab-case. Each drop also has a `drops/<date>/drop.json` with `{ date, theme, description, palette }`.
+Each asset lives at `drops/<YYYY-MM-DD>/<kind-dir>/<slug>/index.tsx`, where kind-dir is one of `icons`, `icons3d`, `banners`, `videos` or `scenes`. The slug is kebab-case. Each drop also has a `drops/<date>/drop.json` with `{ date, theme, description, palette }`.
 
 Every asset module exports:
 
