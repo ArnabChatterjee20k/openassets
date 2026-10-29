@@ -42,6 +42,7 @@ jobs:
       - name: Generate, validate and render
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          CLAUDE_MODEL: claude-opus-5-5 # pinned: every generation runs on Opus 5.5
         run: ./scripts/generate.sh
 
       - name: Upload Claude log
