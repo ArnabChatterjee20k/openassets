@@ -69,6 +69,6 @@ The job runs at 06:00 UTC on Opus with up to 300 turns. To steer it, edit `ideas
 
 Generated code runs in visitors' browsers, so `pnpm validate` rejects network calls, `eval`, dynamic imports, storage APIs, `dangerouslySetInnerHTML`, external URLs and imports outside an allowlist. In CI, Claude can write only inside `drops/<today>/`, run `pnpm validate`/`pnpm stills`, use skills and read Remotion docs. `generate.sh` fails the run if anything else changed.
 
-Generated kits are a few KB of source per day, so the repo stays small; Git LFS only holds a few binaries (fonts and audio).
+Generated kits are a few KB of source per day, and the repo contains no rendered files. Git LFS stays configured (`.gitattributes`) in case binaries are ever added.
 
 Glyphs come from [Phosphor Icons](https://phosphoricons.com) (MIT). Remotion is free for individuals and small teams; larger companies need a [company license](https://www.remotion.dev/license).
