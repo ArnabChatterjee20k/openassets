@@ -1,4 +1,4 @@
-# Generative Assets
+# OpenAssets
 
 Every day a GitHub Action asks Claude (`claude -p`) to produce a **use-case kit**, a set of assets a real team would ship for a specific job (a SaaS launch, a flash sale, a podcast). Each kit contains icons, an interactive 3D hero icon, banners, video templates and an animated isometric scene. Claude designs them, critiques its own renders, validates them and publishes the source to the site. **Every asset is editable in the browser**: colors, copy, fonts, uploaded images and variants.
 

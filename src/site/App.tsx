@@ -26,7 +26,7 @@ export function App() {
       <header className="nav">
         <div className="container nav-inner">
           <a href="#/" className="wordmark">
-            Generative Assets
+            OpenAssets
           </a>
           <nav className="nav-links">
             {NAV_KINDS.map((k) => (
@@ -44,7 +44,7 @@ export function App() {
       <main className="container">{page}</main>
       <footer className="footer">
         <div className="container footer-inner">
-          <span>Generative Assets</span>
+          <span>OpenAssets</span>
           <span className="eyebrow-sm">Free · editable · new kit daily</span>
         </div>
       </footer>

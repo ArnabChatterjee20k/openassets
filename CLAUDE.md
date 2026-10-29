@@ -1,4 +1,4 @@
-# Generative Assets
+# OpenAssets
 
 A library of parametric, editable assets (SVG icons, 3D icons, banners, video templates). A new themed drop is generated daily by `claude -p` in GitHub Actions. The site (Vite + React, GitHub Pages) shows a gallery and an editor that is auto-generated from each asset's schema.
 
