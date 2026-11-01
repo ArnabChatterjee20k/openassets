@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-01",
+  "theme": "SaaS Product Launch",
+  "description": "Launch kit for Strobe 1.0, a feature-flag platform: dashboard icons, a 3D toggle hero, launch banner, customer-quote and launch-night videos, and an isometric rollout scene.",
+  "palette": ["#0B0B0B", "#1A1A1A", "#F0FFE0", "#C6FF00", "#FF00E5", "#00F0FF"],
+  "direction": { "palette": "Acid", "fonts": "Arcade" }
+}
