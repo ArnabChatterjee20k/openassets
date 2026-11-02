@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # Daily pipeline: pick theme → claude -p writes the drop → validate → render.
+# If drops/<date> already exists, the run appends new assets to that kit (same
+# theme and direction) instead of failing, so it can run several times a day.
 # Used by .github/workflows/daily.yml and by `scripts/test-local.sh --generate`.
 #
 # Env: DATE, THEME, ICONS, ICONS3D, BANNERS, VIDEOS (see scripts/prepare-drop.ts),
@@ -11,10 +13,20 @@ cd "$(dirname "$0")/.."
 
 pnpm -s tsx scripts/prepare-drop.ts
 DATE=$(cat .daily/date)
+MODE=$(cat .daily/mode)
+
+# Fingerprint the kit's existing asset files: an append run may add assets but
+# must not change or delete any (brief.md and drop.json may be updated).
+fingerprint() {
+  [ -d "drops/$DATE" ] || return 0
+  find "drops/$DATE" -type f -name '*.ts*' -print0 | xargs -0 shasum 2>/dev/null | sort || true
+}
+existing=$(fingerprint)
+assets_before=$(find "drops/$DATE" -name index.tsx 2>/dev/null | wc -l | tr -d ' ')
 
 before=$(git status --porcelain --untracked-files=all | sort)
 
-echo "→ claude -p generating drops/$DATE …"
+echo "→ claude -p generating drops/$DATE ($MODE) …"
 # Edit(...) rules cover every file-writing tool. Claude may render stills and read
 # the contact sheets (review/ is gitignored), use skills and read Remotion docs.
 claude -p "$(cat .daily/prompt.md)" \
@@ -32,6 +44,30 @@ if [ -n "$outside" ]; then
   exit 1
 fi
 [ -f "drops/$DATE/drop.json" ] || { echo "✗ drops/$DATE/drop.json was not created"; exit 1; }
+
+# Assets Claude marked for removal (its index.tsx is just "// discard"). Claude
+# can write files but not delete them, so scratch work is cleared here.
+find "drops/$DATE" -name index.tsx -print0 | while IFS= read -r -d '' f; do
+  if [ "$(tr -d '[:space:]' < "$f")" = "//discard" ]; then
+    echo "→ discarding $(dirname "$f")"
+    rm -rf "$(dirname "$f")"
+  fi
+done
+
+if [ "$MODE" = append ]; then
+  changed=$(comm -23 <(echo "$existing") <(fingerprint) | awk '{print $2}')
+  if [ -n "$changed" ]; then
+    echo "✗ append run changed or deleted existing assets:"
+    echo "$changed"
+    exit 1
+  fi
+  assets_after=$(find "drops/$DATE" -name index.tsx | wc -l | tr -d ' ')
+  if [ "$assets_after" -le "$assets_before" ]; then
+    echo "✗ append run added no assets"
+    exit 1
+  fi
+  echo "→ appended $((assets_after - assets_before)) assets to drops/$DATE"
+fi
 
 echo "→ independent validation"
 pnpm validate --drop "$DATE"

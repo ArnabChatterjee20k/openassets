@@ -34,6 +34,8 @@ Write `drops/{{DATE}}/brief.md` (≤ 40 lines). It covers the theme's visual ide
 
 For **each** asset, follow the asset-craft review loop: render with `pnpm stills <id>`, open the sheet, write the critique, fix, and re-render. Do at least two passes. For icons, finish with `pnpm stills --drop {{DATE}}` and check `review/{{DATE}}/icon-set.png`.
 
+To throw away an asset you started (a scratch or test file), replace its `index.tsx` with the single line `// discard`. The pipeline deletes the folder. Never leave scratch or test assets behind; they would be published.
+
 ## Step 3: validate
 
 Run `pnpm validate --drop {{DATE}}` and fix everything until it prints `✓`. Never weaken a check, and never edit files outside `drops/{{DATE}}/`.

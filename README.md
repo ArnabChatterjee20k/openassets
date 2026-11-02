@@ -60,7 +60,7 @@ DATE=2026-11-01 THEME="Podcast Launch" ./scripts/generate.sh
 pnpm stills 2026-10-30/videos/how-openfeed-works --frames 30,120,300
 ```
 
-`generate.sh` accepts `PALETTE` and `FONTS` to pin a direction, and counts such as `ICONS=8` or `VIDEOS=2`. `regenerate.sh` redoes one asset through the same skills and review loop, and restores the old asset if validation fails.
+`generate.sh` accepts `PALETTE` and `FONTS` to pin a direction, and counts such as `ICONS=8` or `VIDEOS=2`. If the date's kit already exists, the run adds new assets to it in the same theme and direction, and fails if it changes or deletes an existing asset, so you can run it several times a day. `regenerate.sh` redoes one asset through the same skills and review loop, and restores the old asset if validation fails.
 
 ## Turn on the daily job
 

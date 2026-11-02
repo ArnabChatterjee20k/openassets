@@ -77,6 +77,9 @@ for (const a of assets) {
   const { mod } = a;
   const where = a.file;
   if (!mod.meta?.name) err(where, 'missing meta.name');
+  // Scratch/test assets would be published; Claude discards them with `// discard`.
+  const label = `${a.slug} ${mod.meta?.name ?? ''} ${mod.meta?.description ?? ''}`;
+  if (/\bscratch\b|delete (me|this)|^zz-|\btest asset\b/i.test(label)) err(where, 'looks like a scratch/test asset; discard it (replace index.tsx with `// discard`)');
   if (mod.meta?.kind !== a.kind) err(where, `meta.kind "${mod.meta?.kind}" should be "${a.kind}" (folder ${KIND_DIRS[a.kind]})`);
   if (typeof mod.default !== 'function') err(where, 'default export must be a component');
   if (!(mod.schema instanceof z.ZodObject)) {

@@ -35,7 +35,8 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
 - `pnpm render:video <date>/videos/<slug> --props file.json`: renders a customised video.
 - `pnpm stills <date>/<kind>/<slug> [--frames ...]` or `pnpm stills --drop DATE`: contact sheets in `review/` for visual critique.
 - `./scripts/test-local.sh [--full|--generate|--serve]`: the local test harness.
-- `./scripts/generate.sh`: the daily pipeline (prepare → claude → validate). `RENDER=1` also batch-renders.
+- `./scripts/generate.sh`: the daily pipeline (prepare → claude → validate). If `drops/<date>` exists it appends new assets to that kit (prompt: `prompts/append-drop.md`). `RENDER=1` also batch-renders.
+- Claude can't delete files: to discard a scratch asset, replace its `index.tsx` with `// discard` and `generate.sh` removes the folder. `pnpm validate` rejects scratch/test assets.
 - `./scripts/regenerate.sh <date>/<kind>/<slug> "note"`: redo one asset through claude -p and the review loop.
 
 Before creating or editing assets, load the **asset-craft** skill (`.claude/skills/asset-craft/`): it has the quality bar and the mandatory `pnpm stills` review loop. Remotion skills live alongside it. Shared craft components (easing, backdrop, grain, streaks, title reveals, dust) are in `@/kit`. `drops/2026-10-29/` is the reference drop.

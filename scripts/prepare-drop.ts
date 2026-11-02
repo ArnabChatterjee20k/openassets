@@ -1,7 +1,11 @@
 // Picks today's theme and video occasions, then writes the generation prompt
 // to .daily/prompt.md for `claude -p`.
 //
-// Env overrides: DATE, THEME, ICONS, ICONS3D, BANNERS, VIDEOS (counts per kind).
+// If drops/<date> already exists, the run appends to that kit instead of
+// failing: same theme and visual direction, new assets alongside the old ones.
+// .daily/mode says which ("new" or "append").
+//
+// Env overrides: DATE, THEME, ICONS, ICONS3D, BANNERS, VIDEOS, SCENES (counts per kind).
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { VIDEO_CATEGORIES, type VideoCategory } from '../src/lib/types';
@@ -11,7 +15,8 @@ import { ROOT, assetFiles, fail, listDrops, log, readDrop } from './lib/common';
 
 const date = process.env.DATE || new Date().toISOString().slice(0, 10);
 if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) fail(`bad DATE ${date}`);
-if (existsSync(path.join(ROOT, 'drops', date))) fail(`drops/${date} already exists`);
+const append = existsSync(path.join(ROOT, 'drops', date, 'drop.json'));
+const existing = append ? readDrop(date) : null;
 
 const counts = {
   icons: Number(process.env.ICONS ?? 8),
@@ -21,7 +26,10 @@ const counts = {
   scenes: Number(process.env.SCENES ?? 1),
 };
 
-const history = listDrops().map(readDrop);
+// When appending, the kit's own drop doesn't count as history.
+const history = listDrops()
+  .filter((d) => d !== date)
+  .map(readDrop);
 const used = new Set(history.map((d) => d.theme.toLowerCase()));
 
 // Use-case kit: explicit override → first unused kit in ideas.md → let Claude propose one.
@@ -32,7 +40,14 @@ const ideas = readFileSync(path.join(ROOT, 'ideas.md'), 'utf8')
   .filter((t): t is string => !!t)
   .map((t) => ({ name: t.split(':')[0].trim(), brief: t.slice(t.indexOf(':') + 1).trim() }))
   .filter((k) => !used.has(k.name.toLowerCase()));
-const kit = process.env.THEME ? { name: process.env.THEME, brief: '' } : ideas[0];
+const kit = existing
+  ? { name: existing.theme, brief: existing.description }
+  : process.env.THEME
+    ? { name: process.env.THEME, brief: '' }
+    : ideas[0];
+if (existing && process.env.THEME && process.env.THEME !== existing.theme) {
+  log(`note: drops/${date} is already the "${existing.theme}" kit; appending to it and ignoring THEME`);
+}
 const theme = kit ? (kit.brief && kit.brief !== kit.name ? `"${kit.name}" (${kit.brief})` : `"${kit.name}"`) : '';
 
 // Video occasions: the least-used categories so far, so the library stays varied.
@@ -58,8 +73,9 @@ const leastUsed = <T extends { name: string }>(items: T[], used: (string | undef
   const pool = items.filter((i) => count(i.name) === min);
   return pool[hash % pool.length];
 };
-const palette = leastUsed(PALETTES, history.map((d) => d.direction?.palette), process.env.PALETTE);
-const pairing = leastUsed(FONT_PAIRINGS, history.map((d) => d.direction?.fonts), process.env.FONTS);
+// Appending keeps the kit's recorded direction so the new assets match it.
+const palette = leastUsed(PALETTES, history.map((d) => d.direction?.palette), existing?.direction?.palette ?? process.env.PALETTE);
+const pairing = leastUsed(FONT_PAIRINGS, history.map((d) => d.direction?.fonts), existing?.direction?.fonts ?? process.env.FONTS);
 const roles = (['bg', 'surface', 'ink', 'accent', 'accent2', 'pop'] as const).map((r) => `\`${r}\` ${palette[r]}`).join(' · ');
 const fontLine = (k: keyof typeof FONT_INFO) => `\`${k}\` (${FONT_INFO[k].vibe})`;
 const direction = [
@@ -68,8 +84,15 @@ const direction = [
 ].join('\n');
 
 const recent = history.slice(-14).map((d) => `- ${d.date}: ${d.theme}`).join('\n') || '- (none yet)';
-const template = readFileSync(path.join(ROOT, 'prompts', 'daily-drop.md'), 'utf8');
+// Assets already in the kit, so an append run adds new slugs instead of redoing them.
+const already = assetFiles(date)
+  .map(({ file }) => file.replace(`drops/${date}/`, '').replace('/index.tsx', ''))
+  .map((id) => `- \`${id}\``)
+  .join('\n');
+
+const template = readFileSync(path.join(ROOT, 'prompts', append ? 'append-drop.md' : 'daily-drop.md'), 'utf8');
 const prompt = template
+  .replaceAll('{{EXISTING_ASSETS}}', already || '- (none yet)')
   .replaceAll('{{DATE}}', date)
   .replaceAll('{{THEME}}', theme || 'your choice: propose a real-world use case (a business or person with a concrete need) not in the recent list')
   .replaceAll('{{RECENT_THEMES}}', recent)
@@ -86,4 +109,5 @@ const prompt = template
 mkdirSync(path.join(ROOT, '.daily'), { recursive: true });
 writeFileSync(path.join(ROOT, '.daily', 'prompt.md'), prompt);
 writeFileSync(path.join(ROOT, '.daily', 'date'), date);
-log(JSON.stringify({ date, theme: theme || '(Claude picks)', palette: palette.name, fonts: pairing.name, videoCategories: categories, counts }));
+writeFileSync(path.join(ROOT, '.daily', 'mode'), append ? 'append' : 'new');
+log(JSON.stringify({ date, mode: append ? 'append' : 'new', theme: theme || '(Claude picks)', palette: palette.name, fonts: pairing.name, videoCategories: categories, counts }));
