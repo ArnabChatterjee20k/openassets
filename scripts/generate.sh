@@ -22,7 +22,9 @@ fingerprint() {
   find "drops/$DATE" -type f -name '*.ts*' -print0 | xargs -0 shasum 2>/dev/null | sort || true
 }
 existing=$(fingerprint)
-assets_before=$(find "drops/$DATE" -name index.tsx 2>/dev/null | wc -l | tr -d ' ')
+# Count assets without find failing on a new date (pipefail would end the script).
+count_assets() { if [ -d "drops/$DATE" ]; then find "drops/$DATE" -name index.tsx | wc -l | tr -d ' '; else echo 0; fi; }
+assets_before=$(count_assets)
 
 before=$(git status --porcelain --untracked-files=all | sort)
 
@@ -61,7 +63,7 @@ if [ "$MODE" = append ]; then
     echo "$changed"
     exit 1
   fi
-  assets_after=$(find "drops/$DATE" -name index.tsx | wc -l | tr -d ' ')
+  assets_after=$(count_assets)
   if [ "$assets_after" -le "$assets_before" ]; then
     echo "✗ append run added no assets"
     exit 1
