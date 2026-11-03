@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-02",
+  "theme": "particles.io Multiplayer Shooter",
+  "description": "Season 3 \"Overclock\" kit for particles.io, a realtime multiplayer 2D shooter: HUD icons, a 3D arrow-ship hero, season banner, caster lower-third, launch reel and a living isometric arena.",
+  "palette": ["#FFFDF2", "#FFE45C", "#000000", "#FF5C8A", "#5C8AFF", "#00D1A0"],
+  "direction": { "palette": "Neo-brutalist", "fonts": "Streetwear" }
+}
