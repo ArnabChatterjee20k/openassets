@@ -8,7 +8,9 @@
 #      MAX_TURNS (default 300), RENDER=1 to also batch-render full-res files locally
 #      (the site renders everything on demand, so CI skips this), RENDER_FLAGS,
 #      CLAUDE_MODEL (default claude-opus-5-5).
-set -euo pipefail
+set -Eeuo pipefail
+# Never fail silently: name the line and command that stopped the run.
+trap 'echo "✗ generate.sh failed at line $LINENO: $BASH_COMMAND" >&2' ERR
 cd "$(dirname "$0")/.."
 
 pnpm -s tsx scripts/prepare-drop.ts
