@@ -7,8 +7,8 @@
 <p align="center">
   <a href="https://arnabchatterjee20k.github.io/openassets/">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/group/badge/live-site-ff48b0+badge/new%20kit-daily-0078bf+badge/built%20with-Claude%20Opus%205.5-d97757+badge/renders-in%20your%20browser-111111.svg?variant=secondary&mode=dark" />
-      <img alt="Live site, a new kit daily, built with Claude Opus 5.5, renders in your browser" src="https://shieldcn.dev/group/badge/live-site-ff48b0+badge/new%20kit-daily-0078bf+badge/built%20with-Claude%20Opus%205.5-d97757+badge/renders-in%20your%20browser-111111.svg?variant=secondary&mode=light" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/group/badge/live-site-ff48b0+badge/new%20assets-3×%20a%20day-0078bf+badge/built%20with-Claude%20Opus%205.5-d97757+badge/renders-in%20your%20browser-111111.svg?variant=secondary&mode=dark" />
+      <img alt="Live site, new assets three times a day, built with Claude Opus 5.5, renders in your browser" src="https://shieldcn.dev/group/badge/live-site-ff48b0+badge/new%20assets-3×%20a%20day-0078bf+badge/built%20with-Claude%20Opus%205.5-d97757+badge/renders-in%20your%20browser-111111.svg?variant=secondary&mode=light" />
     </picture>
   </a>
 </p>
@@ -69,7 +69,7 @@ pnpm stills 2026-10-30/videos/how-openfeed-works --frames 30,120,300
 2. In the repo settings, set Pages to deploy from GitHub Actions.
 3. Run the "Daily drop" workflow once from the Actions tab to check it.
 
-The job runs at 06:00 UTC on Opus 5.5 with a budget of 300 turns. To change what it makes, edit `ideas.md`. To change how it makes it, edit `prompts/daily-drop.md` and the asset-craft skill.
+The job runs at 06:17, 14:17 and 22:17 UTC. The first run of the day starts a new kit and the other two add assets to it. Each run uses Opus 5.5 with a budget of 300 turns. To change what it makes, edit `ideas.md`. To change how it makes it, edit `prompts/daily-drop.md` and the asset-craft skill.
 
 ## Safety
 
