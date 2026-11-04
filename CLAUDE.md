@@ -4,7 +4,7 @@ A library of parametric, editable assets (SVG icons, 3D icons, banners, video te
 
 ## Asset contract
 
-Each asset lives at `drops/<YYYY-MM-DD>/<kind-dir>/<slug>/index.tsx`, where kind-dir is one of `icons`, `icons3d`, `banners`, `videos` or `scenes`. The slug is kebab-case. Each drop also has a `drops/<date>/drop.json` with `{ date, theme, description, palette }`.
+Each asset lives at `drops/<YYYY-MM-DD>/<kind-dir>/<slug>/index.tsx`, where kind-dir is one of `icons`, `icons3d`, `cards3d`, `banners`, `videos` or `scenes`. The slug is kebab-case. Each drop also has a `drops/<date>/drop.json` with `{ date, theme, description, palette }`.
 
 Every asset module exports:
 
@@ -22,6 +22,7 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
 - Per kind:
   - **icon:** render `IconArt` from `@/kit` with a Phosphor glyph (`@phosphor-icons/react/ssr`) and `iconSchema(...)`. The result is a single root `<svg viewBox="0 0 256 256">` with no width or height. The default is a solid black glyph.
   - **icon3d:** return react-three-fiber objects (`<group>`, `<mesh>`…). No `<Canvas>`, lights, camera or controls; `src/renderers/Scene3D.tsx` provides those.
+  - **card3d:** a light-beam project card. Like icon3d (one small R3F object), with a schema built on `beamSchema({ name })` from `@/kit`. The renderer adds the name-seeded beams, glow and lighting. Use `beamLight(p).color` for the object's glowing accent.
   - **banner:** props also include `width` and `height`. Render a full-bleed element of exactly that size and scale everything from it.
   - **video:** a Remotion component, with `meta.category` set to one of `VIDEO_CATEGORIES` in `src/lib/types.ts`.
   - **scene:** one root `<svg viewBox>` isometric illustration animated with SMIL only, built with `@/kit` iso helpers. `export const scene = { width, height, loop }` is required, and every SMIL `dur` must divide `loop`.

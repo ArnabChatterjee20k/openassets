@@ -26,6 +26,7 @@ You are a senior motion and visual designer adding assets to an existing kit in 
 
 1. **{{ICONS}} more icon(s)** (`icons/<slug>/index.tsx`): Phosphor glyphs with `IconArt`, using the **same `iconSchema` defaults and `variants` block** as the kit's existing icons so the set stays consistent.
 2. **{{ICONS3D}} more 3D icon(s)** (`icons3d/<slug>/index.tsx`) with a `material` select, 4–5 variants and micro-interactions (see asset-craft).
+2b. **{{CARDS3D}} more 3D card(s)** (`cards3d/<slug>/index.tsx`): light-beam project cards for products or features the kit doesn't have a card for yet. Follow the asset-craft "3D cards" rules.
 3. **{{BANNERS}} more banner(s)** (`banners/<slug>/index.tsx`), each with a hero visual, working at every size in `BANNER_SIZES`, with 4–5 variants.
 4. **{{VIDEOS}} more video template(s)** (`videos/<slug>/index.tsx`), **one for each of these occasions: {{VIDEO_CATEGORIES}}**. Set `meta.category`, use 60 fps, a beat grid, and 6–12 s. Include at least one `image()` param plus editable text and colors, and 3–4 variants.
 5. **{{SCENES}} more animated scene(s)** (`scenes/<slug>/index.tsx`): an isometric SVG illustration of a different side of the product than the kit's existing scene, using a different archetype from the asset-craft table. Don't default to a building on an island.

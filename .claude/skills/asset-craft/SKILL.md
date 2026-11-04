@@ -129,6 +129,17 @@ Make every motion return to the rest pose at loop boundaries (integer `cycles` g
 - Offer a calm/lively `mood` (or similar) param, like a robot's status.
 - Review: `pnpm stills` samples the loop at t = 0.6 / 1.2 / 2.2 / 3.2 s. Those frames must visibly differ.
 
+### 3D cards (light-beam project cards)
+
+A 592 × 210 dark card with one small glossy object standing in a glow pool, lit by coloured beams from above, like a portfolio's project list. The renderer draws the beams, glow, vignette and lighting. The light colour and beam layout are seeded from the card's `name`, so every project is lit differently and stays consistent. Your module supplies the object.
+
+- Schema: `beamSchema({ name: 'Webhooks' }).extend({ ...your fields })` from `@/kit`. Keep its fields: the editor and exports rely on them. Variants should include other project names (each gets new light), `lightMode: 'custom'` with a `light`, and finish or material swaps.
+- The object is one clear silhouette that stands for the project: a shield for auth, a key for an API, a piggy bank for savings, a controller for games, a book for writing, a camera for photos, a map pin for location. Pick the literal, iconic object. No scenes and no text on the object.
+- Material: a white or very light neutral body (`meshPhysicalMaterial`, clearcoat, roughness about 0.2), so it catches the coloured rim light. Add exactly one glowing accent in `beamLight(p).color` (an LED, a ring, a screen, a gem, a keyhole) with `emissive`. Offer glossy, matte and chrome finishes.
+- Scale: keep the object within about a 2-unit cube centred slightly below the origin. It should fill about half the card's height. Build it from rounded primitives (`RoundedBox`, cylinders, tori, extruded shapes with bevels, metaballs for organic forms).
+- Micro-interactions work as for 3D icons: wrap in `IconMotion`, animate the accent in `useLoop` (pulse, blink, spin, swing), react to hover and click, and keep every period a divisor of 4 s.
+- Review: `pnpm stills` renders the card at 2× at t = 0 / 0.6 / 1.2 / 2.2 / 3.2 s plus every variant. Check that the silhouette reads at card size, the accent glows in the light colour, and the variants' names produce visibly different light.
+
 ### Animated scenes (isometric SVG)
 
 Scenes are the product's idea as a living illustration: landing-page heroes, empty states and launch visuals.

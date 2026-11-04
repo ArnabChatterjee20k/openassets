@@ -21,6 +21,7 @@ Claude (Opus 5.5) generates each kit as parametric source code in React, SVG, re
 
 - 8 icons built on [Phosphor](https://phosphoricons.com) glyphs. They are solid black by default, with tile, duotone and other variants.
 - A 3D hero icon that rests still and reacts when you hover or click it. It exports as PNG, GLB and a 4 second loop.
+- Light-beam project cards (592 × 210): a small glossy object per product or feature, lit by coloured beams seeded from the project's name, so every card gets its own light. They export as PNG, GLB and a loop.
 - A banner that adapts to Open Graph, X, LinkedIn, YouTube and square sizes.
 - 2 video templates for occasions like launches, countdowns and greetings, at 60 fps on a beat grid. They export as MP4.
 - An animated isometric scene of the product's idea. It exports as a self-playing animated SVG, a PNG or an MP4 loop.

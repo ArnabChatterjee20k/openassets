@@ -5,7 +5,7 @@
 // failing: same theme and visual direction, new assets alongside the old ones.
 // .daily/mode says which ("new" or "append").
 //
-// Env overrides: DATE, THEME, ICONS, ICONS3D, BANNERS, VIDEOS, SCENES (counts per kind).
+// Env overrides: DATE, THEME, ICONS, ICONS3D, CARDS3D, BANNERS, VIDEOS, SCENES (counts per kind).
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { VIDEO_CATEGORIES, type VideoCategory } from '../src/lib/types';
@@ -21,6 +21,7 @@ const existing = append ? readDrop(date) : null;
 const counts = {
   icons: Number(process.env.ICONS ?? 8),
   icons3d: Number(process.env.ICONS3D ?? 1),
+  cards3d: Number(process.env.CARDS3D ?? 3),
   banners: Number(process.env.BANNERS ?? 1),
   videos: Number(process.env.VIDEOS ?? 2),
   scenes: Number(process.env.SCENES ?? 1),
@@ -101,6 +102,7 @@ const prompt = template
   .replaceAll('{{FONTS_NAME}}', pairing.name)
   .replaceAll('{{ICONS}}', String(counts.icons))
   .replaceAll('{{ICONS3D}}', String(counts.icons3d))
+  .replaceAll('{{CARDS3D}}', String(counts.cards3d))
   .replaceAll('{{BANNERS}}', String(counts.banners))
   .replaceAll('{{VIDEOS}}', String(counts.videos))
   .replaceAll('{{SCENES}}', String(counts.scenes))
