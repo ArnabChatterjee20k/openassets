@@ -44,7 +44,6 @@ import lxml.html
 ROOT = Path(__file__).resolve().parents[2]
 YC_URL = "https://www.ycombinator.com/launches"
 PH_FEED = "https://www.producthunt.com/feed"
-UA = "OpenAssets idea gatherer (+https://github.com/ArnabChatterjee20k/openassets)"
 
 
 def clean(s: str) -> str:
@@ -103,8 +102,7 @@ async def yc_launches(limit: int) -> list[dict]:
 
 
 def ph_feed(limit: int) -> list[dict]:
-    req = urllib.request.Request(PH_FEED, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=30) as r:
+    with urllib.request.urlopen(PH_FEED, timeout=30) as r:
         root = ET.fromstring(r.read())
     ns = {"a": "http://www.w3.org/2005/Atom"}
     out = []
