@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-04",
+  "theme": "Building Fully Autonomous Factories in America",
+  "description": "Kit for Redbrick Works, a lights-out CNC machine shop in Ohio: portal icons, a 3D robot-arm hero, product cards, a quote banner, a how-it-works film, a Thanksgiving greeting and a living factory-floor scene.",
+  "palette": ["#F1E4D3", "#E5CDB2", "#3B1F14", "#C8553D", "#4F6D58", "#F2A541"],
+  "direction": { "palette": "Terracotta", "fonts": "Neon street" }
+}
