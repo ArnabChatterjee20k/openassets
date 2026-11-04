@@ -1,12 +1,13 @@
 import type { ComponentType } from 'react';
 import type { z } from 'zod';
 
-export type Kind = 'icon' | 'icon3d' | 'banner' | 'video' | 'scene';
+export type Kind = 'icon' | 'icon3d' | 'card3d' | 'banner' | 'video' | 'scene';
 
 /** Directory name under drops/<date>/ for each kind. */
 export const KIND_DIRS: Record<Kind, string> = {
   icon: 'icons',
   icon3d: 'icons3d',
+  card3d: 'cards3d',
   banner: 'banners',
   video: 'videos',
   scene: 'scenes',
@@ -16,6 +17,7 @@ export const DIR_KINDS = Object.fromEntries(Object.entries(KIND_DIRS).map(([k, d
 export const KIND_LABELS: Record<Kind, string> = {
   icon: 'Icons',
   icon3d: '3D Icons',
+  card3d: '3D Cards',
   banner: 'Banners',
   video: 'Video Templates',
   scene: 'Scenes',
@@ -61,6 +63,9 @@ export interface SceneConfig {
   loop: number;
 }
 
+/** Light-beam project cards: a small 3D object on a dark card lit by seeded beams. */
+export const CARD3D_SIZE = { width: 592, height: 210 };
+
 /** Banner components receive the target canvas size alongside their params. */
 export interface BannerSize {
   width: number;
@@ -79,6 +84,7 @@ export const BANNER_SIZES: Record<string, BannerSize> = {
  * The contract every drops/<date>/<kind>/<slug>/index.tsx must satisfy.
  * - icon:   default export renders a single <svg viewBox=...> (no width/height)
  * - icon3d: default export renders react-three-fiber objects (no <Canvas>)
+ * - card3d: like icon3d, plus a beamSchema(); the renderer adds the seeded light-beam card
  * - banner: default export renders a full-bleed element of size props.width x props.height
  * - video:  default export is a Remotion composition component; `video` config required
  * - scene:  default export renders one root <svg viewBox> animated with SMIL; `scene` config required
