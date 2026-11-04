@@ -71,6 +71,17 @@ pnpm stills 2026-10-30/videos/how-openfeed-works --frames 30,120,300
 
 The job runs at 06:17, 14:17 and 22:17 UTC. The first run of the day starts a new kit and the other two add assets to it. Each run uses Opus 5.5 with a budget of 300 turns. To change what it makes, edit `ideas.md`. To change how it makes it, edit `prompts/daily-drop.md` and the asset-craft skill.
 
+## Where the ideas come from
+
+On the 1st and 15th of each month, the "Gather ideas" workflow collects recent launches from [YC Launches](https://www.ycombinator.com/launches) and the [Product Hunt feed](https://www.producthunt.com/feed) using [Scout](https://github.com/ArnabChatterjee20k/scout), and writes about 20 of them to `ideas-gathered.md`. The daily job takes its next kit from that list before falling back to `ideas.md`.
+
+Each kit is named after what the product does, such as "Email inboxes for humans and bots". Claude reads the real product to understand who it's for, then invents its own brand, so no kit uses a real company's name or logo. At most 3 kits per gather are about AI agents, so the library doesn't fill up with the same kind of product.
+
+```bash
+uv run --script scripts/gather/gather.py --install-browser --dry-run   # once: Python 3.14 and Chromium
+uv run --script scripts/gather/gather.py                               # rewrites ideas-gathered.md
+```
+
 ## Safety
 
 Generated code runs in visitors' browsers, so `pnpm validate` rejects network calls, `eval`, dynamic imports, storage APIs, `dangerouslySetInnerHTML`, external URLs and any import outside a short allowlist. In CI, Claude can only edit files inside the day's drop folder, run `pnpm validate` and `pnpm stills`, load skills and read the Remotion docs. `generate.sh` fails the run if any other file changed.
