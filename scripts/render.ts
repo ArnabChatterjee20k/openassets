@@ -13,13 +13,13 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Resvg } from '@resvg/resvg-js';
 import type { Browser } from 'playwright';
-import { BANNER_SIZES, resolveParams, variantNames, type Kind } from '../src/lib/types';
+import { BANNER_SIZES, CARD3D_SIZE, resolveParams, variantNames, type Kind } from '../src/lib/types';
 import { ANGLES } from '../src/renderers/angles';
 import { ROOT, argValue, fail, hasFlag, latestDrop, launchBrowser, loadAssets, log, renderUrl, startSite, type LoadedAsset } from './lib/common';
 import { bundleVideos, renderPoster, renderVideo } from './lib/remotion';
 
 const date = argValue('drop') ?? latestDrop() ?? fail('no drops found');
-const kinds = ((argValue('kinds')?.split(',') as Kind[]) ?? ['icon', 'icon3d', 'banner', 'video', 'scene']).filter(
+const kinds = ((argValue('kinds')?.split(',') as Kind[]) ?? ['icon', 'icon3d', 'card3d', 'banner', 'video', 'scene']).filter(
   (k) => !(k === 'video' && hasFlag('no-video')),
 );
 
@@ -52,7 +52,7 @@ for (const a of assets.filter((a) => a.kind === 'icon')) {
 }
 
 // ---- Banners & 3D: headless browser ----------------------------------------
-const browserAssets = assets.filter((a) => a.kind === 'banner' || a.kind === 'icon3d' || a.kind === 'scene');
+const browserAssets = assets.filter((a) => a.kind === 'banner' || a.kind === 'icon3d' || a.kind === 'card3d' || a.kind === 'scene');
 if (browserAssets.length) {
   const { server, url } = await startSite();
   const browser = await launchBrowser();
@@ -60,6 +60,7 @@ if (browserAssets.length) {
     for (const a of browserAssets) {
       if (a.kind === 'banner') await renderBanner(browser, url, a);
       else if (a.kind === 'scene') await renderScene(browser, url, a);
+      else if (a.kind === 'card3d') await renderCard(browser, url, a);
       else await render3D(browser, url, a);
       log(`  ✓ ${a.id}`);
     }
@@ -86,6 +87,14 @@ async function renderBanner(browser: Browser, url: string, a: LoadedAsset) {
     // Preview: OG size at half resolution.
     const page = await shoot(browser, renderUrl(url, a.id, { variant: v, size: 'og' }), BANNER_SIZES.og, 0.5);
     write(path.join(PREVIEWS, a.id, `${v}.png`), await page.locator('#target').screenshot());
+    await page.close();
+  }
+}
+
+async function renderCard(browser: Browser, url: string, a: LoadedAsset) {
+  for (const v of variantNames(a.mod)) {
+    const page = await shoot(browser, renderUrl(url, a.id, { variant: v, t: '0' }), CARD3D_SIZE, 2);
+    write(path.join(OUT, a.id, v, `${a.slug}.png`), await page.locator('#target').screenshot());
     await page.close();
   }
 }

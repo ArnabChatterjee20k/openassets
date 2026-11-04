@@ -99,6 +99,11 @@ for (const a of assets) {
     if (!v || v.width < 100 || v.height < 100 || v.fps < 1 || v.durationInFrames < 1) err(where, 'video config {width,height,fps,durationInFrames} required');
     else if (v.durationInFrames / v.fps > 20) err(where, 'videos must be 20 seconds or shorter');
   }
+  if (a.kind === 'card3d') {
+    const shape = Object.keys((mod.schema as z.AnyZodObject).shape ?? {});
+    const missing = ['name', 'lightMode', 'light', 'beams', 'glow', 'background'].filter((k) => !shape.includes(k));
+    if (missing.length) err(where, `card3d schema must extend beamSchema() from @/kit (missing ${missing.join(', ')})`);
+  }
   if (a.kind === 'scene') {
     const sc = mod.scene;
     if (!sc || sc.width < 200 || sc.height < 200 || !(sc.loop > 0)) err(where, 'scene config {width,height,loop} required');

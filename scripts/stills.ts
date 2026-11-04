@@ -13,7 +13,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Resvg } from '@resvg/resvg-js';
 import { renderStill, selectComposition } from '@remotion/renderer';
 import type { Browser } from 'playwright';
-import { BANNER_SIZES, resolveParams, variantNames } from '../src/lib/types';
+import { BANNER_SIZES, CARD3D_SIZE, resolveParams, variantNames } from '../src/lib/types';
 import { compositionId } from '../src/remotion/Root';
 import { ROOT, argValue, fail, launchBrowser, loadAssets, log, renderUrl, startSite, type LoadedAsset } from './lib/common';
 import { bundleVideos } from './lib/remotion';
@@ -107,6 +107,10 @@ async function browserStills(a: LoadedAsset, dir: string): Promise<Tile[]> {
       for (const t of times) {
         shots.push({ variant: v, q: { variant: v, t: String(t) }, vp: { width: sc.width, height: sc.height }, label: `${v} · t=${t}s` });
       }
+    } else if (a.kind === 'card3d') {
+      for (const t of v === 'default' ? ['0', '0.6', '1.2', '2.2', '3.2'] : ['0']) {
+        shots.push({ variant: v, q: { variant: v, t }, vp: CARD3D_SIZE, label: `${v} · t=${t}s` });
+      }
     } else if (a.kind === 'banner') {
       for (const s of v === 'default' ? Object.keys(BANNER_SIZES) : ['og']) {
         shots.push({ variant: v, q: { variant: v, size: s }, vp: BANNER_SIZES[s], label: `${v} · ${s}` });
@@ -125,7 +129,7 @@ async function browserStills(a: LoadedAsset, dir: string): Promise<Tile[]> {
   }
   const tiles: Tile[] = [];
   for (const [i, s] of shots.entries()) {
-    const page = await b.newPage({ viewport: s.vp, deviceScaleFactor: a.kind === 'banner' || a.kind === 'scene' ? 0.5 : 1 });
+    const page = await b.newPage({ viewport: s.vp, deviceScaleFactor: a.kind === 'banner' || a.kind === 'scene' ? 0.5 : a.kind === 'card3d' ? 2 : 1 });
     await page.goto(renderUrl(url, a.id, s.q));
     await page.waitForSelector('body[data-ready="1"]', { timeout: 60_000 });
     const file = path.join(dir, `${String(i).padStart(2, '0')}.png`);
