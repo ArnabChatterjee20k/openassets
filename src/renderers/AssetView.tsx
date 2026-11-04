@@ -5,6 +5,7 @@ import { BANNER_SIZES, type AssetModule } from '@/lib/types';
 import type { Angle, MotionMode, SceneHandle } from './Scene3D';
 import { LazyPlayer as Player, LazyScene3D as Scene3D, LazyThumbnail as Thumbnail } from './lazy';
 import { SceneView } from './SceneView';
+import { BeamCard } from './BeamCard';
 
 export interface ViewOptions {
   /** Key of BANNER_SIZES for banners. */
@@ -55,6 +56,14 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
     return (
       <div ref={opts.nodeRef} className="icon-view">
         <Comp {...params} />
+      </div>
+    );
+  }
+
+  if (kind === 'card3d') {
+    return (
+      <div ref={opts.nodeRef} style={{ width: '100%' }}>
+        <BeamCard Component={Comp} params={params} interactive={opts.interactive} mode={opts.motion ?? 'default'} time={opts.time} onReady={opts.onSceneReady} />
       </div>
     );
   }

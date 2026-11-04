@@ -3,7 +3,7 @@
 // Sets document.body.dataset.ready = '1' when the asset is painted, and
 // exposes window.__exportGLB() for 3D assets.
 import { useEffect } from 'react';
-import { BANNER_SIZES, resolveParams } from '@/lib/types';
+import { BANNER_SIZES, CARD3D_SIZE, resolveParams } from '@/lib/types';
 import { AssetView } from '@/renderers/AssetView';
 import type { Angle } from '@/renderers/Scene3D';
 import { sceneToGlb } from '@/renderers/export';
@@ -31,7 +31,7 @@ export function RenderPage({ id, query }: { id: string; query: URLSearchParams }
   }, [error]);
 
   useEffect(() => {
-    if (kind && kind !== 'icon3d') markReady();
+    if (kind && kind !== 'icon3d' && kind !== 'card3d') markReady();
   }, [kind]);
 
   if (!mod) return null;
@@ -59,6 +59,14 @@ export function RenderPage({ id, query }: { id: string; query: URLSearchParams }
             },
           }}
         />
+      </div>
+    );
+  }
+
+  if (mod.meta.kind === 'card3d') {
+    return (
+      <div id="target" style={{ width: CARD3D_SIZE.width, height: CARD3D_SIZE.height }}>
+        <AssetView mod={mod} params={params} opts={{ time: Number(query.get('t') ?? 0), onSceneReady: () => markReady() }} />
       </div>
     );
   }

@@ -3,6 +3,8 @@ import { dropInfo } from '@/lib/registry';
 import { KIND_LABELS, resolveParams, type AssetModule, type AssetRef } from '@/lib/types';
 import { AssetView } from '@/renderers/AssetView';
 import { SceneView } from '@/renderers/SceneView';
+import { BeamCard, CARD_CAMERA_Z } from '@/renderers/BeamCard';
+import { beamLight, type BeamParams } from '@/kit/beam';
 import { LazyPlayer as Player, LazyScene3D as Scene3D, LazyThumbnail as Thumbnail, loadOffscreen3d } from '@/renderers/lazy';
 import { href } from './router';
 import { useAsset } from './useAsset';
@@ -31,10 +33,13 @@ function LivePreview({ id, mod, hover }: { id: string; mod: AssetModule; hover: 
   const [still, setStill] = useState<string | null>(null);
 
   useEffect(() => {
-    if (kind !== 'icon3d') return;
+    if (kind !== 'icon3d' && kind !== 'card3d') return;
     let live = true;
+    const p = resolveParams(mod);
+    // 3D cards render their object under the card's own beam light, sized to the card height.
+    const stage = kind === 'card3d' ? { light: beamLight(p as BeamParams).color, cameraZ: CARD_CAMERA_Z } : {};
     loadOffscreen3d()
-      .then(({ snapshot3d }) => snapshot3d(id, mod.default, resolveParams(mod)))
+      .then(({ snapshot3d }) => snapshot3d(id, mod.default, p, stage, kind === 'card3d' ? 420 : undefined))
       .then((url) => live && setStill(url));
     return () => {
       live = false;
@@ -49,6 +54,15 @@ function LivePreview({ id, mod, hover }: { id: string; mod: AssetModule; hover: 
         </Suspense>
       );
     return still ? <img className="preview-img" src={still} alt="" /> : <div className="skeleton" />;
+  }
+
+  if (kind === 'card3d') {
+    // Live WebGL only while hovered; otherwise the backdrop with a snapshot of the object.
+    return (
+      <div className="fill card3d-fill">
+        <BeamCard Component={mod.default} params={params} snapshot={hover ? undefined : still} mode="interaction" interactive={hover} />
+      </div>
+    );
   }
 
   if (kind === 'scene') {

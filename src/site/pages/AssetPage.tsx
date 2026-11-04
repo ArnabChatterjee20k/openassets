@@ -120,7 +120,19 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
           download(new Blob([await sceneToGlb(sceneRef.current.scene)], { type: 'model/gltf-binary' }), `${name}.glb`);
         },
       },
-      { label: 'Loop video', run: () => renderJob('loop', async (p) => (await import('@/renderers/offscreen3d')).render3dLoop(mod.default, values, p), `${name}-loop`) },
+      { label: 'Loop video', run: () => renderJob('loop', async (p) => (await import('@/renderers/offscreen3d')).render3dLoop(mod.default, values, { onProgress: p }), `${name}-loop`) },
+    );
+  } else if (mod.meta.kind === 'card3d') {
+    exports.push(
+      { label: 'PNG', run: async () => download(await (await import('@/renderers/cardExport')).cardPng(mod, values), `${name}-card.png`) },
+      { label: 'Loop video', run: () => renderJob('loop', async (p) => (await import('@/renderers/cardExport')).cardLoop(mod, values, p), `${name}-card-loop`) },
+      {
+        label: 'GLB',
+        run: async () => {
+          if (!sceneRef.current) return;
+          download(new Blob([await sceneToGlb(sceneRef.current.scene)], { type: 'model/gltf-binary' }), `${name}.glb`);
+        },
+      },
     );
   } else if (mod.meta.kind === 'scene') {
     const sc = mod.scene!;
@@ -202,7 +214,7 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
               <span className="muted hint">SMIL animation · exports as a self-playing .svg</span>
             </div>
           )}
-          {kind === 'icon3d' && (
+          {(kind === 'icon3d' || kind === 'card3d') && (
             <div className="segmented">
               {(['default', 'interaction'] as MotionMode[]).map((m) => (
                 <button

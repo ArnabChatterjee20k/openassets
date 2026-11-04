@@ -722,3 +722,19 @@ button.ghost {
   position: absolute;
   inset: 0;
 }
+
+/* 3D cards are dark light-beam cards; centre them in the 4:3 preview. */
+.card-card3d .card-preview {
+  background: #050507;
+}
+
+.card3d-fill {
+  display: grid;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.stage-card3d {
+  padding: 24px;
+  background: #050507;
+}
