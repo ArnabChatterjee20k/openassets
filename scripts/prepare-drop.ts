@@ -33,9 +33,13 @@ const history = listDrops()
   .map(readDrop);
 const used = new Set(history.map((d) => d.theme.toLowerCase()));
 
-// Use-case kit: explicit override → first unused kit in ideas.md → let Claude propose one.
-// ideas.md lines look like "- Kit name: who it's for, and what they need".
-const ideas = readFileSync(path.join(ROOT, 'ideas.md'), 'utf8')
+// Use-case kit: explicit override → first unused gathered product → first unused kit in
+// ideas.md → let Claude propose one. Both files use lines like
+// "- Kit name: who it's for, and what they need". ideas-gathered.md is written by the
+// biweekly gatherer (scripts/gather/) from real launches on Product Hunt and YC.
+const readIdeas = (f: string) => (existsSync(path.join(ROOT, f)) ? readFileSync(path.join(ROOT, f), 'utf8') : '');
+const ideas = [readIdeas('ideas-gathered.md'), readIdeas('ideas.md')]
+  .join('\n')
   .split('\n')
   .map((l) => l.match(/^\s*-\s+(?!\[x\])(.+)$/)?.[1]?.trim())
   .filter((t): t is string => !!t)
