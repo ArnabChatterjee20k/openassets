@@ -1,0 +1,44 @@
+name: Gather ideas
+
+# Twice a month, collect recent real launches from YC and Product Hunt into
+# ideas-gathered.md. The daily job builds its next kits from that list first.
+on:
+  schedule:
+    - cron: '23 4 1,15 * *' # 04:23 UTC on the 1st and 15th
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gather-ideas
+  cancel-in-progress: false
+
+jobs:
+  gather:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+          cache-dependency-glob: scripts/gather/gather.py
+
+      # Scout needs Python 3.14; uv reads the version and dependencies from the
+      # script header.
+      - name: Install Chromium for Scout
+        run: uv run --script scripts/gather/gather.py --install-browser --dry-run
+
+      - name: Gather
+        run: uv run --script scripts/gather/gather.py
+
+      - name: Commit the list
+        run: |
+          git add ideas-gathered.md
+          if git diff --cached --quiet; then echo "No change"; exit 0; fi
+          git config user.name "openassets[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Gather ideas: $(grep -c '^- ' ideas-gathered.md) recent launches from YC and Product Hunt"
+          git pull --rebase origin main
+          git push
