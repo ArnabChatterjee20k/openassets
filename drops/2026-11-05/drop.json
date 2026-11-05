@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-05",
+  "theme": "AI Ad Agent Launch",
+  "description": "Launch kit for Mycel, an AI agent that runs your ads across 32 platforms from one prompt: dashboard icons, a 3D agent mascot, feature cards, a launch banner, an announcement film, a live-stream countdown and an animated network scene.",
+  "palette": [
+    "#0E1A14",
+    "#18291F",
+    "#EAF2DC",
+    "#B5E550",
+    "#4E8A5B",
+    "#FF9F43"
+  ],
+  "direction": {
+    "palette": "Forest Moss",
+    "fonts": "Terminal"
+  }
+}
