@@ -25,6 +25,10 @@ jobs:
     timeout-minutes: 150
     permissions:
       contents: write
+    outputs:
+      date: ${{ steps.commit.outputs.date }}
+      theme: ${{ steps.commit.outputs.theme }}
+      mode: ${{ steps.commit.outputs.mode }}
     env:
       CI: 'true'
       THEME: ${{ inputs.theme }}
@@ -55,9 +59,11 @@ jobs:
           if-no-files-found: ignore
 
       - name: Commit the drop (source only; everything renders on demand in the browser)
+        id: commit
         run: |
           DATE=$(cat .daily/date)
           THEME=$(node -p "require('./drops/$DATE/drop.json').theme")
+          { echo "date=$DATE"; echo "theme=$THEME"; echo "mode=$(cat .daily/mode)"; } >> "$GITHUB_OUTPUT"
           git config user.name "openassets[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "drops/$DATE"
@@ -78,3 +84,36 @@ jobs:
       contents: read
       pages: write
       id-token: write
+
+  # Push to the phone (Exploud): the kit link once it is live, or the run when something broke.
+  notify:
+    needs: [generate, deploy]
+    if: always() && !cancelled()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github/actions
+      - name: Kit is live
+        if: needs.generate.result == 'success' && needs.deploy.result == 'success'
+        uses: ./.github/actions/exploud
+        with:
+          endpoint: ${{ secrets.EXPLOUD_URL }}
+          token: ${{ secrets.EXPLOUD_TOKEN }}
+          source: openassets
+          title: >-
+            ${{ needs.generate.outputs.mode == 'append' && format('New assets in {0}', needs.generate.outputs.theme) || format('New kit: {0}', needs.generate.outputs.theme) }}
+          body: Drop ${{ needs.generate.outputs.date }} is live on the site.
+          url: https://arnabchatterjee20k.github.io/openassets/#/kit/${{ needs.generate.outputs.date }}
+      - name: Drop failed
+        if: needs.generate.result == 'failure' || needs.deploy.result == 'failure'
+        uses: ./.github/actions/exploud
+        with:
+          endpoint: ${{ secrets.EXPLOUD_URL }}
+          token: ${{ secrets.EXPLOUD_TOKEN }}
+          source: openassets
+          title: Daily drop failed
+          body: ${{ needs.generate.result == 'failure' && 'Generation failed' || 'Deploying the site failed' }}. Tap for the run log.
+          url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
