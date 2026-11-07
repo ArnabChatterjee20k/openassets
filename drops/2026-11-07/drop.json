@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-07",
+  "theme": "Ad Spend Mandate Kit",
+  "description": "Kit for Mandate, an AI agent that runs ad spend across 32 platforms like a fund manager: ledger-style dashboard icons, a 3D spend vault, feature cards, a launch banner, a $100M milestone post, a channel intro and an animated allocation-engine scene.",
+  "palette": ["#0D0D0F", "#1C1C20", "#F3EDE2", "#C9A45C", "#6E6A62", "#E8D9B5"],
+  "direction": { "palette": "Ink & Gold", "fonts": "Brutalist" }
+}
