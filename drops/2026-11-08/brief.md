@@ -1,0 +1,22 @@
+# Deep Sea Ad Agent Kit — brief
+
+**Use case.** Lanternfish is an AI agent that takes one campaign brief and runs it across 31 ad platforms (Meta, Google, TikTok, LinkedIn, Reddit, CTV, retail media…), launching, pacing and rebalancing spend on its own. It's for lean growth teams and agencies who can't staff a specialist per channel. The team needs dashboard icons, a landing-page hero, feature cards, a launch banner, a release-notes film, a holiday greeting for customers, and an animated hero scene.
+
+**Idea.** The deep ocean at midnight. One small light (the agent) pings, and a whole school of lights answers, one per platform. It should feel calm, precise and a little couture: think a perfume ad shot in the abyss, with no tech-bro neon grids.
+
+**Reference.** Ernst Haeckel's *Kunstformen der Natur* plates (radial symmetry, specimen labels) shot like a 1990s Mugler perfume campaign: huge razor-contrast Bodoni over velvet black-teal, with tiny airy caps for captions.
+
+**Palette "Deep Sea" (dark).** `#021B26` abyss (bg) · `#06303F` midwater (surface) · `#E6FFFA` foam (ink) · `#2EF2C4` photophore cyan-green (accent, the bioluminescence) · `#1B7FA6` sonar blue (accent2, rings and glows) · `#FF7A59` coral (pop: one dot, one word). Variants borrow Ink & Gold, Ultraviolet Club, Nordic Frost (a light "surface" mode) and Desert Dusk.
+
+**Type "High fashion".** Bodoni Moda (italic for hero words, set huge with tight tracking), Familjen Grotesk for copy, Italiana caps with wide tracking for eyebrows, specimen labels and data.
+
+**Shared motif: the ping and the photophores.** A thin concentric sonar ring plus a row of small glowing dots (photophores), one dot per platform. Every asset carries one ping and a dot row, and the accent glows only where the agent is "lit".
+
+**Assets.**
+- **Icons** (dashboard UI): 8 Phosphor glyphs: Agent (fish), Channels (broadcast), Campaigns (megaphone), Audiences (crosshair), ROAS (trend up), Budget (coins), Creatives (sparkle), Brand Safety (shield check). Solid black by default; regular/bold/thin/duotone/abyss tile/coral brutal variants.
+- **3D hero "Lanternfish Agent"** (landing page / app store): a glossy metaball lanternfish with a fin tail, a big glowing eye and a flank row of photophores. Idle: it swims in place (tail wave), and the photophores light in a chase like platforms coming online, with one blink. Hover speeds the chase and brightens it; a click flashes every light at once. Has a calm/hunting mood and clay/glossy/metal/glass materials.
+- **Cards**: *Creative Studio* is an oyster shell holding a glowing pearl that breathes, and the lid lifts on hover. *Brand Safety* is a white lighthouse whose lamp spins its beam. *Deep Dive Reports* is a mini submarine with a glowing porthole and a spinning prop.
+- **Banner "31 Platforms Launch"**: the headline "One brief. Every channel lit." in Bodoni italic. The hero is a sonar specimen plate of concentric rings and 31 photophore dots, with platform chips (Meta, TikTok, CTV…) anchored by their right edges and a coral "live" dot. Stacks on square; the strip drops the body.
+- **Video "Release Notes" (tech, 16:9, 8 s, 120 BPM)**. Bar 1: in the dark, a single agent light breathes, the "Release 2.4" eyebrow rises, and the light pings on beat 4. Bar 2: the ping sweeps outward, 31 dots ignite in rings while a counter ticks to 31. Bar 3 downbeat: a flash and shockwave as the title "31 platforms. One agent." sweeps in. Then feature chips pop on beats, with an optional dashboard screenshot in a glass frame. Bar 4: a glint, the CTA, and a sink-out exit.
+- **Video "Season's Greetings" (greeting, 9:16, 8 s)**. Bar 1: plankton drifts and three jellyfish rise from the depths. Bar 2 downbeat: a bloom flash as "Happy Holidays" sweeps in in Bodoni italic. Bar 3: the recipient's name and message words. Bar 4: the signature, an optional team photo in a photophore ring, a second soft bloom, then a fade.
+- **Scene "Seabed Dispatch"** (landing hero, vehicle/journey). Lanternfish → *a submersible that tours the seabed and switches on each platform's beacon*. This is a journey, not a network or a machine (previous kits used those). An isometric seabed plateau with rocks, kelp and coral holds six beacon pods with labels. The sub glides its route with a sweeping headlamp, and pods light in turn. Bubbles rise, kelp sways, a jellyfish drifts and a fish school crosses. The moment: a sonar ping where every pod flashes together. Variants: abyss, sunlit shallows, dusk, ultraviolet, gold.
