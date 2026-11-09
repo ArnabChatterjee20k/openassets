@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-09",
+  "theme": "Switchboard Ad Agent Kit",
+  "description": "Kit for Patchwell, an AI operator that patches one campaign brief through to 33 ad platforms: dashboard icons, a rotary hotline phone hero, feature cards, a launch banner, a new-lines announcement, a launch-day countdown and an animated switchboard-desk scene.",
+  "palette": ["#F4E9D8", "#E6D3B3", "#2E2A24", "#D96C3D", "#2C7873", "#E9B44C"],
+  "direction": { "palette": "Mid-century", "fonts": "Bookish" }
+}
