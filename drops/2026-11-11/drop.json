@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-11",
+  "theme": "Mimo Ad Agent Kit",
+  "description": "Kit for Mimo, a chat-first AI ad agent that launches and babysits campaigns on 36 ad platforms: dashboard icons, a Y2K pocket-pet 3D hero, feature cards, a launch banner, a live-demo event promo, a thank-you post and an animated prompt-to-platforms scene.",
+  "palette": ["#DADDE3", "#C3C8D1", "#101219", "#3D5AFE", "#B8C0CC", "#FF3DB4"],
+  "direction": { "palette": "Chrome Y2K", "fonts": "Friendly app" }
+}
