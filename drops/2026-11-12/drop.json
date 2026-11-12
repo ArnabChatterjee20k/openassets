@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-12",
+  "theme": "Junction Ad Agent Kit",
+  "description": "Kit for Junction, an AI ad agent that dispatches one brief to 32 ad platforms like a transit network: dashboard icons, a 3D signal hero, feature cards, a route-map launch banner, a milestone departure-board story, a channel intro and an animated interchange scene.",
+  "palette": ["#FFF8E1", "#FFE9A8", "#1C2B1A", "#FF7A00", "#2BB24C", "#FF3D7F"],
+  "direction": { "palette": "Citrus Pop", "fonts": "Civic signage" }
+}
