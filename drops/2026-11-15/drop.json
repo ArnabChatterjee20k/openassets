@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-15",
+  "theme": "Firebrand Ad Agent Kit",
+  "description": "Kit for Firebrand, an AI agent that runs ads on 34 platforms and moves budget to whatever is running hot: 8 dashboard icons, a 3D flame hero, three feature cards, a heat-index launch banner, a live-workshop invite, a customer thank-you story and an animated agent-console scene.",
+  "palette": ["#1A0A06", "#2E120B", "#FFEDE0", "#FF4D00", "#FFB000", "#FF2E63"],
+  "direction": { "palette": "Lava", "fonts": "Magazine" }
+}
