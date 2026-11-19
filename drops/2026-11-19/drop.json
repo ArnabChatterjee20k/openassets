@@ -1,7 +1,7 @@
 {
   "date": "2026-11-19",
   "theme": "Crossfade Ad Agent Kit",
-  "description": "Kit for Crossfade, an AI ad agent that mixes one brief across 31 ad platforms like a DJ riding faders: dashboard icons, a 3D mixer hero, feature cards, a launch banner, a gold-record milestone story, a product intro film and an animated golden-hour DJ deck scene.",
+  "description": "Kit for Crossfade, an AI ad agent that mixes one brief across 31 ad platforms like a DJ riding faders: dashboard icons, a 3D mixer hero, feature cards, a launch banner, a gold-record milestone story, a product intro film and an animated golden-hour DJ deck scene, plus a launch boombox, report / radar / brand-safety cards, a ROAS case-study banner, an on-air lower third, a 2.0 launch film and a night-shift desk scene.",
   "palette": ["#2B1B2E", "#45293F", "#FFE9D6", "#FF8E5E", "#E5487A", "#FFD27F"],
   "direction": { "palette": "Desert Dusk", "fonts": "Disco night" }
 }
