@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-20",
+  "theme": "Inkrun Ad Agent Kit",
+  "description": "Kit for Inkrun, an AI ad agent that pulls one brief through 31 ad platforms like a blacklit gig-poster print shop: dashboard icons, a 3D ink-brayer hero, feature cards, a print-run launch banner, a how-it-works film, a holiday greeting and an animated carousel-press scene.",
+  "palette": ["#12001F", "#24003D", "#FBEFFF", "#B026FF", "#FF2E88", "#FFD600"],
+  "direction": { "palette": "Ultraviolet Club", "fonts": "Warm craft" }
+}
