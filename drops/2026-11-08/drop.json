@@ -2,6 +2,17 @@
   "date": "2026-11-08",
   "theme": "Deep Sea Ad Agent Kit",
   "description": "Kit for Lanternfish, an AI agent that runs one campaign brief across 31 ad platforms: dashboard icons, a bioluminescent 3D lanternfish hero, feature cards, a launch banner, a release-notes film, a holiday greeting and an animated seabed-dispatch scene.",
-  "palette": ["#021B26", "#06303F", "#E6FFFA", "#2EF2C4", "#1B7FA6", "#FF7A59"],
-  "direction": { "palette": "Deep Sea", "fonts": "High fashion" }
+  "palette": [
+    "#021B26",
+    "#06303F",
+    "#E6FFFA",
+    "#2EF2C4",
+    "#1B7FA6",
+    "#FF7A59"
+  ],
+  "direction": {
+    "palette": "Deep Sea",
+    "fonts": "High fashion"
+  },
+  "idea": "Your AI agent runs ads across 30+ ad platforms"
 }

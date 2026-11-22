@@ -2,6 +2,17 @@
   "date": "2026-11-14",
   "theme": "Plotwell Ad Agent Kit",
   "description": "Kit for Plotwell, an AI ad agent that drafts one campaign like a blueprint and runs it on 33 ad platforms: 16 dashboard icons, a 3D drafting-compass hero and agent-bot mascot, six feature cards, a plan-sheet launch banner and a case-study banner, an announcement film, a live-demo countdown, a promo and a customer-quote video, and animated plotter-desk and platform-network scenes.",
-  "palette": ["#0F3B8C", "#134AA8", "#EAF2FF", "#FFFFFF", "#7FB2FF", "#FFDD00"],
-  "direction": { "palette": "Blueprint", "fonts": "Art school" }
+  "palette": [
+    "#0F3B8C",
+    "#134AA8",
+    "#EAF2FF",
+    "#FFFFFF",
+    "#7FB2FF",
+    "#FFDD00"
+  ],
+  "direction": {
+    "palette": "Blueprint",
+    "fonts": "Art school"
+  },
+  "idea": "Your AI agent runs ads across 30+ ad platforms"
 }

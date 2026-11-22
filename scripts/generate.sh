@@ -73,6 +73,16 @@ if [ "$MODE" = append ]; then
   echo "→ appended $((assets_after - assets_before)) assets to drops/$DATE"
 fi
 
+# Record which idea this kit came from; prepare-drop skips used ideas by this field.
+IDEA=$(cat .daily/idea 2>/dev/null || true)
+if [ "$MODE" = new ] && [ -n "$IDEA" ] && [ -f "drops/$DATE/drop.json" ]; then
+  IDEA="$IDEA" node -e '
+    const f = process.argv[1], d = require("./" + f);
+    d.idea = process.env.IDEA;
+    require("fs").writeFileSync(f, JSON.stringify(d, null, 2) + "\n");
+  ' "drops/$DATE/drop.json"
+fi
+
 echo "→ independent validation"
 pnpm validate --drop "$DATE"
 

@@ -2,6 +2,17 @@
   "date": "2026-11-21",
   "theme": "Multiball Ad Agent Kit",
   "description": "Launch kit for Multiball, an AI ad agent that plays 34 ad platforms at once like a pinball table: dashboard icons, a pop-bumper 3D hero, a flipper 3D icon, feature cards (autopilot, budget caps, audiences, ad studio, live ROAS, integrations), launch and case-study banners, trial, livestream-event and thank-you videos, a customer-quote story, and animated pinball-table and creative-factory scenes.",
-  "palette": ["#FFF6E9", "#FFE3D3", "#1A1A2E", "#FF6F91", "#00B3A4", "#FFC93C"],
-  "direction": { "palette": "Memphis", "fonts": "Arcade" }
+  "palette": [
+    "#FFF6E9",
+    "#FFE3D3",
+    "#1A1A2E",
+    "#FF6F91",
+    "#00B3A4",
+    "#FFC93C"
+  ],
+  "direction": {
+    "palette": "Memphis",
+    "fonts": "Arcade"
+  },
+  "idea": "Your AI agent runs ads across 30+ ad platforms"
 }

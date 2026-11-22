@@ -2,6 +2,17 @@
   "date": "2026-11-06",
   "theme": "Ad Agent Flight Kit",
   "description": "Kit for Towline, an AI agent that flies one campaign brief out to 34 ad platforms: dashboard icons, a 3D tow-plane hero, feature cards, a launch banner, a launch-week promo story, a customer-quote post and an animated beach-campaign scene.",
-  "palette": ["#FFEDE1", "#FFD3C2", "#3D0E2A", "#FF4F6D", "#7B2CBF", "#FFB627"],
-  "direction": { "palette": "Sunset Sorbet", "fonts": "Gallery" }
+  "palette": [
+    "#FFEDE1",
+    "#FFD3C2",
+    "#3D0E2A",
+    "#FF4F6D",
+    "#7B2CBF",
+    "#FFB627"
+  ],
+  "direction": {
+    "palette": "Sunset Sorbet",
+    "fonts": "Gallery"
+  },
+  "idea": "Your AI agent runs ads across 30+ ad platforms"
 }

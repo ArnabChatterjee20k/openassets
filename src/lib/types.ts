@@ -105,6 +105,9 @@ export interface DropInfo {
   palette: string[];
   /** Names from PALETTES / FONT_PAIRINGS the drop started from (used to rotate directions). */
   direction?: { palette: string; fonts: string };
+  /** The ideas.md / ideas-gathered.md entry the kit was built from. Claude names the kit
+   *  itself (often with an invented brand), so the theme can't tell which idea was used. */
+  idea?: string;
 }
 
 export interface AssetRef {

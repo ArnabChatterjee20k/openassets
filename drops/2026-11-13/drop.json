@@ -2,6 +2,17 @@
   "date": "2026-11-13",
   "theme": "Pike Ad Agent Kit",
   "description": "Kit for Pike, an AI ad agent that tends lines in 32 ad platforms like an ice fisher watching thirty tip-ups: dashboard icons, a 3D tip-up hero, feature cards, a launch banner, a release-notes film, a holiday greeting and an animated frozen-lake scene.",
-  "palette": ["#E9EEF1", "#D3DDE3", "#17242E", "#2F6F8F", "#A7C4D4", "#E4572E"],
-  "direction": { "palette": "Nordic Frost", "fonts": "Activist" }
+  "palette": [
+    "#E9EEF1",
+    "#D3DDE3",
+    "#17242E",
+    "#2F6F8F",
+    "#A7C4D4",
+    "#E4572E"
+  ],
+  "direction": {
+    "palette": "Nordic Frost",
+    "fonts": "Activist"
+  },
+  "idea": "Your AI agent runs ads across 30+ ad platforms"
 }

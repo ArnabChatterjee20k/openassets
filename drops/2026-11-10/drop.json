@@ -2,6 +2,17 @@
   "date": "2026-11-10",
   "theme": "Formwork Ad Agent Kit",
   "description": "Kit for Formwork, an AI agent that casts one campaign brief onto 34 ad platforms: dashboard icons, a kinetic Bauhaus totem hero, feature cards, a launch banner, a Founding-plan promo, a customer-quote post and an animated brief-foundry scene.",
-  "palette": ["#F2EBDD", "#E4D9C4", "#111111", "#D9381E", "#1D4E9E", "#F2B90F"],
-  "direction": { "palette": "Bauhaus", "fonts": "Editorial luxe" }
+  "palette": [
+    "#F2EBDD",
+    "#E4D9C4",
+    "#111111",
+    "#D9381E",
+    "#1D4E9E",
+    "#F2B90F"
+  ],
+  "direction": {
+    "palette": "Bauhaus",
+    "fonts": "Editorial luxe"
+  },
+  "idea": "Your AI agent runs ads across 30+ ad platforms"
 }

@@ -31,7 +31,7 @@ const counts = {
 const history = listDrops()
   .filter((d) => d !== date)
   .map(readDrop);
-const used = new Set(history.map((d) => d.theme.toLowerCase()));
+const used = new Set(history.flatMap((d) => [d.theme, d.idea ?? '']).map((t) => t.toLowerCase()));
 
 // Use-case kit: explicit override → first unused gathered product → first unused kit in
 // ideas.md → let Claude propose one. Both files use lines like
@@ -116,4 +116,6 @@ mkdirSync(path.join(ROOT, '.daily'), { recursive: true });
 writeFileSync(path.join(ROOT, '.daily', 'prompt.md'), prompt);
 writeFileSync(path.join(ROOT, '.daily', 'date'), date);
 writeFileSync(path.join(ROOT, '.daily', 'mode'), append ? 'append' : 'new');
+// generate.sh stamps this into drop.json so the idea counts as used next time.
+writeFileSync(path.join(ROOT, '.daily', 'idea'), append ? '' : kit?.name ?? '');
 log(JSON.stringify({ date, mode: append ? 'append' : 'new', theme: theme || '(Claude picks)', palette: palette.name, fonts: pairing.name, videoCategories: categories, counts }));
