@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-22-2",
+  "theme": "Ardor Romance Kit",
+  "description": "Launch kit for Ardor, an AI romance game for women: in-app icons, a hand-drawn doodle pack, a glossy heart-chat hero, feature cards, a new-world banner, story and lower-third videos, and a midnight nightstand scene.",
+  "palette": [
+    "#2A0A10",
+    "#3F1019",
+    "#FFE8E0",
+    "#E3173E",
+    "#F5C6AA",
+    "#F7B32B"
+  ],
+  "direction": {
+    "palette": "Cherry Cola",
+    "fonts": "Gallery"
+  },
+  "idea": "AI-powered romance simulation games for women"
+}
