@@ -65,6 +65,12 @@ function LivePreview({ id, mod, hover }: { id: string; mod: AssetModule; hover: 
     );
   }
 
+  if (kind === 'sticker') {
+    // At rest it's the finished drawing; hovering plays it drawing itself in.
+    // Remounting on hover restarts the SMIL clock, so the drawing starts from a blank page.
+    return <AssetView key={hover ? 'drawing' : 'still'} mod={mod} params={{ ...params, motion: hover ? 'draw' : 'still' }} />;
+  }
+
   if (kind === 'scene') {
     // Rest on the first frame; play the SMIL timeline while hovered.
     return <SceneView Component={mod.default} params={params} time={hover ? undefined : 0} />;

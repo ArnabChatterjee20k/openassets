@@ -14,7 +14,7 @@ export function Palette({ colors }: { colors: string[] }) {
   );
 }
 
-const FILTERS: (Kind | 'all')[] = ['all', 'scene', 'card3d', 'icon3d', 'video', 'banner', 'icon'];
+const FILTERS: (Kind | 'all')[] = ['all', 'scene', 'card3d', 'icon3d', 'video', 'banner', 'sticker', 'icon'];
 const humanize = (slug: string) => slug.replace(/-/g, ' ');
 
 /** One representative asset per kind, for the hero mosaic. */

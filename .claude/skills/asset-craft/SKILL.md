@@ -129,6 +129,19 @@ Make every motion return to the rest pose at loop boundaries (integer `cycles` g
 - Offer a calm/lively `mood` (or similar) param, like a robot's status.
 - Review: `pnpm stills` samples the loop at t = 0.6 / 1.2 / 2.2 / 3.2 s. Those frames must visibly differ.
 
+### Hand-drawn stickers (crayon, marker, pencil)
+
+Chunky doodles that look drawn by hand: a wobbly outline gone round twice, wax-crayon grain, scribble fill. People scatter them around landing pages, slides and posts. You describe clean geometry and the kit makes it hand-drawn.
+
+- Build: `export const schema = stickerSchema({ fill, accent, ink })`, then render `<Sticker p={p}>` with `<Doodle shape={…} />` for filled shapes and `<Line shape={…} />` for open strokes. Shapes come from `sk`: `circle`, `ellipse`, `rect` (rounded), `poly` (crisp corners), `curve` (smooth through points), `star`, `sparkle`, `heart`, `cloud`, `burst`, `drop`, `bolt`, `spiral`, `wave`, `zigzag`, `arc` and `arrow` (returns shaft + head for `<Line>`). Use `tint(hex, ±amt)` for lighter or darker shades.
+- Don't draw strokes, textures, filters or animations yourself and don't add a root `<svg>`: `<Sticker>` owns the grain, wobble, die-cut border and motion, and the editor's Style / Wobble / Texture / Redraw / Motion controls only work through it.
+- Motion: `draw` (the default) plays the sticker drawing itself in, element by element in the order you render them, then the lines boil. `boil` only jitters; `still` is static. So render in a sensible drawing order: big silhouette first, then details (face, sparks). The gallery plays `draw` on hover, and the editor exports it as an animated SVG and an MP4 loop.
+- Composition: one bold silhouette per sticker, filling about 28–228 of the 256 box. Draw back to front (drops behind the cloud). Fewer, bigger shapes read better than many small ones: a sticker must still read at 96 px. Faces are optional and simple: dot or arc eyes, a small arc smile, blush ellipses with `outline={false} hatch={false}`.
+- Colour: a light-to-mid `fill`, a contrasting `accent` for the second element, and `ink` as a dark shade of the fill's hue, not black, which is what makes it look like crayon rather than clip art. Variants: `marker`, `pencil`, `die-cut` (`border: true`), and 2 colourways.
+- A pack mixes marks (arrows that point at something, an underline, a scribble circle, sparkles, a burst) with objects from the kit's world. Name them by what they are ("Loop Arrow", "Rain Cloud").
+- **Originality:** every sticker is your own drawing. Never draw an existing character, mascot, logo or franchise (no cartoon, comic, film, game or brand characters, even "inspired by" or renamed). Original mascots are fine.
+- Review: `pnpm stills <id>` shows every variant at 512 px plus the default at 96 px on paper. `pnpm stills --drop DATE` adds `sticker-pack.png`. Check that outlines are closed blobs, not spikes; that the 96 px version still reads; and that the pack looks like one set (same weight, palette and style).
+
 ### 3D cards (light-beam project cards)
 
 A 592 × 210 dark card with one small glossy object standing in a glow pool, lit by coloured beams from above, like a portfolio's project list. The renderer draws the beams, glow, vignette and lighting. The light colour and beam layout are seeded from the card's `name`, so every project is lit differently and stays consistent. Your module supplies the object.

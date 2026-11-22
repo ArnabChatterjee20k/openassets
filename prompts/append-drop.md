@@ -25,6 +25,7 @@ You are a senior motion and visual designer adding assets to an existing kit in 
 ## Build, one asset at a time, each through the review loop
 
 1. **{{ICONS}} more icon(s)** (`icons/<slug>/index.tsx`): Phosphor glyphs with `IconArt`, using the **same `iconSchema` defaults and `variants` block** as the kit's existing icons so the set stays consistent.
+1b. **{{STICKERS}} more hand-drawn sticker(s)** (`stickers/<slug>/index.tsx`): doodles the kit's sticker pack doesn't have yet, in the same palette and style as its existing stickers. Follow the asset-craft "Hand-drawn stickers" rules.
 2. **{{ICONS3D}} more 3D icon(s)** (`icons3d/<slug>/index.tsx`) with a `material` select, 4–5 variants and micro-interactions (see asset-craft).
 2b. **{{CARDS3D}} more 3D card(s)** (`cards3d/<slug>/index.tsx`): light-beam project cards for products or features the kit doesn't have a card for yet. Follow the asset-craft "3D cards" rules.
 3. **{{BANNERS}} more banner(s)** (`banners/<slug>/index.tsx`), each with a hero visual, working at every size in `BANNER_SIZES`, with 4–5 variants.

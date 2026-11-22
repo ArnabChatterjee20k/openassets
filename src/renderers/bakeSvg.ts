@@ -5,7 +5,7 @@
 // the browser, write those values into a clone as plain attributes, and strip
 // the <animate*> elements. The result rasterises deterministically.
 const ANIMATIONS = 'animate, animateTransform, animateMotion, set';
-const STYLE_ATTRS = new Set(['opacity', 'fill', 'stroke', 'fill-opacity', 'stroke-opacity', 'stroke-width', 'd', 'stop-color', 'stop-opacity']);
+const STYLE_ATTRS = new Set(['opacity', 'fill', 'stroke', 'fill-opacity', 'stroke-opacity', 'stroke-width', 'stroke-dasharray', 'd', 'stop-color', 'stop-opacity']);
 
 function animatedValue(el: SVGElement, attr: string): string | null {
   if (STYLE_ATTRS.has(attr)) {

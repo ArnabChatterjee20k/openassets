@@ -4,6 +4,7 @@ import { BANNER_SIZES, KIND_LABELS, resolveParams, variantNames, type AssetModul
 import { AssetView } from '@/renderers/AssetView';
 import type { Angle, MotionMode, SceneHandle } from '@/renderers/Scene3D';
 import { canvasToPng, download, iconSvg, nodeToPng, sceneToGlb, slugify, svgToPng } from '@/renderers/export';
+import { STICKER_LOOP } from '@/kit/sketch';
 import { ControlPanel } from '../editor/ControlPanel';
 import { href, replaceQuery } from '../router';
 import { useAsset } from '../useAsset';
@@ -100,6 +101,34 @@ function Editor({ id, mod, query }: { id: string; mod: AssetModule; query: URLSe
         label: 'Copy SVG',
         run: async () => {
           await navigator.clipboard.writeText(iconSvg(mod, values));
+          flash('SVG copied');
+        },
+      },
+    );
+  } else if (mod.meta.kind === 'sticker') {
+    const still = { ...values, motion: 'still' };
+    const animated = values.motion !== 'still';
+    exports.push(
+      ...(animated
+        ? [
+            { label: 'Animated SVG', run: () => download(new Blob([iconSvg(mod, values, 512)], { type: 'image/svg+xml' }), `${name}-animated.svg`) },
+            {
+              label: 'Video loop',
+              run: () =>
+                renderJob(
+                  'loop',
+                  async (p) => (await import('@/renderers/sceneExport')).renderSceneLoop(mod, values, p, 30, { width: 1024, height: 1024, loop: STICKER_LOOP }, '#FBF8F2'),
+                  `${name}-loop`,
+                ),
+            },
+          ]
+        : []),
+      { label: 'SVG', run: () => download(new Blob([iconSvg(mod, still, 512)], { type: 'image/svg+xml' }), `${name}.svg`) },
+      { label: 'PNG 1024', run: async () => download(await svgToPng(iconSvg(mod, still, 1024), 1024), `${name}-1024.png`) },
+      {
+        label: 'Copy SVG',
+        run: async () => {
+          await navigator.clipboard.writeText(iconSvg(mod, still, 256));
           flash('SVG copied');
         },
       },

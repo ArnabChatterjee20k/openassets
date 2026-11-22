@@ -51,10 +51,10 @@ export function AssetView({ mod, params, opts = {} }: { mod: AssetModule; params
   const Comp = mod.default;
   const fit = opts.fit ?? true;
 
-  if (kind === 'icon') {
+  if (kind === 'icon' || kind === 'sticker') {
     // Sizing lives in CSS (.icon-view) so each context can size the icon.
     return (
-      <div ref={opts.nodeRef} className="icon-view">
+      <div ref={opts.nodeRef} className={kind === 'sticker' ? 'icon-view sticker-view' : 'icon-view'}>
         <Comp {...params} />
       </div>
     );

@@ -19,7 +19,7 @@ import { ROOT, argValue, fail, hasFlag, latestDrop, launchBrowser, loadAssets, l
 import { bundleVideos, renderPoster, renderVideo } from './lib/remotion';
 
 const date = argValue('drop') ?? latestDrop() ?? fail('no drops found');
-const kinds = ((argValue('kinds')?.split(',') as Kind[]) ?? ['icon', 'icon3d', 'card3d', 'banner', 'video', 'scene']).filter(
+const kinds = ((argValue('kinds')?.split(',') as Kind[]) ?? ['icon', 'sticker', 'icon3d', 'card3d', 'banner', 'video', 'scene']).filter(
   (k) => !(k === 'video' && hasFlag('no-video')),
 );
 
@@ -38,7 +38,7 @@ log(`Rendering ${assets.length} assets from ${date} (${kinds.join(', ')})`);
 const t0 = Date.now();
 
 // ---- Icons: pure Node -------------------------------------------------------
-for (const a of assets.filter((a) => a.kind === 'icon')) {
+for (const a of assets.filter((a) => a.kind === 'icon' || a.kind === 'sticker')) {
   for (const v of variantNames(a.mod)) {
     const svg = renderToStaticMarkup(createElement(a.mod.default, resolveParams(a.mod, v)));
     const dir = path.join(OUT, a.id, v);

@@ -42,11 +42,19 @@ try {
     const dir = path.join(REVIEW, a.id);
     rmSync(dir, { recursive: true, force: true });
     mkdirSync(dir, { recursive: true });
-    const tiles = a.kind === 'video' ? await videoStills(a, dir, serveUrl) : a.kind === 'icon' ? iconStills(a, dir) : await browserStills(a, dir);
+    const tiles = a.kind === 'video' ? await videoStills(a, dir, serveUrl) : a.kind === 'icon' ? iconStills(a, dir) : a.kind === 'sticker' ? stickerStills(a, dir) : await browserStills(a, dir);
     const sheet = path.join(dir, 'sheet.png');
-    await contactSheet(tiles, sheet, `${a.mod.meta.name} — ${a.id}`, a.kind === 'icon' ? 6 : a.kind === 'video' && a.mod.video!.height > a.mod.video!.width ? 4 : 3);
+    await contactSheet(tiles, sheet, `${a.mod.meta.name} — ${a.id}`, a.kind === 'icon' ? 6 : a.kind === 'sticker' ? 4 : a.kind === 'video' && a.mod.video!.height > a.mod.video!.width ? 4 : 3);
     sheets.push(path.relative(ROOT, sheet));
     log(`  ✓ ${a.id}`);
+  }
+  // Stickers are a pack: one sheet with every sticker's default shows whether they cohere.
+  const stickers = assets.filter((a) => a.kind === 'sticker');
+  if (stickers.length > 1) {
+    const tiles = stickers.map((a) => ({ file: path.join(REVIEW, a.id, 'default-512.png'), label: a.slug }));
+    const sheet = path.join(REVIEW, drop, 'sticker-pack.png');
+    await contactSheet(tiles, sheet, `Sticker pack — ${drop}`, 6);
+    sheets.push(path.relative(ROOT, sheet));
   }
   // Icons are a set: one sheet with every icon side by side shows whether they cohere.
   const icons = assets.filter((a) => a.kind === 'icon');
@@ -90,6 +98,21 @@ function iconStills(a: LoadedAsset, dir: string): Tile[] {
       // 24px is upscaled 8x with nearest-neighbour so legibility at real size is visible.
       const png = new Resvg(svg, { fitTo: { mode: 'width', value: px }, background: '#ffffff' }).render().asPng();
       writeFileSync(file, png);
+      tiles.push({ file, label: `${v} · ${px}px` });
+    }
+  }
+  return tiles;
+}
+
+// Stickers sit on paper (to show the die-cut border) at full size and at 96 px,
+// the size they're usually scattered around a page.
+function stickerStills(a: LoadedAsset, dir: string): Tile[] {
+  const tiles: Tile[] = [];
+  for (const v of variantNames(a.mod)) {
+    const svg = renderToStaticMarkup(createElement(a.mod.default, resolveParams(a.mod, v)));
+    for (const px of v === 'default' ? [512, 96] : [512]) {
+      const file = path.join(dir, `${v}-${px}.png`);
+      writeFileSync(file, new Resvg(svg, { fitTo: { mode: 'width', value: px }, background: '#FBF8F2' }).render().asPng());
       tiles.push({ file, label: `${v} · ${px}px` });
     }
   }
