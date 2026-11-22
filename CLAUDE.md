@@ -4,7 +4,7 @@ A library of parametric, editable assets (SVG icons, 3D icons, banners, video te
 
 ## Asset contract
 
-Each asset lives at `drops/<YYYY-MM-DD>/<kind-dir>/<slug>/index.tsx`, where kind-dir is one of `icons`, `icons3d`, `cards3d`, `banners`, `videos` or `scenes`. The slug is kebab-case. Each drop also has a `drops/<date>/drop.json` with `{ date, theme, description, palette }`.
+Each asset lives at `drops/<YYYY-MM-DD>/<kind-dir>/<slug>/index.tsx`, where kind-dir is one of `icons`, `stickers`, `icons3d`, `cards3d`, `banners`, `videos` or `scenes`. The slug is kebab-case. Each drop also has a `drops/<date>/drop.json` with `{ date, theme, description, palette }`.
 
 Every asset module exports:
 
@@ -21,6 +21,7 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
 - Use fonts only via `FONTS[key]` from `@/lib/fonts`.
 - Per kind:
   - **icon:** render `IconArt` from `@/kit` with a Phosphor glyph (`@phosphor-icons/react/ssr`) and `iconSchema(...)`. The result is a single root `<svg viewBox="0 0 256 256">` with no width or height. The default is a solid black glyph.
+  - **sticker:** a hand-drawn doodle. Render `<Sticker p={p}>` with `<Doodle>`/`<Line>` and `sk.*` shapes from `@/kit`, with a schema from `stickerSchema({ fill, accent, ink })`. The kit adds the crayon wobble, grain, border and the draw-in / boil animation. Draw only original characters.
   - **icon3d:** return react-three-fiber objects (`<group>`, `<mesh>`…). No `<Canvas>`, lights, camera or controls; `src/renderers/Scene3D.tsx` provides those.
   - **card3d:** a light-beam project card. Like icon3d (one small R3F object), with a schema built on `beamSchema({ name })` from `@/kit`. The renderer adds the name-seeded beams, glow and lighting. Use `beamLight(p).color` for the object's glowing accent.
   - **banner:** props also include `width` and `height`. Render a full-bleed element of exactly that size and scale everything from it.

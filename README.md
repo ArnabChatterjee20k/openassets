@@ -20,6 +20,7 @@ Claude (Opus 5.5) generates each kit as parametric source code in React, SVG, re
 ## What a kit contains
 
 - 8 icons built on [Phosphor](https://phosphoricons.com) glyphs. They are solid black by default, with tile, duotone and other variants.
+- Hand-drawn stickers in crayon, marker or pencil: arrows, sparkles and doodles of the kit's world. Each draws itself in when you hover or open it. Wobble, wax grain and an optional die-cut border are editable, and they export as SVG, animated SVG, PNG or an MP4 loop.
 - A 3D hero icon that rests still and reacts when you hover or click it. It exports as PNG, GLB and a 4 second loop.
 - Light-beam project cards (592 × 210): a small glossy object per product or feature, lit by coloured beams seeded from the project's name, so every card gets its own light. They export as PNG, GLB and a loop.
 - A banner that adapts to Open Graph, X, LinkedIn, YouTube and square sizes.
@@ -61,7 +62,7 @@ DATE=2026-11-01 THEME="Podcast Launch" ./scripts/generate.sh
 pnpm stills 2026-10-30/videos/how-openfeed-works --frames 30,120,300
 ```
 
-`generate.sh` accepts `PALETTE` and `FONTS` to pin a direction, and counts such as `ICONS=8` or `VIDEOS=2`. If the date's kit already exists, the run adds new assets to it in the same theme and direction, and fails if it changes or deletes an existing asset, so you can run it several times a day. `regenerate.sh` redoes one asset through the same skills and review loop, and restores the old asset if validation fails.
+`generate.sh` accepts `PALETTE` and `FONTS` to pin a direction, and counts such as `ICONS=8`, `STICKERS=6` or `VIDEOS=2`. If the date's kit already exists, the run adds new assets to it in the same theme and direction, and fails if it changes or deletes an existing asset, so you can run it several times a day. `regenerate.sh` redoes one asset through the same skills and review loop, and restores the old asset if validation fails.
 
 ## Turn on the daily job
 
