@@ -1,11 +1,12 @@
 import type { ComponentType } from 'react';
 import type { z } from 'zod';
 
-export type Kind = 'icon' | 'icon3d' | 'card3d' | 'banner' | 'video' | 'scene';
+export type Kind = 'icon' | 'sticker' | 'icon3d' | 'card3d' | 'banner' | 'video' | 'scene';
 
 /** Directory name under drops/<date>/ for each kind. */
 export const KIND_DIRS: Record<Kind, string> = {
   icon: 'icons',
+  sticker: 'stickers',
   icon3d: 'icons3d',
   card3d: 'cards3d',
   banner: 'banners',
@@ -16,6 +17,7 @@ export const DIR_KINDS = Object.fromEntries(Object.entries(KIND_DIRS).map(([k, d
 
 export const KIND_LABELS: Record<Kind, string> = {
   icon: 'Icons',
+  sticker: 'Stickers',
   icon3d: '3D Icons',
   card3d: '3D Cards',
   banner: 'Banners',
@@ -83,6 +85,7 @@ export const BANNER_SIZES: Record<string, BannerSize> = {
 /**
  * The contract every drops/<date>/<kind>/<slug>/index.tsx must satisfy.
  * - icon:   default export renders a single <svg viewBox=...> (no width/height)
+ * - sticker: like icon, built with <Sticker>/<Doodle>/<Line> from @/kit and a stickerSchema()
  * - icon3d: default export renders react-three-fiber objects (no <Canvas>)
  * - card3d: like icon3d, plus a beamSchema(); the renderer adds the seeded light-beam card
  * - banner: default export renders a full-bleed element of size props.width x props.height

@@ -8,3 +8,4 @@ export * from './IconArt';
 export * from './motion3d';
 export * from './iso';
 export * from './beam';
+export * from './sketch';
