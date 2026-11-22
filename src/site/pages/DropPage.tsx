@@ -4,7 +4,7 @@ import { AssetCard } from '../AssetCard';
 import { href } from '../router';
 import { Palette } from './Home';
 
-const ORDER: Kind[] = ['scene', 'card3d', 'video', 'icon3d', 'banner', 'icon'];
+const ORDER: Kind[] = ['scene', 'card3d', 'video', 'icon3d', 'banner', 'sticker', 'icon'];
 
 /** A kit: everything one use case needs, grouped by kind. */
 export function DropPage({ date }: { date: string }) {

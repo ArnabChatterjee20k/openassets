@@ -6,9 +6,10 @@ import type { AssetModule } from '@/lib/types';
 import { bakeSvgAt, drawSvg } from './bakeSvg';
 import { encodeFrames } from './encode';
 
+type Timeline = { width: number; height: number; loop: number };
+
 /** Mount the scene off-screen; the SVG must be in the document for computed styles and CTMs. */
-function mountScene(mod: AssetModule, params: Record<string, unknown>) {
-  const sc = mod.scene!;
+function mountScene(mod: AssetModule, params: Record<string, unknown>, sc: Timeline = mod.scene!) {
   const host = document.createElement('div');
   host.style.cssText = `position:fixed;left:-99999px;top:0;width:${sc.width}px;height:${sc.height}px;`;
   host.innerHTML = renderToStaticMarkup(createElement(mod.default, params));
@@ -33,8 +34,19 @@ export async function sceneFrame(mod: AssetModule, params: Record<string, unknow
   }
 }
 
-export async function renderSceneLoop(mod: AssetModule, params: Record<string, unknown>, onProgress?: (p: number) => void, fps = 30) {
-  const { host, svg, sc } = mountScene(mod, params);
+/**
+ * One loop of a SMIL-animated SVG asset as video. Scenes use their own `scene`
+ * config; stickers pass a square size, their loop length and a paper background.
+ */
+export async function renderSceneLoop(
+  mod: AssetModule,
+  params: Record<string, unknown>,
+  onProgress?: (p: number) => void,
+  fps = 30,
+  timeline?: Timeline,
+  background?: string,
+) {
+  const { host, svg, sc } = mountScene(mod, params, timeline);
   try {
     return await encodeFrames({
       width: sc.width,
@@ -42,7 +54,7 @@ export async function renderSceneLoop(mod: AssetModule, params: Record<string, u
       fps,
       frames: Math.round(sc.loop * fps),
       onProgress,
-      draw: (i, canvas) => drawSvg(bakeSvgAt(svg, i / fps, sc), canvas),
+      draw: (i, canvas) => drawSvg(bakeSvgAt(svg, i / fps, sc), canvas, background),
     });
   } finally {
     host.remove();
