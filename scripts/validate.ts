@@ -104,16 +104,22 @@ for (const a of assets) {
     const missing = ['name', 'lightMode', 'light', 'beams', 'glow', 'background'].filter((k) => !shape.includes(k));
     if (missing.length) err(where, `card3d schema must extend beamSchema() from @/kit (missing ${missing.join(', ')})`);
   }
+  if (a.kind === 'sticker') {
+    const shape = Object.keys((mod.schema as z.AnyZodObject).shape ?? {});
+    const missing = ['fill', 'accent', 'ink', 'style', 'weight', 'wobble', 'grain', 'seed', 'border', 'motion'].filter((k) => !shape.includes(k));
+    if (missing.length) err(where, `sticker schema must extend stickerSchema() from @/kit (missing ${missing.join(', ')})`);
+  }
   if (a.kind === 'scene') {
     const sc = mod.scene;
     if (!sc || sc.width < 200 || sc.height < 200 || !(sc.loop > 0)) err(where, 'scene config {width,height,loop} required');
   }
   // Server-render the DOM kinds to catch runtime errors cheaply.
-  if (a.kind === 'icon' || a.kind === 'banner' || a.kind === 'scene') {
+  if (a.kind === 'icon' || a.kind === 'sticker' || a.kind === 'banner' || a.kind === 'scene') {
     for (const v of variantNames(mod)) {
       try {
         const html = renderToStaticMarkup(createElement(mod.default, { ...resolveParams(mod, v), ...BANNER_SIZES.og }));
-        if ((a.kind === 'icon' || a.kind === 'scene') && !/^<svg[^>]*viewBox=/.test(html)) err(where, `${a.kind} must render a root <svg> with a viewBox`);
+        if ((a.kind === 'icon' || a.kind === 'sticker' || a.kind === 'scene') && !/^<svg[^>]*viewBox=/.test(html)) err(where, `${a.kind} must render a root <svg> with a viewBox`);
+        if (a.kind === 'sticker' && !/viewBox="0 0 256 256"/.test(html.slice(0, 200))) err(where, 'stickers render inside <Sticker> (viewBox 0 0 256 256)');
         if (a.kind === 'scene' && /@keyframes|animation\s*:/.test(html)) err(where, 'scenes animate with SMIL (<animate>…), not CSS animations, so exports and seeking work');
       } catch (e) {
         err(where, `variant "${v}" threw during render: ${e}`);
@@ -136,7 +142,7 @@ if (!hasFlag('no-browser') && assets.length && !errors.length) {
         page.on('console', (m) => m.type() === 'error' && pageErrors.push(m.text()));
         const where = `${a.file} [${v}]`;
         try {
-          await page.goto(renderUrl(url, a.id, { variant: v, size: a.kind === 'icon3d' || a.kind === 'icon' ? '512' : 'og', t: '0' }));
+          await page.goto(renderUrl(url, a.id, { variant: v, size: a.kind === 'icon3d' || a.kind === 'icon' || a.kind === 'sticker' ? '512' : 'og', t: '0' }));
           await page.waitForSelector('body[data-ready="1"]', { timeout: 45_000 });
           if (a.kind === 'icon3d') {
             const painted = await page.evaluate(() => {
