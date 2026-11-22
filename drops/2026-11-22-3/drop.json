@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-22-3",
+  "theme": "Ambit AI Usage Kit",
+  "description": "Launch kit for Ambit, a dashboard that shows how your team uses AI (seats, spend, adoption and alerts), built from brutalist heat-tile grids on dreamy lilac.",
+  "palette": [
+    "#E9E3F5",
+    "#D6CCEC",
+    "#231942",
+    "#5E4AE3",
+    "#F49CBB",
+    "#2EC4B6"
+  ],
+  "direction": {
+    "palette": "Lilac Haze",
+    "fonts": "Brutalist"
+  },
+  "idea": "The dashboard for your team's AI use"
+}

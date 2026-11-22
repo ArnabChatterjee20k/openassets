@@ -1,0 +1,23 @@
+# Ambit — team AI usage dashboard kit
+
+**Use case.** Ambit is a dashboard that shows how a company's teams use AI: seats, spend per team and per model, adoption, budget alerts and access policies. Its buyers are ops leads, finance and IT. They need in-app UI icons, a landing-page hero, a launch/social banner, a changelog-style feature video, a year-end customer greeting, doodles for the marketing site and an illustration for the homepage.
+
+**Idea.** A concrete-and-lilac control room. Ambit's signature is the **usage heatmap**: a grid of square tiles, one per team per day, filled at four strengths from haze to deep violet. Everything else is set like a brutalist building, with thick ink borders, hard offset shadows, chunky black grotesk headings and mono data labels, softened by a dreamy lilac field. Data feels solid and trustworthy, and the AI side feels light.
+
+**Reference.** 1960s Brutalist architecture (Barbican and Habitat 67 modular blocks) crossed with Wim Crouwel's grid posters and the neo-brutalist web (hard shadows, flat fills).
+
+**Palette "Lilac Haze" (light).** `#E9E3F5` haze (bg) · `#D6CCEC` lilac concrete (surface, tile level 1) · `#231942` deep ink (text, borders, hard shadows) · `#5E4AE3` violet (accent, top heat level, hero type) · `#F49CBB` pink (accent2, alerts and highlights) · `#2EC4B6` teal (pop: "live" dots, under-budget, one spark). Heat ramp: `#D6CCEC → #B3A6EE → #8A78EA → #5E4AE3`. Variants borrow Swiss, Risograph, Blueprint, Neo-brutalist, Nordic Frost and Acid.
+
+**Type "Brutalist".** Archivo Black for heroes (tight, −0.04em, often uppercase); Space Mono for copy, labels, numbers and chips, uppercase and wide-tracked for eyebrows.
+
+**Motif.** The heat-tile grid plus a hard ink offset shadow. Every asset carries a cluster of heat tiles somewhere, and one tile is always "hot" (pink or violet) as the focal point.
+
+**Assets.**
+- **Icons (8):** Usage Meter (Gauge), Team Seats (UsersThree), AI Activity (Sparkle), Spend (Coins), API Keys (Key), Access Policy (ShieldCheck), Budget Alert (BellRinging), Usage Heatmap (GridFour). Solid black by default; regular/bold/thin/duotone/tile/brutal variants.
+- **Stickers (6):** Pointer Arrow, Scribble Circle, AI Sparkles (marks); Token Coins and Usage Bars (objects); Tilly, an original square block-bot mascot with a heat-tile chest.
+- **3D hero "Heat Grid":** a 4×4 grid of chunky rounded tiles at different heights on a slab, with one hot tile and a floating sparkle. Idle: a diagonal glow wave travels the tiles and the sparkle spins. Hover: more glow. Click: every tile hops. Materials: clay, glossy, metal, glass. Mood: calm/busy.
+- **3D cards (3):** Usage Alerts (white bell, glowing clapper ring), Prompt Library (white book, glowing bookmark ribbon), Access Policies (white padlock, glowing keyhole).
+- **Banner "AI Spend Report":** headline left ("See where your AI spend goes."), a brutalist dashboard panel on the right with a team×day heatmap, a big "$18,420" monthly stat and offset-shadow chips. Stacks on square; the strip drops body copy.
+- **Scene "Team Floor"** (6 s loop). Archetype: **place / diorama**, because Ambit watches a whole team's floor. Each desk's AI use lights the floor tiles around it, so the office floor *becomes* the heatmap (11-22 used network, Multiball used interface and machine). It shows an isometric open-plan office slab with four team pods (desk, monitor, chair, plant) and a big wall display with a live chart. Loops: floor tiles pulse in their heat levels, monitors flicker, sparkles rise from desks, a ceiling fan turns and the wall chart's line scrolls. Moment: a desk spikes, its tiles flash pink and a "BUDGET 80%" alert chip pops above the wall display. Variants: night shift, blueprint, riso, frost.
+- **Video "Feature Drop"** (tech, 1920×1080, 8 s, 120 BPM). Bar 1: heat tiles stamp in on a diagonal wave, beat by beat, with an eyebrow "NEW IN AMBIT 3.2". Bar 2 downbeat: a hot tile pops, then the title slab "SPEND BY MODEL." slams in with a hard shadow and a camera shake. Bar 3: three team stat slabs drop in on beats with counting numbers. Bar 4: CTA pill + URL, glint, and the hold breathes until the fade. The optional screenshot replaces the heatmap inside a brutalist window frame.
+- **Video "Season's Greeting"** (greeting, 1080×1920, 8 s). Bar 1: a 7×9 "year" grid fills tile by tile. Beat 4 of bar 1: the lit tiles resolve into a pixel heart in violet and pink with a flash. Bar 2: "HAPPY HOLIDAYS" eyebrow, then the recipient name slams in. Bar 3: the message words rise in and the sign-off follows. Bar 4: sparkles twinkle and a second pulse runs through the heart before the fade. The optional photo sits in a taped polaroid with an offset shadow above the heart.
