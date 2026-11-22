@@ -1,6 +1,6 @@
 # OpenAssets
 
-A library of parametric, editable assets (SVG icons, 3D icons, banners, video templates). A new themed drop is generated daily by `claude -p` in GitHub Actions, and two more runs the same day append assets to it. The site (Vite + React, GitHub Pages) shows a gallery and an editor that is auto-generated from each asset's schema.
+A library of parametric, editable assets (SVG icons, 3D icons, banners, video templates). `claude -p` in GitHub Actions generates a new themed kit three times a day, each from a different idea (`drops/<day>`, `drops/<day>-2`, `drops/<day>-3`). The site (Vite + React, GitHub Pages) shows a gallery and an editor that is auto-generated from each asset's schema.
 
 ## Asset contract
 
@@ -37,7 +37,7 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
 - `pnpm render:video <date>/videos/<slug> --props file.json`: renders a customised video.
 - `pnpm stills <date>/<kind>/<slug> [--frames ...]` or `pnpm stills --drop DATE`: contact sheets in `review/` for visual critique.
 - `./scripts/test-local.sh [--full|--generate|--serve]`: the local test harness.
-- `./scripts/generate.sh`: the daily pipeline (prepare → claude → validate). If `drops/<date>` exists it appends new assets to that kit (prompt: `prompts/append-drop.md`). `RENDER=1` also batch-renders.
+- `./scripts/generate.sh`: the daily pipeline (prepare → claude → validate). Each run starts a new kit; `APPEND=1` adds assets to the day's latest kit instead (prompt: `prompts/append-drop.md`). `RENDER=1` also batch-renders.
 - Claude can't delete files: to discard a scratch asset, replace its `index.tsx` with `// discard` and `generate.sh` removes the folder. `pnpm validate` rejects scratch/test assets.
 - `uv run --script scripts/gather/gather.py`: gathers recent YC and Product Hunt launches into `ideas-gathered.md` (biweekly in CI). `prepare-drop` takes kits from it before `ideas.md`.
 - `./scripts/regenerate.sh <date>/<kind>/<slug> "note"`: redo one asset through claude -p and the review loop.

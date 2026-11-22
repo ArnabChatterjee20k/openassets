@@ -121,7 +121,7 @@ export interface AssetRef {
 }
 
 export function parseAssetPath(path: string): AssetRef | null {
-  const m = path.match(/drops\/(\d{4}-\d{2}-\d{2})\/([a-z0-9]+)\/([a-z0-9-]+)\/index\.tsx$/);
+  const m = path.match(/drops\/(\d{4}-\d{2}-\d{2}(?:-\d+)?)\/([a-z0-9]+)\/([a-z0-9-]+)\/index\.tsx$/);
   if (!m || !DIR_KINDS[m[2]]) return null;
   return { id: `${m[1]}/${m[2]}/${m[3]}`, date: m[1], kind: DIR_KINDS[m[2]], slug: m[3] };
 }

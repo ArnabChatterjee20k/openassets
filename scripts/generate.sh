@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Daily pipeline: pick theme → claude -p writes the drop → validate → render.
-# If drops/<date> already exists, the run appends new assets to that kit (same
-# theme and direction) instead of failing, so it can run several times a day.
+# Each run starts a new kit with the next unused idea (drops/<day>, then
+# drops/<day>-2, -3… for later runs that day). APPEND=1 adds assets to the
+# day's latest kit instead.
 # Used by .github/workflows/daily.yml and by `scripts/test-local.sh --generate`.
 #
 # Env: DATE, THEME, ICONS, ICONS3D, BANNERS, VIDEOS (see scripts/prepare-drop.ts),

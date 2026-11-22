@@ -21,7 +21,7 @@ Every asset must be something a real team would actually ship for this use case:
 
 ## Step 1: brief
 
-Write `drops/{{DATE}}/brief.md` (≤ 40 lines). It covers the theme's visual idea in one paragraph and a design reference (a movement, era, medium or designer it borrows from), the palette (hex colors with roles), type choices, a motif shared across all assets, and a short concept for each asset below: what the viewer sees, and for videos, the beat-by-beat structure. Then write `drops/{{DATE}}/drop.json` with `date`, `theme` (the kit name), `description` (one sentence) and `palette`.
+Write `drops/{{DATE}}/brief.md` (≤ 40 lines). It covers the theme's visual idea in one paragraph and a design reference (a movement, era, medium or designer it borrows from), the palette (hex colors with roles), type choices, a motif shared across all assets, and a short concept for each asset below: what the viewer sees, and for videos, the beat-by-beat structure. Then write `drops/{{DATE}}/drop.json` with `date` (exactly `"{{DATE}}"`, the kit id, which matches the folder), `theme` (the kit name), `description` (one sentence) and `palette`.
 
 ## Step 2: build, one asset at a time, each through the review loop
 

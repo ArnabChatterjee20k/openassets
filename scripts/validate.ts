@@ -40,7 +40,8 @@ const BANNED: [RegExp, string][] = [
   [/https?:\/\/(?!www\.w3\.org\/)/, 'external URLs are not allowed (only the SVG xmlns)'],
 ];
 const DropSchema = z.object({
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  // The kit id: the day, plus -2, -3… for later kits the same day. Matches the folder.
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}(-\d+)?$/),
   theme: z.string().min(2),
   description: z.string().min(10),
   palette: z.array(z.string().regex(/^#[0-9a-fA-F]{6}$/)).min(3).max(8),

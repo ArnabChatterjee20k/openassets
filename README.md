@@ -62,7 +62,7 @@ DATE=2026-11-01 THEME="Podcast Launch" ./scripts/generate.sh
 pnpm stills 2026-10-30/videos/how-openfeed-works --frames 30,120,300
 ```
 
-`generate.sh` accepts `PALETTE` and `FONTS` to pin a direction, and counts such as `ICONS=8`, `STICKERS=6` or `VIDEOS=2`. If the date's kit already exists, the run adds new assets to it in the same theme and direction, and fails if it changes or deletes an existing asset, so you can run it several times a day. `regenerate.sh` redoes one asset through the same skills and review loop, and restores the old asset if validation fails.
+`generate.sh` accepts `PALETTE` and `FONTS` to pin a direction, and counts such as `ICONS=8`, `STICKERS=6` or `VIDEOS=2`. Every run starts a new kit from the next unused idea: the day's first kit is `drops/<day>`, later ones are `drops/<day>-2`, `drops/<day>-3` and so on. With `APPEND=1` the run adds assets to the day's latest kit instead, in the same theme and direction, and fails if it changes or deletes an existing asset. `regenerate.sh` redoes one asset through the same skills and review loop, and restores the old asset if validation fails.
 
 ## Turn on the daily job
 
@@ -70,7 +70,7 @@ pnpm stills 2026-10-30/videos/how-openfeed-works --frames 30,120,300
 2. In the repo settings, set Pages to deploy from GitHub Actions.
 3. Run the "Daily drop" workflow once from the Actions tab to check it.
 
-The job runs at 06:17, 14:17 and 22:17 UTC. The first run of the day starts a new kit and the other two add assets to it. Each run uses Opus 5.5 with a budget of 300 turns. To change what it makes, edit `ideas.md`. To change how it makes it, edit `prompts/daily-drop.md` and the asset-craft skill.
+The job runs at 06:17, 14:17 and 22:17 UTC. Each run builds a new kit from a different idea. Each run uses Opus 5.5 with a budget of 300 turns. To change what it makes, edit `ideas.md`. To change how it makes it, edit `prompts/daily-drop.md` and the asset-craft skill.
 
 ## Where the ideas come from
 

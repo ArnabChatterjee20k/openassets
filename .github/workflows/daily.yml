@@ -3,8 +3,8 @@ name: Daily drop
 on:
   schedule:
     # Off the top of the hour: GitHub delays :00 schedules by hours when busy.
-    # Three runs a day. The first starts the day's kit; the later two append
-    # new assets to it (same drops/<date>, see scripts/prepare-drop.ts).
+    # Three runs a day, each a new kit from the next unused idea
+    # (drops/<day>, <day>-2, <day>-3; see scripts/prepare-drop.ts).
     - cron: '17 6,14,22 * * *' # 06:17, 14:17, 22:17 UTC
   workflow_dispatch:
     inputs:
@@ -12,8 +12,12 @@ on:
         description: 'Theme (blank = next from ideas.md)'
         required: false
       date:
-        description: 'Drop date YYYY-MM-DD (blank = today)'
+        description: 'Day YYYY-MM-DD (blank = today)'
         required: false
+      append:
+        description: "Add assets to the day's latest kit instead of starting a new one"
+        type: boolean
+        default: false
 
 concurrency:
   group: daily-drop
@@ -33,6 +37,7 @@ jobs:
       CI: 'true'
       THEME: ${{ inputs.theme }}
       DATE: ${{ inputs.date }}
+      APPEND: ${{ inputs.append && '1' || '' }}
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6.1.0

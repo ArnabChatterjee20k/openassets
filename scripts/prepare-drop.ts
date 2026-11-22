@@ -1,11 +1,14 @@
 // Picks today's theme and video occasions, then writes the generation prompt
 // to .daily/prompt.md for `claude -p`.
 //
-// If drops/<date> already exists, the run appends to that kit instead of
-// failing: same theme and visual direction, new assets alongside the old ones.
-// .daily/mode says which ("new" or "append").
+// Every run starts a new kit with the next unused idea. The first kit of a day
+// lives in drops/<day>; later runs that day use drops/<day>-2, drops/<day>-3…
+// The folder name is the kit's id and goes in drop.json's `date` field.
 //
-// Env overrides: DATE, THEME, ICONS, STICKERS, ICONS3D, CARDS3D, BANNERS, VIDEOS, SCENES (counts per kind).
+// APPEND=1 instead adds new assets to the day's latest kit (same theme and
+// visual direction). .daily/mode says which ("new" or "append").
+//
+// Env overrides: DATE (the day), APPEND=1, THEME, ICONS, STICKERS, ICONS3D, CARDS3D, BANNERS, VIDEOS, SCENES (counts per kind).
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { VIDEO_CATEGORIES, type VideoCategory } from '../src/lib/types';
@@ -13,9 +16,16 @@ import { FONT_INFO, FONT_PAIRINGS } from '../src/lib/fonts';
 import { PALETTES } from '../src/lib/palettes';
 import { ROOT, assetFiles, fail, listDrops, log, readDrop } from './lib/common';
 
-const date = process.env.DATE || new Date().toISOString().slice(0, 10);
-if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) fail(`bad DATE ${date}`);
-const append = existsSync(path.join(ROOT, 'drops', date, 'drop.json'));
+const day = process.env.DATE || new Date().toISOString().slice(0, 10);
+if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) fail(`bad DATE ${day}`);
+const kitExists = (id: string) => existsSync(path.join(ROOT, 'drops', id, 'drop.json'));
+const ids = (n: number) => (n === 1 ? day : `${day}-${n}`);
+let n = 1;
+while (kitExists(ids(n))) n++;
+const wantAppend = process.env.APPEND === '1' && n > 1;
+// Kit id: the next free one for a new kit, or the day's latest when appending.
+const date = wantAppend ? ids(n - 1) : ids(n);
+const append = wantAppend;
 const existing = append ? readDrop(date) : null;
 
 const counts = {
