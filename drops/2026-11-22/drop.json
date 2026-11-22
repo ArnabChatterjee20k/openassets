@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-22",
+  "theme": "Folio Ad Agent Kit",
+  "description": "Launch kit for Folio, an AI agent that runs and rebalances ads across 32 platforms, set like a Swiss financial broadsheet: dashboard icons, a platform-grid 3D hero, feature cards, a launch banner, a spend-milestone post, a product intro film and an animated allocation-desk scene.",
+  "palette": ["#F5F5F0", "#E6E6E1", "#0A0A0A", "#E3000F", "#8C8C88", "#E3000F"],
+  "direction": { "palette": "Swiss", "fonts": "Editorial luxe" }
+}
