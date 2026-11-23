@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-23",
+  "theme": "Latch Lid-Commit Kit",
+  "description": "Launch kit for Latch, a menu-bar utility that commits and pushes your work the moment you close your laptop lid, drawn as cyanotype blueprints with magazine-cover type.",
+  "palette": [
+    "#0F3B8C",
+    "#134AA8",
+    "#EAF2FF",
+    "#FFFFFF",
+    "#7FB2FF",
+    "#FFDD00"
+  ],
+  "direction": {
+    "palette": "Blueprint",
+    "fonts": "Magazine"
+  },
+  "idea": "Auto-commit when you close your laptop lid"
+}
