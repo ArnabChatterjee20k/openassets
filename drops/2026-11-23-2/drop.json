@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-23-2",
+  "theme": "Sparkcrate Micro-Grid Kit",
+  "description": "Launch kit for Sparkcrate, a solar + battery micro-grid that ships in one crate and is unfolded by two people in a single shift, in loud neo-brutalist stencil style.",
+  "palette": [
+    "#FFFDF2",
+    "#FFE45C",
+    "#000000",
+    "#FF6B4A",
+    "#5C8AFF",
+    "#00D1A0"
+  ],
+  "direction": {
+    "palette": "Neo-brutalist",
+    "fonts": "Poster shout"
+  },
+  "idea": "Rapidly deployed industrial micro-grids"
+}
