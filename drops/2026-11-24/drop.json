@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-24",
+  "theme": "Benchwire Cloud Lab Kit",
+  "description": "Kit for Benchwire, a cloud lab where robot scientists run your protocol from an API call: dashboard icons, a live 3D flask, product cards, a launch banner, a demo-day invite, a beta-lab thank-you, stickers and an isometric robot lab hall.",
+  "palette": [
+    "#0D1B1E",
+    "#16302F",
+    "#EAF4EF",
+    "#D4FF3A",
+    "#3FA7A0",
+    "#FF5A36"
+  ],
+  "direction": {
+    "palette": "Storm Teal",
+    "fonts": "Terminal"
+  },
+  "idea": "Programmable access to flexible scientific experimentation at scale"
+}
