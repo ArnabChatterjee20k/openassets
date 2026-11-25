@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-25",
+  "theme": "Satiate GLP-1 Tracker Kit",
+  "description": "Kit for Satiate, a Y2K-chrome app that logs weekly GLP-1 doses, side effects and protein/water/step habits: app icons, a 3D dose pen, feature cards, a shot-day banner, a clinician lower third, a launch story, doodle stickers and an isometric shot-day shelf.",
+  "palette": [
+    "#DADDE3",
+    "#C3C8D1",
+    "#101219",
+    "#3D5AFE",
+    "#B8C0CC",
+    "#FF3DB4"
+  ],
+  "direction": {
+    "palette": "Chrome Y2K",
+    "fonts": "Art school"
+  },
+  "idea": "Track GLP-1 doses, symptoms and daily habits in one app"
+}
