@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-25-2",
+  "theme": "Ringside Parallel Dialer Kit",
+  "description": "Launch kit for Ringside, a power and parallel dialer that rings four leads at once from HubSpot views and Salesforce reports and logs every call and callback to the right record.",
+  "palette": [
+    "#F1E4D3",
+    "#E5CDB2",
+    "#3B1F14",
+    "#C8553D",
+    "#4F6D58",
+    "#F2A541"
+  ],
+  "direction": {
+    "palette": "Terracotta",
+    "fonts": "Streetwear"
+  },
+  "idea": "The power and parallel dialer for HubSpot and Salesforce"
+}

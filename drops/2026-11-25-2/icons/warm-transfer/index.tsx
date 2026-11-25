@@ -1,0 +1,27 @@
+import { PhoneTransferIcon, UserIcon } from '@phosphor-icons/react/ssr';
+import type { z } from 'zod';
+import type { AssetMeta } from '@/lib/types';
+import { IconArt, iconSchema } from '@/kit';
+
+export const meta: AssetMeta = {
+  kind: 'icon',
+  name: 'Warm Transfer',
+  description: 'Hand a live call to an AE without dropping it.',
+  tags: ['transfer', 'handoff', 'call', 'ae'],
+};
+
+// Default: a clean solid black glyph. Same schema + variants across the set.
+export const schema = iconSchema({ primary: '#000000', accent: '#C8553D', surface: '#F1E4D3' });
+
+export const variants: Record<string, Partial<z.input<typeof schema>>> = {
+  regular: { weight: 'regular' },
+  bold: { weight: 'bold' },
+  thin: { weight: 'thin' },
+  duotone: { weight: 'duotone', primary: '#3B1F14', accent: '#C8553D' },
+  tile: { container: 'squircle', fill: 'solid', surface: '#C8553D', primary: '#F1E4D3', scale: 0.56 },
+  stamp: { container: 'rounded', fill: 'solid', surface: '#F2A541', primary: '#3B1F14', accent: '#F1E4D3', weight: 'bold', shadow: true, badge: true, scale: 0.58 },
+};
+
+export default function Icon(p: z.infer<typeof schema>) {
+  return <IconArt glyph={PhoneTransferIcon} badgeGlyph={UserIcon} p={p} id="warm-transfer" />;
+}
