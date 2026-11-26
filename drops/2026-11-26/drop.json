@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-26",
+  "theme": "Ternary Materials Foundry Kit",
+  "description": "Launch kit for Ternary, an autonomous materials lab making critical defense materials at home: dashboard icons, a unit-cell hero, product cards, launch banner, plant announcement, first-pour countdown, sticker pack and a closed-loop lab scene.",
+  "palette": [
+    "#F4E9D8",
+    "#E6D3B3",
+    "#2E2A24",
+    "#D96C3D",
+    "#2C7873",
+    "#E9B44C"
+  ],
+  "direction": {
+    "palette": "Mid-century",
+    "fonts": "Civic signage"
+  },
+  "idea": "Building an autonomous lab to discover the next generation of defense materials"
+}

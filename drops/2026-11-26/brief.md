@@ -1,0 +1,23 @@
+# Ternary Materials Foundry Kit: brief
+
+**Use case.** Ternary is a new chemical company that runs an autonomous lab: models propose candidate compounds, robots weigh powders, furnaces sinter them and an X-ray diffractometer checks the result, around the clock. The output is domestic supply of critical materials for defense (gallium, germanium, rare-earth magnet alloys, tungsten carbide). Their audience is defense primes, program offices and investors. They need dashboard icons, a landing-page hero object, product cards (the Autolab, the Atlas discovery model, the Magnet Line), a launch banner, an announcement film, a countdown to the pilot-plant pour, a sticker pack for decks and posts, and an isometric hero scene.
+
+**Idea.** "The atomic age, rebuilt." Mid-century chemical-company optimism (annual reports, World's Fair pavilions, enamel factory signage) applied to an AI-run foundry. Warm cream paper, burnt-orange furnace heat, deep teal steel, and the periodic-table **element tile** treated like a civic sign.
+
+**Reference.** 1950s–60s industrial annual reports and Atoms-for-Peace posters (Erik Nitsche's General Dynamics series), crossed with Chicago transit signage: condensed caps on enamel plates, numbered lines, bold arrows.
+
+**Palette "Mid-century"** (light): `#F4E9D8` paper (bg) · `#E6D3B3` kraft panel (surface) · `#2E2A24` press ink (ink, all small text) · `#D96C3D` furnace orange (accent: heat, the hit, CTAs) · `#2C7873` steel teal (accent2: lattices, plates, data) · `#E9B44C` brass (pop: one spark, one dot). Variants borrow Bauhaus, Terracotta, Blueprint, Ink & Gold and Nordic Frost.
+
+**Type "Civic signage".** Big Shoulders Display (`shoulders`) 900 for hero words and numbers: caps, tight (0.86–0.92 leading). Outfit for copy. JetBrains Mono (`mono`) uppercase, wide-tracked for eyebrows, run IDs, chips and data.
+
+**Shared motif.** The **element tile**: a square enamel sign with atomic number top-left, a huge symbol and a mono name (Ga 31, Ge 32, Nd 60). Around it an orbit ring (two ellipses, Nitsche-style) and the mid-century four-point star spark in brass.
+
+**Assets.**
+- Icons (dashboard): Atom (candidate), Magnet (rare-earth line), Flame (furnace run), CubeFocus (crystal structure), ShieldCheck (spec qualified), Factory (plant), Truck (domestic supply), Cpu (semiconductor feedstock). Solid black default; regular/bold/thin/duotone/tile/enamel variants.
+- Stickers: Loop Arrow, Scribble Circle, Eureka Burst (marks); Horseshoe Magnet, Pouring Crucible, Crystal Cluster (objects). No mascot.
+- 3D hero "Unit Cell": a ball-and-stick body-centred cubic lattice on a turned enamel plinth; the centre atom glows furnace orange. Idle: corner atoms vibrate thermally, the core breathes, an orbit ring turns. Hover heats it (faster vibration, brighter core); click pops the cell outward and flashes. Materials clay/glossy/metal/glass; mood annealed/hot.
+- 3D cards: **Autolab Furnace** (rounded tube furnace with glowing port), **Atlas Model** (atom with two orbit rings and a glowing nucleus), **Magnet Line** (horseshoe magnet, glowing pole caps).
+- Banner "Autolab Launch": "Critical materials, discovered by machine." Hero visual: a giant Ga 31 element tile with orbit rings, a run ticker card (`RUN 4,812 · Ga₂O₃ · PASS`) and chips (`1,200 experiments / day`, `Made in Youngstown, OH`). Side by side wide, strip drops body, stacked square.
+- Video "Plant Announcement" (announcement, 1920×1080, 8 s, 120 BPM): b1 element tiles flip in on beats (Ga, Ge, Nd, W) like a signage board · b2 downbeat: orange wipe, headline "PLANT 1 IS OPEN" slams in, orbit rings spin out · b3 three stat rows on beats (1,200 experiments/day · 31 qualified compounds · 0 foreign inputs) beside an image slot (plant photo) · b4 CTA pill + glint, exit.
+- Video "First Pour Countdown" (countdown, 1080×1920, 10 s): b1 eyebrow "Pilot plant · Line 1" and "First gallium pour in" · bars 2–3: giant 5→1 numerals on beats in an element-tile frame, the furnace temperature gauge climbs · b4 hit at 0: orange flash, molten pour stripe, "LIVE DEC 4 · 09:00 ET" + CTA; image slot for a plant shot.
+- Scene "Closed-Loop Autolab" (**process machine**: Ternary transforms powders into qualified materials in a loop; the cloud-lab kit used a place). Hoppers drop powder onto a conveyor → a robot arm doses crucibles → a tube furnace glows → an XRD dome scans → a model screen picks the next recipe → finished ingots stack in a crate stamped with an element tile. Loops: conveyor, furnace heat shimmer, XRD sweep, arm swing, screen bars. Moment: "PASS" lamp flash as an ingot drops on the stack.
