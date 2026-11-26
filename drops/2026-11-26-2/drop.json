@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-26-2",
+  "theme": "Postnook Agent Inbox Kit",
+  "description": "Launch kit for Postnook, email inboxes for AI agents and the humans who review them: UI icons, a doodle pack, a 3D envelope hero, feature cards, a launch banner, a promo, a customer-quote video and a living post-exchange scene.",
+  "palette": [
+    "#EEF1E6",
+    "#DCE3CC",
+    "#1E2A1A",
+    "#6A8D3A",
+    "#C9A227",
+    "#E85D3F"
+  ],
+  "direction": {
+    "palette": "Matcha",
+    "fonts": "Bookish"
+  },
+  "idea": "Email inboxes for humans and bots"
+}
