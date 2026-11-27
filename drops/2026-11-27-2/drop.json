@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-27-2",
+  "theme": "Plumbline Spatial Kit",
+  "description": "Launch kit for Plumbline, a fictional platform that turns existing CCTV cameras into structural sensors for bridges, rail and pipelines: app icons, doodles, a 3D camera hero, feature cards, a launch banner, an intro film, a milestone post and a living bridge scene.",
+  "palette": [
+    "#1A0A06",
+    "#2E120B",
+    "#FFEDE0",
+    "#FF4D00",
+    "#FFB000",
+    "#FF2E63"
+  ],
+  "direction": {
+    "palette": "Lava",
+    "fonts": "High fashion"
+  },
+  "idea": "Spatial intelligence for physical infrastructure"
+}

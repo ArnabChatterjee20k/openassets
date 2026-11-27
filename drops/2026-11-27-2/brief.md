@@ -1,0 +1,23 @@
+# Plumbline Spatial Kit — brief
+
+**Use case.** Plumbline is a fictional spatial-intelligence platform for operators of bridges, rail corridors, pipelines and substations. It turns the CCTV cameras they already own into structural sensors: video in, a live 3D twin out, with millimetre deflection, intrusions and leaks flagged in seconds. No new hardware. The team needs app icons, a doodle pack for the landing page, a 3D hero, feature cards, a launch banner, a product intro film, a milestone post and a living hero scene.
+
+**Idea.** "Thermal couture": steel infrastructure shot like a perfume campaign. Structures sit in near-black, lit only by a thermal-camera gradient (ember → molten orange → amber), set against razor-thin Bodoni headlines. The heat is the data: wherever something is moving or straining, it glows.
+
+**Reference.** Bernd & Hilla Becher's industrial typologies (frontal, serial, dignified structures) seen through a FLIR thermal camera, art-directed like a 1990s Harper's Bazaar cover (Fabien Baron's Didot): huge high-contrast serif, a thin airy caps label, lots of black.
+
+**Palette "Lava" (dark, unchanged).** `#1A0A06` night soot (bg) · `#2E120B` burnt steel (surface, panels) · `#FFEDE0` warm white (ink, type) · `#FF4D00` molten orange (accent: heat, the structure's glow, CTAs) · `#FFB000` amber (accent2: thermal highlight, scan lines, data) · `#FF2E63` alarm pink (pop: tiny doses, only the one flagged anomaly). Variants borrow Ink & Gold, Blueprint, Deep Sea, Swiss and Nordic Frost.
+
+**Type "High fashion".** Bodoni Moda (italic for the hero word, roman 400 for big numbers) for display; Familjen Grotesk for copy and data; Italiana caps, wide-tracked, for eyebrows and labels.
+
+**Shared motif: the viewfinder.** Four thin camera-corner brackets frame the subject, with a thermal gradient on the structure and one pink anomaly pin + leader line reading a measurement ("Δ 3.2 mm · Pier 4"). Every asset has exactly one pink flag.
+
+**Assets.**
+- Icons (app UI): 8 Phosphor glyphs: Camera Feed, Bridge, Digital Twin, Vibration, Anomaly Alert, Site Zone, Pipeline, Rail Corridor. Solid black default; regular/bold/thin/duotone/tile/brutal variants.
+- Stickers: Swoop Arrow, Viewfinder Brackets (the motif as a mark) and Alert Burst (marks); Watch Camera, Arch Bridge and Hard Hat (objects). Warm crayon colours, ink = dark brown. (Yesterday's kit had a scribble circle and a callout arrow, so those are avoided.)
+- 3D hero "Sentinel Camera": a glossy CCTV camera on a wall arm. Idle: it pans slowly, the REC LED blinks, the molten lens iris breathes. Hover: lens glows hotter, pans faster. Click: shutter flash + squash. Calm/alert mood; clay/glossy/metal/glass.
+- 3D cards: "Bridge Watch" (a little arch bridge with a glowing deck strip), "Point Cloud", the digital twin (a glossy cube of eight blocks breathing open around a glowing core), "Pipeline Watch" (a pipe elbow with a glowing flange ring).
+- Banner "Platform Launch": headline "Your cameras already see the cracks." Hero visual on the right: a thermal truss bridge inside viewfinder brackets, a pink anomaly pin "Δ 3.2 mm · Pier 4" and chips (1,240 cameras · 0 new sensors). Stacks on square, drops body copy on the strip.
+- Scene "Span Watch": a **place / diorama**, because Plumbline serves physical places, and a bridge over a river *is* the customer. (The previous kit used a process machine.) An isometric steel truss bridge over water at night; CCTV poles sweep view cones across it; a wireframe twin outline pulses over the deck; a freight train crosses; river ripples and lamp flicker; the moment: a strain hotspot flashes pink at midspan and a measurement pin pops. 6 s loop.
+- Video "Platform Intro" (intro, 1920×1080, 10 s, 120 BPM): bar 1: a grainy camera feed fades in (user image or drawn bridge) inside brackets, REC blinks; beat 4: a scan line sweeps and the bridge turns thermal. Bar 2 downbeat: "Plumbline" sweeps in, italic Bodoni, with a flash. Bar 3: three feature lines land on beats (Video in · 3D twin out · Alerts in 0.8 s); the pink pin pops on the bridge. Bar 4: tagline + URL pill on beats. Bar 5: title glint, hold with embers, exit with a fade to soot. Optional camera still is gradient-mapped to thermal under the scan.
+- Video "Structures Milestone" (milestone, 1080×1920, 8 s): bar 1: brackets draw on, a counter rolls from 0 to 10,000 on a thermal ring. Bar 2 downbeat: flash, ring shockwave, "structures watched" sweeps in; embers rise. Bar 3: three stat chips (1.2M camera-hours · 412 alerts caught · 0 sensors installed) on beats; optional site photo in a bracket frame. Bar 4: thank-you line + logo, glint, exit.
