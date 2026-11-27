@@ -81,6 +81,30 @@ jobs:
           git pull --rebase origin main
           git push
 
+  # Sync the Appwrite VectorsDB index behind the MCP server (functions/asset-mcp)
+  # once the drop is on main. Its own job, and nothing depends on it, so an
+  # Appwrite problem never blocks the deploy or the notification. Only assets
+  # whose content changed are re-embedded.
+  index:
+    needs: generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main # the commit the generate job just pushed
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm index
+        env:
+          APPWRITE_API_KEY: ${{ secrets.APPWRITE_API_KEY }}
+
   deploy:
     needs: generate
     uses: ./.github/workflows/deploy.yml

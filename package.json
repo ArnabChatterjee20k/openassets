@@ -15,7 +15,8 @@
     "readme-header": "tsx scripts/readme-header.ts",
     "prepare-drop": "tsx scripts/prepare-drop.ts",
     "generate": "./scripts/generate.sh",
-    "test:local": "./scripts/test-local.sh"
+    "test:local": "./scripts/test-local.sh",
+    "index": "tsx scripts/index-assets.ts"
   },
   "dependencies": {
     "@fontsource/anton": "^5.3.0",
@@ -80,6 +81,7 @@
     "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.2",
     "fast-glob": "^3.3.3",
+    "node-appwrite": "32.4.0",
     "playwright": "^1.64.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",

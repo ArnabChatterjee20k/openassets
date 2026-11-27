@@ -83,6 +83,19 @@ uv run --script scripts/gather/gather.py --install-browser --dry-run   # once: P
 uv run --script scripts/gather/gather.py                               # rewrites ideas-gathered.md
 ```
 
+## MCP server: find assets from an agent
+
+A remote MCP server lets an agent search the whole hub in plain language ("playful launch banner for a fintech app", "hand-drawn rain cloud sticker"). It runs as an Appwrite Function (`functions/asset-mcp`) over stateless Streamable HTTP. Matches are ranked by Appwrite VectorsDB similarity over each asset's name, description, tags, editable fields and kit theme.
+
+```bash
+claude mcp add --transport http openassets https://openassets-mcp.sgp.appwrite.run/
+```
+
+- `search_assets({ query, kind?, since?, limit? })` returns the best matches with a score, kit palette, editable fields with defaults, variants and an editor link. When nothing is relevant, it returns the closest few marked `weak_match`.
+- `get_asset({ id })` returns the same details plus the asset's `index.tsx` source.
+
+`pnpm index` keeps the index in sync. It runs as its own `index` job in `daily.yml`, right after a kit is committed to `main`, and nothing depends on that job, so an Appwrite problem never blocks the deploy. After hand edits to `drops/`, run it yourself. It re-embeds only the assets that changed. It needs the `APPWRITE_API_KEY` secret. Locally, put the key in `.env.local` and run `set -a; . ./.env.local; set +a; pnpm index`. Function tests: `cd functions/asset-mcp && npm test`.
+
 ## Safety
 
 Generated code runs in visitors' browsers, so `pnpm validate` rejects network calls, `eval`, dynamic imports, storage APIs, `dangerouslySetInnerHTML`, external URLs and any import outside a short allowlist. In CI, Claude can only edit files inside the day's drop folder, run `pnpm validate` and `pnpm stills`, load skills and read the Remotion docs. `generate.sh` fails the run if any other file changed.
