@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-27",
+  "theme": "Loupe Inspection Kit",
+  "description": "Launch kit for Loupe, an AI inspection station that catches sub-100 μm defects on precision parts: app icons, a doodle pack, a 3D inspected-gear hero, feature cards, a pilot banner, a trade-show invite, a customer thank-you film and a living inspection-line scene.",
+  "palette": [
+    "#E9E3F5",
+    "#D6CCEC",
+    "#231942",
+    "#5E4AE3",
+    "#F49CBB",
+    "#2EC4B6"
+  ],
+  "direction": {
+    "palette": "Lilac Haze",
+    "fonts": "Friendly app"
+  },
+  "idea": "Automated inspection for precision hardware parts"
+}
