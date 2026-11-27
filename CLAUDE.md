@@ -41,5 +41,6 @@ export const video: VideoConfig = { width, height, fps, durationInFrames }; // v
 - Claude can't delete files: to discard a scratch asset, replace its `index.tsx` with `// discard` and `generate.sh` removes the folder. `pnpm validate` rejects scratch/test assets.
 - `uv run --script scripts/gather/gather.py`: gathers recent YC and Product Hunt launches into `ideas-gathered.md` (biweekly in CI). `prepare-drop` takes kits from it before `ideas.md`.
 - `./scripts/regenerate.sh <date>/<kind>/<slug> "note"`: redo one asset through claude -p and the review loop.
+- `pnpm index [--dry-run]`: syncs assets into the Appwrite VectorsDB index behind the MCP server in `functions/asset-mcp` (the `index` job in `daily.yml` runs it after each drop is committed).
 
 Before creating or editing assets, load the **asset-craft** skill (`.claude/skills/asset-craft/`): it has the quality bar and the mandatory `pnpm stills` review loop. Remotion skills live alongside it. Shared craft components (easing, backdrop, grain, streaks, title reveals, dust) are in `@/kit`. `drops/2026-10-29/` is the reference drop.

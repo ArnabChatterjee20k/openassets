@@ -1,0 +1,13 @@
+{
+  "name": "openassets-asset-mcp",
+  "private": true,
+  "type": "module",
+  "main": "src/main.js",
+  "description": "Remote MCP server (Streamable HTTP, stateless) for semantic search over OpenAssets, run as an Appwrite Function.",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "node-appwrite": "32.4.0"
+  }
+}
