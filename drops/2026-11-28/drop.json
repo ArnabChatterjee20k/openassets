@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-28",
+  "theme": "Sprue Rapid Molding Kit",
+  "description": "Launch kit for Sprue, a fictional rapid injection-molding service that ships real end-use plastic parts in 5 days: dashboard icons, doodles, a 3D mold hero, product cards, a launch banner, a launch film, an interview lower third and a living factory scene.",
+  "palette": [
+    "#0E1A14",
+    "#18291F",
+    "#EAF2DC",
+    "#B5E550",
+    "#4E8A5B",
+    "#FF9F43"
+  ],
+  "direction": {
+    "palette": "Forest Moss",
+    "fonts": "70s sunshine"
+  },
+  "idea": "Accelerated Plastics Manufacturing"
+}
